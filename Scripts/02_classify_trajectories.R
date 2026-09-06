@@ -248,36 +248,7 @@ p_cat4 <- ggplot(plot_long_cat4, aes(x = seq_idx, y = degree, group = egoid, col
 
 ggsave("output/figures/fig2_4cat_simplified_trajectories.png", p_cat4, width = 9, height = 7, dpi = 300)
 
-# Fig 3: k-Means Demeaned k=4 (Slide 14)
-dem4_counts <- plot_long %>%
-  group_by(kmeans_dem4) %>%
-  summarize(
-    n_egos = n_distinct(egoid),
-    mean_deg = mean(degree),
-    .groups = "drop"
-  ) %>%
-  mutate(facet_label = paste0(kmeans_dem4, " (n = ", n_egos, "; d_mean = ", round(mean_deg, 1), ")"))
-
-plot_long_dem4 <- plot_long %>%
-  left_join(dem4_counts, by = "kmeans_dem4")
-
-p_dem4 <- ggplot(plot_long_dem4, aes(x = seq_idx, y = deg_demeaned, group = egoid, color = factor(egoid %% 8))) +
-  geom_hline(yintercept = 0, color = "black", linewidth = 0.5) +
-  geom_line(alpha = 0.45, linewidth = 0.6) +
-  facet_wrap(~ facet_label, ncol = 2) +
-  scale_x_continuous(breaks = 1:6, limits = c(1, 6)) +
-  scale_y_continuous(limits = c(-16, 16), breaks = seq(-15, 15, 5)) +
-  labs(
-    title = "Degree Trajectories Classified by k-Means Clustering",
-    subtitle = "Zeroed on Ego's Mean Degree (n = 450 ; k = 4)",
-    x = "Degree Sequence",
-    y = "Degree (Centered on Ego Mean)"
-  ) +
-  plot_theme
-
-ggsave("output/figures/fig3_kmeans_demeaned_k4.png", p_dem4, width = 9, height = 7, dpi = 300)
-
-# Fig 4: k-Means Elbow Evaluation (Slide 9)
+# Fig 3: k-Means Elbow Evaluation (Slide 9)
 p_elbow <- ggplot(elbow_df, aes(x = k)) +
   geom_line(aes(y = raw_mean_dist, color = "Raw Trajectories"), linewidth = 1) +
   geom_point(aes(y = raw_mean_dist, color = "Raw Trajectories"), size = 2.5) +
@@ -299,6 +270,48 @@ p_elbow <- ggplot(elbow_df, aes(x = k)) +
     legend.position = "bottom"
   )
 
-ggsave("output/figures/fig4_kmeans_elbow_curves.png", p_elbow, width = 8, height = 5, dpi = 300)
+ggsave("output/figures/fig3_kmeans_elbow_curves.png", p_elbow, width = 8, height = 5, dpi = 300)
+ggsave("Plots/fig3_kmeans_elbow_curves.png", p_elbow, width = 8, height = 5, dpi = 300)
+
+# Fig 4: k-Means Demeaned k=4 (Slide 14)
+cluster_names <- c(
+  "Cluster 1" = "Conservers",
+  "Cluster 2" = "Sophomore Dip & Rebound",
+  "Cluster 3" = "Early Winnowers",
+  "Cluster 4" = "Late Winnowers"
+)
+
+dem4_counts <- plot_long %>%
+  group_by(kmeans_dem4) %>%
+  summarize(
+    n_egos = n_distinct(egoid),
+    mean_deg = mean(degree),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    cluster_name = cluster_names[as.character(kmeans_dem4)],
+    facet_label = paste0(cluster_name, " (n = ", n_egos, "; d_mean = ", round(mean_deg, 1), ")")
+  )
+
+plot_long_dem4 <- plot_long %>%
+  left_join(dem4_counts, by = "kmeans_dem4") %>%
+  mutate(facet_label = factor(facet_label, levels = dem4_counts$facet_label))
+
+p_dem4 <- ggplot(plot_long_dem4, aes(x = seq_idx, y = deg_demeaned, group = egoid, color = factor(egoid %% 8))) +
+  geom_hline(yintercept = 0, color = "black", linewidth = 0.5) +
+  geom_line(alpha = 0.45, linewidth = 0.6) +
+  facet_wrap(~ facet_label, ncol = 2) +
+  scale_x_continuous(breaks = 1:6, limits = c(1, 6)) +
+  scale_y_continuous(limits = c(-16, 16), breaks = seq(-15, 15, 5)) +
+  labs(
+    title = "Degree Trajectories Classified by k-Means Clustering",
+    subtitle = "Zeroed on Ego's Mean Degree (n = 450 ; k = 4)",
+    x = "Degree Sequence",
+    y = "Degree (Centered on Ego Mean)"
+  ) +
+  plot_theme
+
+ggsave("output/figures/fig4_kmeans_demeaned_k4.png", p_dem4, width = 9, height = 7, dpi = 300)
+ggsave("Plots/fig4_kmeans_demeaned_k4.png", p_dem4, width = 9, height = 7, dpi = 300)
 
 cat("\n==> Script 02 completed successfully!\n")

@@ -169,8 +169,8 @@ def sync_docx(in_docx, out_docx, inject_tables=True):
     figure_tags = {
         "{{FIGURE_1}}": "Plots/fig1_8cat_logical_trajectories.png",
         "{{FIGURE_2}}": "Plots/fig2_4cat_simplified_trajectories.png",
-        "{{FIGURE_3}}": "Plots/fig3_kmeans_demeaned_k4.png",
-        "{{FIGURE_4}}": "Plots/fig4_kmeans_elbow_curves.png",
+        "{{FIGURE_3}}": "Plots/fig3_kmeans_elbow_curves.png",
+        "{{FIGURE_4}}": "Plots/fig4_kmeans_demeaned_k4.png",
         "{{FIGURE_5}}": "Plots/fig5_lcga_optimal_trajectories.png",
         "{{FIGURE_6}}": "Plots/fig6_multilevel_predicted_trajectories.png",
         "{{FIGURE_7}}": "Plots/fig7_decomposed_degree_trajectories.png",

@@ -110,10 +110,10 @@ Table 1 presents the empirical distribution of egos across all classification sc
 | Deductive 4-Category      | Mixed                     | 208   | 46.2%       |
 | Deductive 4-Category      | Up                        | 42    | 9.3%        |
 | Deductive 4-Category      | Flat                      | 40    | 8.9%        |
-| k-Means Demeaned (k=4)    | Cluster 1 (Conservers)    | 199   | 44.2%       |
-| k-Means Demeaned (k=4)    | Cluster 2 (Winnowers)     | 110   | 24.4%       |
-| k-Means Demeaned (k=4)    | Cluster 3 (Late Droppers) | 89    | 19.8%       |
-| k-Means Demeaned (k=4)    | Cluster 4 (Accumulators)  | 52    | 11.6%       |
+| k-Means Demeaned (k=4)    | Cluster 1 (Conservers)              | 199   | 44.2%       |
+| k-Means Demeaned (k=4)    | Cluster 2 (Sophomore Dip & Rebound) | 110   | 24.4%       |
+| k-Means Demeaned (k=4)    | Cluster 3 (Early Winnowers)         | 89    | 19.8%       |
+| k-Means Demeaned (k=4)    | Cluster 4 (Late Winnowers)          | 52    | 11.6%       |
 
 ## Inductive *k*-Means Clustering
 
@@ -133,17 +133,24 @@ Figure 2 visualizes the consolidated four-category scheme. Grouping the complex 
 
 <img src="media/image11.png" style="width:6.5in;height:5.05556in" />
 
-### Demeaned *k*-Means Clustering (*k*=4) (Figure 3)
+### Elbow Diagnostics for *k*-Means Clustering (Figure 3)
 
-Figure 3 illustrates the four-cluster inductive solution applied to demeaned degree sequences (*D*<sub>it</sub>=*D*<sub>it</sub>−*D*‾*<sub>i</sub>*). By zeroing trajectories on each ego’s mean degree, this representation isolates relative shape from baseline volume. Cluster 1 (*n*=199,44.2%, labeled “Network Conservers”) hovers tightly around zero across all six waves, representing individuals whose personal network size remains stable relative to their own average. Cluster 2 (*n*=110,24.4%, labeled “Winnowers”) starts well above the individual mean in Wave 1 and experiences a sharp, persistent downward plunge across subsequent waves. Cluster 3 (*n*=89,19.8%, “Late Droppers”) maintains positive deviations through Wave 2 before dropping below average in sophomore and junior years. Finally, Cluster 4 (*n*=52,11.6%, “Accumulators”) exhibits a late upward trajectory surge during junior year.
-
-<img src="media/image4.png" style="width:6.5in;height:5.05556in" />
-
-### Elbow Diagnostics for *k*-Means Clustering (Figure 4)
-
-Figure 4 evaluates cluster compactness by plotting the root-mean-squared Euclidean distance from egos to their assigned cluster centroids across candidate solutions from *k*=1 to *k*=10 for both raw and demeaned degree sequences. Two key empirical patterns emerge. First, centering sequences on ego means (*D*<sub>it</sub>=*D*<sub>it</sub>−*D*‾*<sub>i</sub>*) immediately cuts the baseline centroid distance by more than half at *k*=1 (from 14.7 alters for raw trajectories to 7.1 alters for demeaned sequences). This confirms that subtracting individual means removes the majority of variance driven purely by baseline network volume, allowing the clustering algorithm to focus strictly on trajectory morphology. Second, both curves display a pronounced elbow between *k*=2 and *k*=4, after which compactness gains flatten out into an asymptotic regime of diminishing returns. Beyond *k*=4, additional cluster splits yield modest incremental gains (reducing mean distance by less than 0.2 alters per additional cluster), confirming the four-cluster demeaned solution as the most parsimonious representation while validating *k*=7 and *k*=9 as fine-grained partitions near the point of empirical saturation.
+Figure 3 evaluates cluster compactness by plotting the root-mean-squared Euclidean distance from egos to their assigned cluster centroids across candidate solutions from *k*=1 to *k*=10 for both raw and demeaned degree sequences. Two key empirical patterns emerge. First, centering sequences on ego means (*D*<sub>it</sub>=*D*<sub>it</sub>−*D*‾*<sub>i</sub>*) immediately cuts the baseline centroid distance by more than half at *k*=1 (from 14.7 alters for raw trajectories to 7.1 alters for demeaned sequences). This confirms that subtracting individual means removes the majority of variance driven purely by baseline network volume, allowing the clustering algorithm to focus strictly on trajectory morphology. Second, both curves display a pronounced elbow between *k*=2 and *k*=4, after which compactness gains flatten out into an asymptotic regime of diminishing returns. Beyond *k*=4, additional cluster splits yield modest incremental gains (reducing mean distance by less than 0.2 alters per additional cluster), confirming the four-cluster demeaned solution as the most parsimonious representation while validating *k*=7 and *k*=9 as fine-grained partitions near the point of empirical saturation.
 
 <img src="media/image3.png" style="width:6.5in;height:4.0625in" />
+
+### Demeaned *k*-Means Trajectory Clusters (*k*=4) (Figure 4)
+
+Figure 4 illustrates the four-cluster *k*-means solution applied to demeaned degree sequences (*D*<sub>it</sub>=*D*<sub>it</sub>−*D*‾*<sub>i</sub>*). By zeroing trajectories on each ego’s longitudinal mean, this representation isolates relative shape from baseline volume, grouping students into four distinct morphologic pathways:
+
+1. **Conservers** (*n*=199, 44.2%, overall mean degree *D*‾=13.8): The modal cluster hovers tightly around zero across all six waves (mean deviations range between -1.16 and +1.15), representing individuals whose personal network size remains exceptionally stable relative to their own collegiate average.
+2. **Sophomore Dip & Rebound** (*n*=110, 24.4%, overall mean degree *D*‾=11.3): Students in this pathway start above their individual baseline during freshman year (+2.35 in Wave 1, +2.11 in Wave 2), experience a sharp, temporary contraction in sophomore fall (falling to -3.07 in Wave 3, raw mean degree 8.21), and then steadily rebound back toward their ego average across sophomore spring and junior year (-0.33 in Wave 6).
+3. **Early Winnowers** (*n*=89, 19.8%, overall mean degree *D*‾=9.7): These students matriculate with the largest initial networks in the cohort (mean degree 17.34 in Wave 1, +7.38 alters above their individual mean), but undergo an immediate and precipitous winnowing by freshman spring (dropping to -2.23 in Wave 2, raw mean degree 7.73) and remain permanently contracted across remaining semesters.
+4. **Late Winnowers** (*n*=52, 11.6%, overall mean degree *D*‾=12.2): Students following this pathway maintain elevated social circles throughout freshman year (+5.21 in Wave 1, +4.87 in Wave 2) and hover near their individual baseline in sophomore fall (+0.15 in Wave 3). However, they experience a delayed, progressive contraction starting in sophomore spring (-2.62 in Wave 4) that culminates in a deep junior-year plunge (-5.08 in Wave 5 and -4.74 in Wave 6, with raw degree falling from 17.44 to 7.08 alters).
+
+Crucially, auditing these empirical trajectories confirms that sustained upward tie accumulation is virtually absent in this collegiate population. Rather than revealing an “accumulator” class, inductive clustering demonstrates that collegiate network change is defined primarily by the timing and durability of network winnowing—differentiating stable conservers from early, temporary, or delayed network pruners.
+
+<img src="media/image4.png" style="width:6.5in;height:5.05556in" />
 
 # Predicting Trajectory Membership: Multinomial Logistic Regressions
 

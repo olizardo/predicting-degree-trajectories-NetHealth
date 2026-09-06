@@ -34,9 +34,9 @@ tab1_rows <- tribble(
   "Deductive 4-Category", "Up", 42L, "9.3%",
   "Deductive 4-Category", "Flat", 40L, "8.9%",
   "k-Means Demeaned (k=4)", "Cluster 1 (Conservers)", 199L, "44.2%",
-  "k-Means Demeaned (k=4)", "Cluster 2 (Winnowers)", 110L, "24.4%",
-  "k-Means Demeaned (k=4)", "Cluster 3 (Late Droppers)", 89L, "19.8%",
-  "k-Means Demeaned (k=4)", "Cluster 4 (Accumulators)", 52L, "11.6%"
+  "k-Means Demeaned (k=4)", "Cluster 2 (Sophomore Dip & Rebound)", 110L, "24.4%",
+  "k-Means Demeaned (k=4)", "Cluster 3 (Early Winnowers)", 89L, "19.8%",
+  "k-Means Demeaned (k=4)", "Cluster 4 (Late Winnowers)", 52L, "11.6%"
 )
 
 md1 <- c(
@@ -51,7 +51,7 @@ writeLines(md1, "cache/table1_trajectory_schemes.md")
 # -------------------------------------------------------------------
 # Table 2: Variable Significance Rates (Slide 22 Replication)
 # -------------------------------------------------------------------
-t2_raw <- read_csv("output/tables/table2_variable_significance_rates.csv", show_col_types = FALSE)
+t2_raw <- read.csv("output/tables/table2_variable_significance_rates.csv", check.names = FALSE)
 
 tab2_rows <- t2_raw %>%
   mutate(
@@ -75,7 +75,7 @@ writeLines(md2, "cache/table2_variable_significance_rates.md")
 # -------------------------------------------------------------------
 # Table 3: LCGA Model Selection Fit
 # -------------------------------------------------------------------
-t3_raw <- read_csv("output/tables/table3_lcga_model_selection_fit.csv", show_col_types = FALSE)
+t3_raw <- read.csv("output/tables/table3_lcga_model_selection_fit.csv", check.names = FALSE)
 
 tab3_rows <- t3_raw %>%
   mutate(
@@ -100,7 +100,7 @@ writeLines(md3, "cache/table3_lcga_model_selection.md")
 # -------------------------------------------------------------------
 # Table 4: Multilevel Model Comparison
 # -------------------------------------------------------------------
-t4_raw <- read_csv("output/tables/table4_multilevel_model_fit.csv", show_col_types = FALSE)
+t4_raw <- read.csv("output/tables/table4_multilevel_model_fit.csv", check.names = FALSE)
 
 tab4_rows <- t4_raw %>%
   mutate(
@@ -122,7 +122,7 @@ writeLines(md4, "cache/table4_multilevel_model_comparison.md")
 # -------------------------------------------------------------------
 # Table 5: Multilevel Poisson GLMM Fixed Effects (Model 4)
 # -------------------------------------------------------------------
-t5_raw <- read_csv("output/tables/table5_multilevel_glmm_estimates.csv", show_col_types = FALSE)
+t5_raw <- read.csv("output/tables/table5_multilevel_glmm_estimates.csv", check.names = FALSE)
 
 clean_terms <- c(
   "(Intercept)" = "Intercept (Baseline Degree)",
@@ -164,7 +164,7 @@ writeLines(md5, "cache/table5_multilevel_glmm_estimates.md")
 # -------------------------------------------------------------------
 # Table 6: Decomposed Trajectory Means Across College
 # -------------------------------------------------------------------
-t6_raw <- read_csv("output/tables/table6_decomposed_trajectory_means.csv", show_col_types = FALSE)
+t6_raw <- read.csv("output/tables/table6_decomposed_trajectory_means.csv", check.names = FALSE)
 
 wave_labels <- c(
   "1" = "Wave 1 (Frosh Fall)",
