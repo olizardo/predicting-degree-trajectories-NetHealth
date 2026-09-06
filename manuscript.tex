@@ -229,23 +229,24 @@ Figure~\ref{fig:fig2} visualizes the consolidated four-category scheme. Grouping
 
 \subsubsection{Demeaned \texorpdfstring{$k$}{k}-Means Clustering (\texorpdfstring{$k = 4$}{k = 4}) (Figure~\ref{fig:fig3})}
 
-Figure~\ref{fig:fig4} presents the within-cluster sum of squares (WSS) and root-mean-squared distance to centroid across candidate cluster solutions from $k = 1$ to $k = 10$. Both raw and demeaned trajectories display characteristic elbows around $k = 4$ and $k = 7$ to 9, supporting our empirical selection of the four cluster solution.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.85\linewidth]{Plots/fig4_kmeans_elbow_curves.png}
-\caption{Within-cluster sum of squares (WSS) and distance to centroid across $k = 1 \dots 10$ cluster solutions for raw and demeaned degree sequences.}
-\label{fig:fig4}
-\end{figure}
-
-
-Figure~\ref{fig:fig3} illustrates the four-cluster k-means solution applied to demeaned degree sequences ($\tilde{D}_{it} = D_{it} - \bar{D}_i$). By zeroing trajectories on each ego's mean degree, this representation isolates relative shape from baseline volume. Cluster 1 ($n = 199$, 44.2\%, labeled ``Network Conservers'') hovers tightly around zero across all six waves, representing individuals whose personal network size remains stable relative to their own average. Cluster 2 ($n = 110$, 24.4\%, labeled ``Winnowers'') starts well above the individual mean in Wave 1 and experiences a sharp, persistent downward plunge across subsequent waves. Cluster 3 ($n = 89$, 19.8\%, ``Late Droppers'') maintains positive deviations through Wave 2 before dropping below average in sophomore and junior years. Finally, Cluster 4 ($n = 52$, 11.6\%, ``Accumulators'') exhibits a late upward trajectory surge during junior year.
+Figure~\ref{fig:fig3} illustrates the four-cluster $k$-means solution applied to demeaned degree sequences ($\tilde{D}_{it} = D_{it} - \bar{D}_i$). By zeroing trajectories on each ego's mean degree, this representation isolates relative shape from baseline volume. Cluster 1 ($n = 199$, 44.2\%, labeled ``Network Conservers'') hovers tightly around zero across all six waves, representing individuals whose personal network size remains stable relative to their own average. Cluster 2 ($n = 110$, 24.4\%, labeled ``Winnowers'') starts well above the individual mean in Wave 1 and experiences a sharp, persistent downward plunge across subsequent waves. Cluster 3 ($n = 89$, 19.8\%, ``Late Droppers'') maintains positive deviations through Wave 2 before dropping below average in sophomore and junior years. Finally, Cluster 4 ($n = 52$, 11.6\%, ``Accumulators'') exhibits a late upward trajectory surge during junior year.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{Plots/fig3_kmeans_demeaned_k4.png}
 \caption{Degree trajectories classified by $k$-means clustering zeroed on ego mean ($k = 4, N = 450$). Trajectories represent deviations from each ego's longitudinal mean ($\tilde{D}_{it} = D_{it} - \bar{D}_i$).}
 \label{fig:fig3}
+\end{figure}
+
+\subsubsection{Diagnostic Evaluation of Cluster Enumeration (Figure~\ref{fig:fig4})}
+
+Figure~\ref{fig:fig4} evaluates cluster compactness by plotting the root-mean-squared Euclidean distance from egos to their assigned cluster centroids across candidate solutions from $k = 1$ to $k = 10$ for both raw and demeaned degree sequences. Two key empirical patterns emerge. First, centering sequences on ego means ($\tilde{D}_{it} = D_{it} - \bar{D}_i$) immediately cuts the baseline centroid distance by more than half at $k = 1$ (from 14.7 alters for raw trajectories to 7.1 alters for demeaned sequences). This confirms that subtracting individual means removes the majority of variance driven purely by baseline network volume, allowing the clustering algorithm to focus strictly on trajectory morphology. Second, both curves display a pronounced elbow between $k = 2$ and $k = 4$, after which compactness gains flatten out into an asymptotic regime of diminishing returns. Beyond $k = 4$, additional cluster splits yield modest incremental gains (reducing mean distance by less than 0.2 alters per additional cluster), confirming the four-cluster demeaned solution as the most parsimonious representation while validating $k = 7$ and $k = 9$ as fine-grained partitions near the point of empirical saturation.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{Plots/fig4_kmeans_elbow_curves.png}
+\caption{Mean Euclidean distance from cluster centroids across $k = 1 \dots 10$ cluster solutions for raw and demeaned degree sequences ($N = 450$).}
+\label{fig:fig4}
 \end{figure}
 
 \section{Predicting Trajectory Membership: Multinomial Logistic Regressions}

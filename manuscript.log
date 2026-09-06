@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.8.31)  6 SEP 2026 10:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2026.8.31)  6 SEP 2026 12:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -636,132 +636,131 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 54.
+(Font)              <12> on input line 56.
  [3] [4] [5] [6] [7] [8] [9] [10]
-<Plots/fig1_8cat_logical_trajectories.png, id=380, 867.24pt x 505.89pt>
+<Plots/fig1_8cat_logical_trajectories.png, id=376, 867.24pt x 505.89pt>
 File: Plots/fig1_8cat_logical_trajectories.png Graphic file (type png)
 <use Plots/fig1_8cat_logical_trajectories.png>
 Package pdftex.def Info: Plots/fig1_8cat_logical_trajectories.png  used on inpu
-t line 212.
+t line 214.
 (pdftex.def)             Requested size: 469.75502pt x 274.02563pt.
-<Plots/fig2_4cat_simplified_trajectories.png, id=383, 650.43pt x 505.89pt>
+<Plots/fig2_4cat_simplified_trajectories.png, id=378, 650.43pt x 505.89pt>
 File: Plots/fig2_4cat_simplified_trajectories.png Graphic file (type png)
 <use Plots/fig2_4cat_simplified_trajectories.png>
 Package pdftex.def Info: Plots/fig2_4cat_simplified_trajectories.png  used on i
-nput line 223.
+nput line 225.
 (pdftex.def)             Requested size: 469.75502pt x 365.37524pt.
  [11 <./Plots/fig1_8cat_logical_trajectories.png (PNG copy)>] [12 <./Plots/fig2
 _4cat_simplified_trajectories.png (PNG copy)>]
-<Plots/fig3_kmeans_demeaned_k4.png, id=395, 650.43pt x 505.89pt>
+<Plots/fig3_kmeans_demeaned_k4.png, id=390, 650.43pt x 505.89pt>
 File: Plots/fig3_kmeans_demeaned_k4.png Graphic file (type png)
 <use Plots/fig3_kmeans_demeaned_k4.png>
 Package pdftex.def Info: Plots/fig3_kmeans_demeaned_k4.png  used on input line 
-234.
+236.
 (pdftex.def)             Requested size: 469.75502pt x 365.37524pt.
  [13 <./Plots/fig3_kmeans_demeaned_k4.png (PNG copy)>]
-<Plots/fig4_kmeans_elbow_curves.png, id=406, 578.16pt x 361.35pt>
+<Plots/fig4_kmeans_elbow_curves.png, id=399, 578.16pt x 361.35pt>
 File: Plots/fig4_kmeans_elbow_curves.png Graphic file (type png)
 <use Plots/fig4_kmeans_elbow_curves.png>
 Package pdftex.def Info: Plots/fig4_kmeans_elbow_curves.png  used on input line
- 245.
+ 247.
 (pdftex.def)             Requested size: 399.29463pt x 249.55783pt.
 
-Overfull \hbox (4.50688pt too wide) in paragraph at lines 256--257
+[14 <./Plots/fig4_kmeans_elbow_curves.png (PNG copy)>]
+Overfull \hbox (4.50688pt too wide) in paragraph at lines 258--259
 []\T1/lmr/bx/n/12 (-20) Demographic Spec-i-fi-ca-tions \T1/lmr/m/n/12 (-20) ($\
 OML/lmm/m/it/12 n \OT1/lmr/m/n/12 (-20) = 30$ \T1/lmr/m/n/12 (-20) mod-els): Su
 b-sets of gen-der iden-tity, racial/ethnic
  []
 
-[14 <./Plots/fig4_kmeans_elbow_curves.png (PNG copy)>]
-Overfull \hbox (38.40291pt too wide) in paragraph at lines 272--293
+
+Overfull \hbox (38.40291pt too wide) in paragraph at lines 274--295
  [][] 
  []
 
-<Plots/fig8_chisq_pvalues_by_type.png, id=419, 505.89pt x 361.35pt>
+<Plots/fig8_chisq_pvalues_by_type.png, id=410, 505.89pt x 361.35pt>
 File: Plots/fig8_chisq_pvalues_by_type.png Graphic file (type png)
 <use Plots/fig8_chisq_pvalues_by_type.png>
 Package pdftex.def Info: Plots/fig8_chisq_pvalues_by_type.png  used on input li
-ne 301.
+ne 303.
 (pdftex.def)             Requested size: 399.29463pt x 285.21526pt.
-[15]
-<Plots/fig9_pseudo_r2_by_type.png, id=434, 505.89pt x 361.35pt>
+[15] [16 <./Plots/fig8_chisq_pvalues_by_type.png (PNG copy)>]
+<Plots/fig9_pseudo_r2_by_type.png, id=430, 505.89pt x 361.35pt>
 File: Plots/fig9_pseudo_r2_by_type.png Graphic file (type png)
 <use Plots/fig9_pseudo_r2_by_type.png>
 Package pdftex.def Info: Plots/fig9_pseudo_r2_by_type.png  used on input line 3
-10.
+12.
 (pdftex.def)             Requested size: 399.29463pt x 285.21526pt.
-<Plots/fig10_pseudo_r2_by_type_and_signif.png, id=435, 578.16pt x 361.35pt>
+<Plots/fig10_pseudo_r2_by_type_and_signif.png, id=431, 578.16pt x 361.35pt>
 File: Plots/fig10_pseudo_r2_by_type_and_signif.png Graphic file (type png)
 <use Plots/fig10_pseudo_r2_by_type_and_signif.png>
 Package pdftex.def Info: Plots/fig10_pseudo_r2_by_type_and_signif.png  used on 
-input line 317.
+input line 319.
 (pdftex.def)             Requested size: 399.29463pt x 249.55783pt.
- [16 <./Plots/fig8_chisq_pvalues_by_type.png (PNG copy)>] [17 <./Plots/fig9_pse
-udo_r2_by_type.png (PNG copy)> <./Plots/fig10_pseudo_r2_by_type_and_signif.png 
-(PNG copy)>]
-<Plots/fig11_variable_significance_rates.png, id=450, 578.16pt x 433.62pt>
+ [17 <./Plots/fig9_pseudo_r2_by_type.png (PNG copy)>]
+<Plots/fig11_variable_significance_rates.png, id=442, 578.16pt x 433.62pt>
 File: Plots/fig11_variable_significance_rates.png Graphic file (type png)
 <use Plots/fig11_variable_significance_rates.png>
 Package pdftex.def Info: Plots/fig11_variable_significance_rates.png  used on i
-nput line 328.
+nput line 330.
 (pdftex.def)             Requested size: 399.29463pt x 299.46939pt.
- [18 <./Plots/fig11_variable_significance_rates.png (PNG copy)>]
+ [18 <./Plots/fig10_pseudo_r2_by_type_and_signif.png (PNG copy)>] [19 <./Plots/
+fig11_variable_significance_rates.png (PNG copy)>]
 <Plots/fig5_lcga_optimal_trajectories.png, id=459, 794.97pt x 361.35pt>
 File: Plots/fig5_lcga_optimal_trajectories.png Graphic file (type png)
 <use Plots/fig5_lcga_optimal_trajectories.png>
 Package pdftex.def Info: Plots/fig5_lcga_optimal_trajectories.png  used on inpu
-t line 371.
+t line 373.
 (pdftex.def)             Requested size: 469.75502pt x 213.53099pt.
- [19]
-Overfull \hbox (5.3285pt too wide) in paragraph at lines 385--385
+
+Overfull \hbox (5.3285pt too wide) in paragraph at lines 387--387
 []\T1/lmr/bx/n/17.28 (-20) Expansion 2: Mul-ti-level Mixed-Effects De-gree Grow
 th
  []
 
-[20 <./Plots/fig5_lcga_optimal_trajectories.png (PNG copy)>]
-Overfull \hbox (53.83563pt too wide) in paragraph at lines 419--441
+[20]
+Overfull \hbox (53.83563pt too wide) in paragraph at lines 421--443
  [][] 
  []
 
-[21]
-<Plots/fig6_multilevel_predicted_trajectories.png, id=492, 578.16pt x 433.62pt>
+[21 <./Plots/fig5_lcga_optimal_trajectories.png (PNG copy)>] [22]
+<Plots/fig6_multilevel_predicted_trajectories.png, id=487, 578.16pt x 433.62pt>
 
 File: Plots/fig6_multilevel_predicted_trajectories.png Graphic file (type png)
 <use Plots/fig6_multilevel_predicted_trajectories.png>
 Package pdftex.def Info: Plots/fig6_multilevel_predicted_trajectories.png  used
- on input line 455.
+ on input line 457.
 (pdftex.def)             Requested size: 399.29463pt x 299.46939pt.
 
-Overfull \hbox (6.74178pt too wide) in paragraph at lines 460--460
+Overfull \hbox (6.74178pt too wide) in paragraph at lines 462--462
 []\T1/lmr/bx/n/17.28 (-20) Expansion 3: De-com-pos-ing De-gree Tra-jec-to-ries 
 Across
  []
 
-
-Overfull \hbox (103.91142pt too wide) in paragraph at lines 480--494
+[23] [24 <./Plots/fig6_multilevel_predicted_trajectories.png (PNG copy)>]
+Overfull \hbox (103.91142pt too wide) in paragraph at lines 482--496
  [][] 
  []
 
-<Plots/fig7_decomposed_degree_trajectories.png, id=496, 722.7pt x 433.62pt>
+<Plots/fig7_decomposed_degree_trajectories.png, id=503, 722.7pt x 433.62pt>
 File: Plots/fig7_decomposed_degree_trajectories.png Graphic file (type png)
 <use Plots/fig7_decomposed_degree_trajectories.png>
 Package pdftex.def Info: Plots/fig7_decomposed_degree_trajectories.png  used on
- input line 502.
+ input line 504.
 (pdftex.def)             Requested size: 469.75502pt x 281.85628pt.
-[22] [23 <./Plots/fig6_multilevel_predicted_trajectories.png (PNG copy)>]
-[24 <./Plots/fig7_decomposed_degree_trajectories.png (PNG copy)>] [25]
-(./manuscript.bbl [26] [27] [28]) [29] (./manuscript.aux)
+[25] [26 <./Plots/fig7_decomposed_degree_trajectories.png (PNG copy)>] [27]
+(./manuscript.bbl [28] [29] [30]) [31] (./manuscript.aux)
 Package rerunfilecheck Info: File `manuscript.out' has not changed.
-(rerunfilecheck)             Checksum: F42A19F109BB42B16D0DC8EDA413F0C4;10409.
+(rerunfilecheck)             Checksum: 45B3305F879F5418D1AA232990ADB374;10159.
  ) 
 Here is how much of TeX's memory you used:
- 15508 strings out of 478051
- 249981 string characters out of 5840943
- 1866330 words of memory out of 5000000
+ 15515 strings out of 478051
+ 250046 string characters out of 5840943
+ 1863330 words of memory out of 5000000
  34900 multiletter control sequences out of 15000+600000
- 640545 words of font info for 278 fonts, out of 8000000 for 9000
+ 642053 words of font info for 280 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,14n,76p,1710b,630s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,14n,76p,1712b,630s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/en
 c/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share
 /texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ma
@@ -771,15 +770,17 @@ onts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10
 /type1/public/lm/lmmi12.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi8.pfb><
 /usr/share/texmf/fonts/type1/public/lm/lmmib10.pfb></usr/share/texmf/fonts/type
 1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/s
-hare/texmf/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf/fonts/type1/public/
-lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texm
-f/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt
-10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on manuscript.pdf (29 pages, 7893554 bytes).
+hare/texmf/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public
+/lm/lmr7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf
+/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri1
+2.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/font
+s/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+
+Output written on manuscript.pdf (31 pages, 7931336 bytes).
 PDF statistics:
- 659 PDF objects out of 1000 (max. 8388607)
- 573 compressed objects within 6 object streams
- 150 named destinations out of 1000 (max. 500000)
+ 669 PDF objects out of 1000 (max. 8388607)
+ 577 compressed objects within 6 object streams
+ 152 named destinations out of 1000 (max. 500000)
  73040 words of extra memory for PDF output out of 74296 (max. 10000000)
 

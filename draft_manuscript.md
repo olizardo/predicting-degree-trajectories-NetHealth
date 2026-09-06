@@ -141,7 +141,7 @@ Figure 3 illustrates the four-cluster inductive solution applied to demeaned deg
 
 ### Elbow Diagnostics for *k*-Means Clustering (Figure 4)
 
-Figure 4 presents the within-cluster sum of squares (WSS) and root-mean-squared distance to centroid across candidate cluster solutions from *k*=1 to *k*=10. Both raw and demeaned trajectories display characteristic elbows around *k*=4 and *k*=7 to 9, confirming Chandler and Hachen’s (2018) empirical selection of these specific cluster solutions.
+Figure 4 evaluates cluster compactness by plotting the root-mean-squared Euclidean distance from egos to their assigned cluster centroids across candidate solutions from *k*=1 to *k*=10 for both raw and demeaned degree sequences. Two key empirical patterns emerge. First, centering sequences on ego means (*D*<sub>it</sub>=*D*<sub>it</sub>−*D*‾*<sub>i</sub>*) immediately cuts the baseline centroid distance by more than half at *k*=1 (from 14.7 alters for raw trajectories to 7.1 alters for demeaned sequences). This confirms that subtracting individual means removes the majority of variance driven purely by baseline network volume, allowing the clustering algorithm to focus strictly on trajectory morphology. Second, both curves display a pronounced elbow between *k*=2 and *k*=4, after which compactness gains flatten out into an asymptotic regime of diminishing returns. Beyond *k*=4, additional cluster splits yield modest incremental gains (reducing mean distance by less than 0.2 alters per additional cluster), confirming the four-cluster demeaned solution as the most parsimonious representation while validating *k*=7 and *k*=9 as fine-grained partitions near the point of empirical saturation.
 
 <img src="media/image3.png" style="width:6.5in;height:4.0625in" />
 
