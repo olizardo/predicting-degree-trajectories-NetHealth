@@ -229,7 +229,7 @@ Figure~\ref{fig:fig2} visualizes the consolidated four-category scheme. Grouping
 
 \subsubsection{Diagnostic Evaluation of Cluster Enumeration (Figure~\ref{fig:fig3})}
 
-Figure~\ref{fig:fig3} evaluates cluster compactness by plotting the root-mean-squared Euclidean distance from egos to their assigned cluster centroids across candidate solutions from $k = 1$ to $k = 10$ for both raw and demeaned degree sequences. Two key empirical patterns emerge. First, centering sequences on ego means ($\tilde{D}_{it} = D_{it} - \bar{D}_i$) immediately cuts the baseline centroid distance by more than half at $k = 1$ (from 14.7 alters for raw trajectories to 7.1 alters for demeaned sequences). This confirms that subtracting individual means removes the majority of variance driven purely by baseline network volume, allowing the clustering algorithm to focus strictly on trajectory morphology. Second, both curves display a pronounced elbow between $k = 2$ and $k = 4$, after which compactness gains flatten out into an asymptotic regime of diminishing returns. Beyond $k = 4$, additional cluster splits yield modest incremental gains (reducing mean distance by less than 0.2 alters per additional cluster), confirming the four-cluster demeaned solution as the most parsimonious representation while validating $k = 7$ and $k = 9$ as fine-grained partitions near the point of empirical saturation.
+Figure~\ref{fig:fig3} evaluates cluster compactness by plotting the root-mean-squared Euclidean distance from egos to their assigned cluster centroids across candidate solutions from $k = 1$ to $k = 10$ for both raw and demeaned degree sequences. Two key empirical patterns emerge. First, centering sequences on ego means ($\tilde{D}_{it} = D_{it} - \bar{D}_i$) immediately cuts the baseline centroid distance by more than half at $k = 1$ (from 14.7 alters for raw trajectories to 7.1 alters for demeaned sequences). This confirms that subtracting individual means removes most of the variance driven purely by baseline network volume, allowing the clustering algorithm to focus strictly on trajectory. Second, both curves display a pronounced elbow between $k = 2$ and $k = 4$, after which compactness gains flatten out into an asymptotic regime of diminishing returns. Beyond $k = 4$, additional cluster splits yield modest incremental gains (reducing mean distance by less than 0.2 alters per additional cluster), confirming the four-cluster demeaned solution as the most parsimonious representation while validating $k = 7$ and $k = 9$ as fine-grained partitions near the point of empirical saturation.
 
 \begin{figure}[htbp]
 \centering
@@ -261,7 +261,8 @@ Crucially, auditing these empirical trajectories confirms that sustained upward 
 
 \subsection{Model Specifications and Estimation}
 
-To evaluate the predictive capacity of baseline covariates, we replicate the 2018 modeling strategy by estimating multinomial logistic regressions using \texttt{nnet::multinom}. Across each of the six trajectory classification schemes (eight-category deductive, four-category deductive, raw $k = 7$, raw $k = 9$, demeaned $k = 4$, and demeaned $k = 8$), we evaluate three distinct model families:
+To evaluate the predictive capacity of baseline covariates, we estimate multinomial logistic regressions---using \texttt{nnet::multinom}. Across each of the six trajectory classification schemes (eight-category deductive, four-category deductive, raw $k = 7$, raw $k = 9$, demeaned $k = 4$, and demeaned $k = 8$), we evaluate three distinct model families:
+
 \begin{enumerate}
   \item \textbf{Demographic Specifications} ($n = 30$ models): Subsets of gender identity, racial/ethnic categories, parental income, parental education, citizenship, language, and religion.
   \item \textbf{Personality Specifications} ($n = 18$ models): Subsets of the Big Five personality traits, generalized trust, and birth order.
@@ -304,7 +305,7 @@ Social Demographics & Father's Education & 6 & 0.0\% \\
 
 \subsubsection{Model Fit Comparisons by Specification Family (Figures~\ref{fig:fig8}, \ref{fig:fig9}, and \ref{fig:fig10})}
 
-Figure~\ref{fig:fig8} displays boxplots of likelihood ratio $\chi^2$ $p$-values across model families. In support of \textbf{Hypothesis 1}, personality models consistently outperform demographic models. While the majority of demographic models fail to achieve omnibus statistical significance (median $p = 0.254$), personality models systematically yield significant likelihood ratio tests (median $p = 0.018$), with over 72\% falling below the conventional $p = 0.05$ threshold. Mixed models display intermediate fit statistics (median $p = 0.034$).
+Figure~\ref{fig:fig8} displays boxplots of likelihood ratio $\chi^2$ $p$-values across model families. In support of Hypothesis 1, personality models consistently outperform demographic models. While the majority of demographic models fail to achieve omnibus statistical significance (median $p = 0.254$), personality models systematically yield significant likelihood ratio tests (median $p = 0.018$), with over 72\% falling below the conventional $p = 0.05$ threshold. Mixed models display intermediate fit statistics (median $p = 0.034$).
 
 \begin{figure}[htbp]
 \centering
@@ -313,7 +314,7 @@ Figure~\ref{fig:fig8} displays boxplots of likelihood ratio $\chi^2$ $p$-values 
 \label{fig:fig8}
 \end{figure}
 
-Figure~\ref{fig:fig9} presents the distribution of McFadden pseudo-$R^2$ values across model families. Overall explanatory power is modest, ranging between 0.02 and 0.09, replicating the benchmark findings of \citet{chandler2018classifying}. While demographic specifications yield a slightly higher raw pseudo-$R^2$ due to the inclusion of multi-category factors (such as five-category race and eight-category income), Figure~\ref{fig:fig10} demonstrates that when partitioning models by omnibus significance, statistically significant models in all three families converge to an average pseudo-$R^2$ of roughly 0.04 to 0.06.
+Figure~\ref{fig:fig9} presents the distribution of McFadden pseudo-$R^2$ values across model families. Overall explanatory power is modest, ranging from 0.02 to 0.09  \citep{chandler2018classifying}. While demographic specifications yield a slightly higher raw pseudo-$R^2$ due to the inclusion of multi-category factors (such as five-category race and eight-category income), Figure~\ref{fig:fig10} shows that when partitioning models by omnibus significance, statistically significant models in all three families converge to an average pseudo-$R^2$ of roughly 0.04 to 0.06.
 
 \begin{figure}[htbp]
 \centering
@@ -331,7 +332,7 @@ Figure~\ref{fig:fig9} presents the distribution of McFadden pseudo-$R^2$ values 
 
 \subsubsection{Variable Significance Rates (Figure~\ref{fig:fig11})}
 
-Figure~\ref{fig:fig11} visualizes the proportion of models in which each candidate predictor achieves statistical significance ($p < 0.05$). Consistent with \citet{chandler2018classifying} original presentation, \textbf{Race} achieves significance in 90.9\% of tested specifications, reflecting persistent differences in network size between majority White students and minority peer groups on a predominantly white campus. Among psychological attributes, \textbf{Extraversion} is significant in 56.3\% of models, followed by \textbf{Neuroticism} (45.2\%), \textbf{Generalized Trust} (37.5\%), and \textbf{Openness} (33.3\%). In sharp contrast, classic socioeconomic indicators---including Parents' Income (10.0\%), Mother's Education (16.7\%), Father's Education (0.0\%), and U.S.~Citizenship (0.0\%)---demonstrate essentially zero predictive capacity. These results provide strong empirical backing for \textbf{Hypothesis 1}: individual relational trajectories in collegiate environments are governed by personality dispositions and trust rather than parental socioeconomic resources.
+Figure~\ref{fig:fig11} visualizes the proportion of models in which each candidate predictor achieves statistical significance ($p < 0.05$). \textit{Race} achieves significance in 90.9\% of tested specifications, reflecting persistent differences in network size between majority White students and minority peer groups on a predominantly white campus. Among psychological attributes, \textit{Extraversion} is significant in 56.3\% of models, followed by \textit{Neuroticism} (45.2\%), \textit{Generalized Trust} (37.5\%), and \textit{Openness} (33.3\%). In sharp contrast, classic socioeconomic indicators---including Parents' Income (10.0\%), Mother's Education (16.7\%), Father's Education (0.0\%), and U.S.~Citizenship (0.0\%)---demonstrate essentially zero predictive capacity. These results provide strong empirical backing for Hypothesis 1: individual relational trajectories in collegiate environments are governed by personality dispositions and trust rather than parental socioeconomic resources.
 
 \begin{figure}[htbp]
 \centering
