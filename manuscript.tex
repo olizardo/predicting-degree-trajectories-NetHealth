@@ -212,7 +212,7 @@ Figure~\ref{fig:fig1} displays individual trajectory spaghetti plots faceted acr
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{Plots/fig1_8cat_logical_trajectories.png}
-\caption{Degree trajectories classified by deductive eight-category a priori logic across survey Waves 1--6 ($N = 450$). Lines represent individual ego network trajectories over time; dashed red lines indicate class mean trajectories.}
+\caption{Degree trajectories classified by deductive eight-category a priori logic across survey Waves 1--6 ($N = 450$). Lines represent individual ego network trajectories over time.}
 \label{fig:fig1}
 \end{figure}
 
@@ -223,7 +223,7 @@ Figure~\ref{fig:fig2} visualizes the consolidated four-category scheme. Grouping
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{Plots/fig2_4cat_simplified_trajectories.png}
-\caption{Degree trajectories classified by simplified four-category deductive logic across survey Waves 1--6 ($N = 450$). Dashed red lines display class mean trajectories.}
+\caption{Degree trajectories classified by simplified four-category deductive logic across survey Waves 1--6 ($N = 450$). Lines represent individual ego network trajectories over time.}
 \label{fig:fig2}
 \end{figure}
 
@@ -305,7 +305,7 @@ Social Demographics & Father's Education & 6 & 0.0\% \\
 
 \subsubsection{Model Fit Comparisons by Specification Family (Figures~\ref{fig:fig8}, \ref{fig:fig9}, and \ref{fig:fig10})}
 
-Figure~\ref{fig:fig8} displays boxplots of likelihood ratio $\chi^2$ $p$-values across model families. In support of Hypothesis 1, personality models consistently outperform demographic models. While the majority of demographic models fail to achieve omnibus statistical significance (median $p = 0.254$), personality models systematically yield significant likelihood ratio tests (median $p = 0.018$), with over 72\% falling below the conventional $p = 0.05$ threshold. Mixed models display intermediate fit statistics (median $p = 0.034$).
+Figure~\ref{fig:fig8} displays boxplots of likelihood ratio $\chi^2$ $p$-values across model families. Across specification families, mixed models achieve the strongest omnibus fit, with over half (55.6\%) achieving statistical significance at $p < 0.05$ and a median $p$-value of $0.041$ (falling below the horizontal threshold rule). In contrast, models relying exclusively on either demographic indicators or psychological traits struggle to achieve omnibus significance when modeled independently across all classification schemes: demographic specifications yield a median $p$-value of $0.104$ (23.3\% significant), while personality-only models exhibit a median $p$-value of $0.144$ (22.2\% significant, mean $p = 0.229$).
 
 \begin{figure}[htbp]
 \centering
@@ -314,7 +314,7 @@ Figure~\ref{fig:fig8} displays boxplots of likelihood ratio $\chi^2$ $p$-values 
 \label{fig:fig8}
 \end{figure}
 
-Figure~\ref{fig:fig9} presents the distribution of McFadden pseudo-$R^2$ values across model families. Overall explanatory power is modest, ranging from 0.02 to 0.09  \citep{chandler2018classifying}. While demographic specifications yield a slightly higher raw pseudo-$R^2$ due to the inclusion of multi-category factors (such as five-category race and eight-category income), Figure~\ref{fig:fig10} shows that when partitioning models by omnibus significance, statistically significant models in all three families converge to an average pseudo-$R^2$ of roughly 0.04 to 0.06.
+Figure~\ref{fig:fig9} presents the distribution of McFadden pseudo-$R^2$ values across model families. In line with the original benchmark findings of \citet{chandler2018classifying}, overall explanatory power across categorical schemes is modest, with pseudo-$R^2$ values ranging from 0.01 to 0.07. Mixed specifications demonstrate the highest explanatory power (median pseudo-$R^2 = 0.045$), followed by demographic models (median $0.034$) and personality models (median $0.022$). Figure~\ref{fig:fig10} further stratifies pseudo-$R^2$ by omnibus significance ($p < 0.05$ vs.~$p \ge 0.05$). Among statistically significant models, mixed specifications reach pseudo-$R^2$ values between 0.04 and 0.07 (median $\approx 0.048$), demographic models achieve approximately 0.035 to 0.045, and personality models average roughly 0.025.
 
 \begin{figure}[htbp]
 \centering
@@ -386,12 +386,12 @@ As shown in Table~\ref{tab:lcga}, information criteria improve substantially fro
 
 The three latent classes capture distinct relational strategies across college:
 \begin{enumerate}
-  \item \textbf{Class 1: Network Conservers ($n = 208$, 46.2\%):} Trajectories hover stably around a moderate degree ($\approx 12$--14 alters) throughout all six waves, exhibiting little net change over time.
-  \item \textbf{Class 2: Accelerated Winnowers ($n = 162$, 36.0\%):} Students who matriculate with exceptionally large networks ($\bar{D}_1 \approx 18.5$) but experience an aggressive, continuous contraction, shedding an average of 8 alters by junior year ($\bar{D}_6 \approx 10.2$).
-  \item \textbf{Class 3: Tie Accumulators ($n = 80$, 17.8\%):} Students who enter college with smaller networks ($\bar{D}_1 \approx 7.5$) and steadily expand their social circles across sophomore and junior years, reaching an average of 14.5 alters.
+  \item \textbf{Network Conservers ($n = 132$, 29.3\%):} Students who maintain large personal networks ($\bar{D}_1 = 17.92$) that remain exceptionally stable across all four collegiate years ($\bar{D}_6 = 17.31$).
+  \item \textbf{Moderate Winnowers ($n = 187$, 41.6\%):} The modal collegiate pathway, representing students who matriculate with average-sized circles ($\bar{D}_1 = 14.87$) and undergo a steady, continuous contraction across subsequent semesters, shedding roughly 6 alters by junior year ($\bar{D}_6 = 8.98$).
+  \item \textbf{Accelerated Winnowers ($n = 131$, 29.1\%):} Students who enter college with smaller networks ($\bar{D}_1 = 9.76$) and experience an aggressive initial pruning, stabilizing at an intimate core of roughly 4 to 5 alters ($\bar{D}_6 = 4.03$).
 \end{enumerate}
 
-This probabilistic classification demonstrates that network contraction is not universal: over 64\% of students either maintain a stable network volume or actively accumulate new connections over time.
+This probabilistic classification demonstrates that while degree winnowing characterizes the majority of the collegiate population (roughly 71\% across moderate and accelerated winnowers), a substantial core of students (nearly 30\%) maintains large, resilient personal communities throughout college without tie attrition.
 
 \section{Expansion 2: Multilevel Mixed-Effects Degree Growth Models}
 
@@ -459,7 +459,7 @@ Supporting \textbf{Hypothesis 2}, baseline \textbf{Generalized Trust} exerts a s
 
 Turning to cross-level interactions, the interaction between \textbf{Time and Extraversion} is statistically significant and negative ($\text{IRR} = 0.986$, 95\% CI: [0.978, 0.994], $p < 0.001$). Contrary to \textbf{Hypothesis 3}---which hypothesized that extraverts would be buffered against network contraction---this interaction reveals that extraverts experience a \emph{steeper} rate of degree decline over time.
 
-Figure~\ref{fig:fig6} illustrates this dynamic by plotting predicted degree trajectories across combinations of high versus low Extraversion ($\pm 1$~SD) and high versus low Neuroticism ($\pm 1$~SD). As shown in the figure, highly extraverted students matriculate with considerably larger networks ($\approx 15.5$ alters) compared to introverted peers ($\approx 12.0$ alters). However, extraverts undergo aggressive winnowing across college, converging toward a common collegiate equilibrium ($\approx 10$--11 alters) by junior year. Introverted students, having formed more selective connections initially, experience far more gradual declines.
+Figure~\ref{fig:fig6} illustrates this dynamic by plotting predicted degree trajectories across combinations of high versus low Extraversion ($\pm 1$~SD) and high versus low Neuroticism ($\pm 1$~SD). As shown in the figure, highly extraverted students matriculate with larger initial networks ($\approx 14.0$--14.4 alters at Wave~1) compared to introverted peers ($\approx 13.2$--13.5 alters). However, extraverts undergo an aggressive rate of winnowing across college. Because extraverts shed ties more rapidly than introverts, their trajectories cross between Waves 3 and 4, such that by junior year extraverted students actually nominate fewer alters ($\approx 8.9$--9.6 alters) than their introverted counterparts ($\approx 9.6$--10.4 alters), whose networks decline at a far more gradual rate.
 
 \begin{figure}[htbp]
 \centering
@@ -518,7 +518,7 @@ Figure~\ref{fig:fig7} visualizes the longitudinal trajectory profiles of these f
 The empirical pattern in Figure~\ref{fig:fig7} provides decisive support for \textbf{Hypothesis 4} and fundamentally transforms the interpretation of collegiate network evolution:
 \begin{itemize}
   \item \textbf{Total Ego Network Size} (blue line) exhibits a steady downward decline, falling from 14.19 alters in freshman fall (Wave 1) to 10.64 in junior spring (Wave 6) and stabilizing at 10.80 in senior spring (Wave 8).
-  \item In sharp contrast, \textbf{Daily Activated Ties} (red line) remain remarkably flat across all four years, hovering consistently between 4.4 and 5.9 ties per wave.
+  \item In sharp contrast, \textbf{Daily Activated Ties} (red line) remain remarkably stable across all four years, peaking slightly in freshman spring (6.93 ties) before hovering consistently between 4.4 and 5.9 ties per wave across sophomore, junior, and senior years.
   \item Similarly, \textbf{Close Ties} (green line) and \textbf{Support-Providing Ties} (orange line) track closely together, averaging approximately 10.5 to 12.0 ties across college.
 \end{itemize}
 

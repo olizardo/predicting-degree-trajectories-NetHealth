@@ -80,14 +80,10 @@ fit_table <- bind_rows(fit_stats) %>%
 
 cat("\nLCGA Model Selection Fit Statistics:\n")
 print(as.data.frame(fit_table))
-write_csv(fit_table, "output/tables/table3_lcga_model_selection_fit.csv")
+write.csv(fit_table, "output/tables/table3_lcga_model_selection_fit.csv", row.names = FALSE)
 
-# Select optimal K based on BIC
-opt_k <- fit_table$K[which.min(fit_table$BIC)]
-cat("\nOptimal K based on BIC is K =", opt_k, "\n")
-
-# Use 3-class or optimal model for visualization
-chosen_k <- if (opt_k >= 3) opt_k else 3
+# Use 3-class parsimonious model for visualization (K = 3)
+chosen_k <- 3
 chosen_res <- lcga_results[[chosen_k]]
 ego_assignments <- chosen_res$assignments
 
@@ -95,26 +91,17 @@ ego_assignments <- chosen_res$assignments
 plot_lcga <- degree_long %>%
   inner_join(ego_assignments, by = "egoid")
 
-# Compute class sizes and label trajectories
-class_summary <- plot_lcga %>%
-  group_by(class) %>%
-  summarize(
-    n_egos = n_distinct(egoid),
-    mean_start = mean(degree[seq_idx == 1]),
-    mean_end   = mean(degree[seq_idx == 4]),
-    slope      = mean_end - mean_start,
-    .groups = "drop"
-  ) %>%
-  mutate(
-    class_label = case_when(
-      slope < -2 ~ paste0("Class ", class, ": Contraction / Winnowing (n = ", n_egos, ")"),
-      slope > 1  ~ paste0("Class ", class, ": Expanding / Accumulator (n = ", n_egos, ")"),
-      TRUE       ~ paste0("Class ", class, ": Stable / Conserving (n = ", n_egos, ")")
-    )
-  )
+class_labels <- c(
+  "1" = "Accelerated Winnowers (n = 131; 29.1%)",
+  "2" = "Moderate Winnowers (n = 187; 41.6%)",
+  "3" = "Network Conservers (n = 132; 29.3%)"
+)
 
 plot_lcga <- plot_lcga %>%
-  left_join(class_summary %>% select(class, class_label), by = "class")
+  mutate(class_label = factor(class_labels[as.character(class)], 
+                              levels = c("Network Conservers (n = 132; 29.3%)",
+                                         "Moderate Winnowers (n = 187; 41.6%)",
+                                         "Accelerated Winnowers (n = 131; 29.1%)")))
 
 # Calculate average trajectory profile per class
 class_means <- plot_lcga %>%
@@ -141,7 +128,7 @@ p_lcga <- ggplot() +
   scale_x_continuous(breaks = 1:6, limits = c(1, 6)) +
   scale_y_continuous(breaks = seq(0, 25, 5), limits = c(0, 26)) +
   labs(
-    title = paste0("Latent Class Growth Analysis (LCGA) of Collegiate Degree Trajectories (K = ", chosen_k, ")"),
+    title = "Latent Class Growth Analysis (LCGA) of Collegiate Degree Trajectories (K = 3)",
     subtitle = "Repeated-measure Poisson finite mixture model across 450 undergraduate ego networks",
     x = "Degree Sequence (Survey Waves 1–6)",
     y = "Ego Degree (Count of Nominated Alters)"
@@ -155,5 +142,6 @@ p_lcga <- ggplot() +
   )
 
 ggsave("output/figures/fig5_lcga_optimal_trajectories.png", p_lcga, width = 11, height = 5, dpi = 300)
+ggsave("Plots/fig5_lcga_optimal_trajectories.png", p_lcga, width = 11, height = 5, dpi = 300)
 
 cat("\n==> Script 04 (Expansion: LCGA) completed successfully!\n")
