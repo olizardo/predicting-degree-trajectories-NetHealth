@@ -2,6 +2,9 @@
 
 This project recreates, validates, and substantially expands the empirical research presented by **Matthew J. Chandler and David Hachen** (*"Classifying and Predicting Degree Trajectories in Longitudinal Ego Networks"*, XXXVIII Sunbelt Conference, Utrecht, The Netherlands, June 28, 2018), conducted at the **Interdisciplinary Center for Network Science and Applications (iCeNSA)** at the University of Notre Dame as part of the **NetHealth Project** ([https://sites.nd.edu/nethealth/](https://sites.nd.edu/nethealth/)).
 
+- **Overleaf Project:** [https://www.overleaf.com/project/6a9db1ea255f30d10b63a391](https://www.overleaf.com/project/6a9db1ea255f30d10b63a391)
+- **Google Doc:** [https://docs.google.com/document/d/147PaI7iC0LPB12CI_sT6XY_gCg76JKFkPP18maTc9TQ](https://docs.google.com/document/d/147PaI7iC0LPB12CI_sT6XY_gCg76JKFkPP18maTc9TQ)
+
 ---
 
 ## Theoretical Overview & Original Research Design

@@ -759,6 +759,8 @@ scale_fill_manual(values = COLOR_CREDIBILITY, name = "Directional Credibility")
 ### 1. Overview & Collaborators
 - **Project Title:** Classifying and Predicting Degree Trajectories in Longitudinal Ego Networks
 - **Authors:** Omar Lizardo and David Hachen
+- **Overleaf Project URL:** https://www.overleaf.com/project/6a9db1ea255f30d10b63a391
+- **Overleaf Git Endpoint:** `https://git.overleaf.com/6a9db1ea255f30d10b63a391`
 - **Google Doc URL:** https://docs.google.com/document/d/147PaI7iC0LPB12CI_sT6XY_gCg76JKFkPP18maTc9TQ
 - **Google Doc ID:** `147PaI7iC0LPB12CI_sT6XY_gCg76JKFkPP18maTc9TQ`
 - **Data Source:** NetHealth Study (University of Notre Dame, 8 waves over 4 years, Fall 2015–Spring 2019: https://sites.nd.edu/nethealth/).
