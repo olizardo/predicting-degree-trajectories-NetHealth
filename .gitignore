@@ -1,0 +1,18 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+
+# Data & cache protection
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+cache/*
+!cache/.gitkeep
+
+# renv
+renv/library/
+renv/python/
+renv/staging/
