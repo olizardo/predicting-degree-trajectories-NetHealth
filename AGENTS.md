@@ -833,10 +833,11 @@ project/
 ### 4. Tables and Figures Inventory in Live Document & LaTeX (Strict Sequential Order)
 - **Table 1**: Longitudinal Means and Standard Errors of Decomposed Relational Dimensions Across Eight Collegiate Waves ($N = 457$) (`cache/table1_decomposed_trajectory_means.md`, LaTeX `\label{tab:decomp}`)
 - **Figure 1**: Decomposing Ego Network Evolution Across Eight Collegiate Waves: Total Degree, Strong Ties, Daily Ties, and Support Ties (`Plots/fig1_decomposed_degree_trajectories.png`, LaTeX `\label{fig:decomp}`)
-- **Table 2**: Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_lcga_model_selection.md`, LaTeX `\label{tab:lcga}`)
+- **Table 2**: Longitudinal Means and Standard Errors of Specific Support Dimensions and Multiplexity Tiers Across Waves ($N = 457$) (`cache/table2_support_subnetwork_decomposition.md`, LaTeX `\label{tab:supp_decomp}`)
+- **Table 3**: Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_lcga_model_selection.md`, LaTeX `\label{tab:lcga}`)
 - **Figure 2**: Latent Class Growth Analysis (LCGA) Trajectory Profiles from Repeated-Measures Poisson Mixture Model Across Eight Collegiate Waves ($K = 3$) (`Plots/fig2_lcga_8wave_trajectories.png`, LaTeX `\label{fig:lcga_trajectories}`)
 - **Figure 3**: Functional Tie Decomposition Stratified by Latent Trajectory Class Across Eight Waves (`Plots/fig3_lcga_functional_profiles.png`, LaTeX `\label{fig:lcga_functional}`)
-- **Table 3**: Multinomial Logistic Regression Estimates Predicting Eight-Wave Latent Trajectory Class Membership (`cache/table3_mlogit_lcga_predictors.md`, LaTeX `\label{tab:mlogit_predictors}`)
+- **Table 4**: Multinomial Logistic Regression Estimates Predicting Eight-Wave Latent Trajectory Class Membership (`cache/table3_mlogit_lcga_predictors.md`, LaTeX `\label{tab:mlogit_predictors}`)
 - **Figure 4**: Forest Plot of Odds Ratios for Baseline Sociodemographic and Psychological Predictors of Trajectory Class Membership (`Plots/fig4_mlogit_forest_plot.png`, LaTeX `\label{fig:mlogit_forest}`)
 - **Table A1**: Fixed Effects Estimates from Multilevel Poisson Growth Curve GLMM with Random Ego Intercepts Across Eight Waves (`cache/tableA1_multilevel_glmm_estimates.md`, LaTeX `\label{tab:glmm_appendix}`)
 - **Figure A1**: Predicted Ego Degree Growth Trajectories by Personality Profiles Across Eight Waves from Multilevel Poisson GLMM (`Plots/figA1_multilevel_predicted_trajectories.png`, LaTeX `\label{fig:glmm_predicted}`)
@@ -855,11 +856,15 @@ project/
    - Every visual figure must be accompanied by its dedicated analytical discussion paragraph.
 
 ### 6. LaTeX Manuscript Architecture & Mathematical Notation Standards
-To ensure rigorous typesetting of mathematical formulations and empirical statistics, the primary manuscript is maintained in LaTeX (`manuscript.tex`) with automated PDF compilation (`pdflatex` + `bibtex`):
+To ensure rigorous typesetting of mathematical formulations and empirical statistics, the primary manuscript is maintained in LaTeX (`manuscript.tex`). 
 
-1. **Compilation Toolchain**:
-   - `pdflatex -interaction=nonstopmode manuscript.tex && bibtex manuscript && pdflatex -interaction=nonstopmode manuscript.tex && pdflatex -interaction=nonstopmode manuscript.tex`
-   - Zero compilation errors, zero missing cross-references, and zero undefined citations.
+**CRITICAL INSTRUCTION -- Zero Local LaTeX Compilation:**
+- **Do not render or compile the LaTeX manuscript locally.** The author renders and compiles the PDF directly online within Overleaf.
+- Agents must never spend time or tokens running local `pdflatex`, `bibtex`, or pdfTeX loops. Focus exclusively on high-precision editing of the source text files (`manuscript.tex`, `references.bib`, R/Python scripts, and markdown cache files) and synchronizing changes directly to the git remotes (`origin` and `overleaf`).
+
+1. **Compilation Protocol**:
+   - Compiles online in Overleaf with standard pdfLaTeX + BibTeX.
+   - Zero syntax errors, proper escaping of special characters, and valid cross-references.
 2. **Required Packages & Layout**:
    - Document Class: `\documentclass[12pt]{article}` with `\usepackage[margin=1in]{geometry}` and `\onehalfspacing`.
    - Fonts & Microtypography: `\usepackage[T1]{fontenc}`, `\usepackage{lmodern}`, `\usepackage{microtype}`.
