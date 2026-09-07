@@ -72,6 +72,12 @@ Granovetter, M.~S. (1973).
 \newblock The strength of weak ties.
 \newblock {\em American Journal of Sociology}, 78(6):1360--1380.
 
+\bibitem[Gr{\"u}n and Leisch, 2008]{grun2008flexmix}
+Gr{\"u}n, B. and Leisch, F. (2008).
+\newblock {FlexMix} version 2: Finite mixtures with concomitant variables and
+  varying and constant parameters.
+\newblock {\em Journal of Statistical Software}, 28(4):1--35.
+
 \bibitem[Harris and Vazire, 2016]{harris2016friendship}
 Harris, K. and Vazire, S. (2016).
 \newblock On friendship development and the {Big Five} personality traits.

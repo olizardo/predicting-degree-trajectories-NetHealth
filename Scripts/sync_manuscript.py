@@ -91,23 +91,17 @@ def create_apa_table_xml(headers, rows_data, col_widths=None):
 
 def generate_table_xmls():
     tables = {}
-    h1, r1 = parse_markdown_table("cache/table1_trajectory_schemes.md")
-    if h1: tables["Table 1"] = create_apa_table_xml(h1, r1, [3600, 2400, 1600, 1760])
+    h1, r1 = parse_markdown_table("cache/table1_decomposed_trajectory_means.md")
+    if h1: tables["Table 1"] = create_apa_table_xml(h1, r1, [2360, 1200, 1450, 1450, 1450, 1450])
     
-    h2, r2 = parse_markdown_table("cache/table2_variable_significance_rates.md")
-    if h2: tables["Table 2"] = create_apa_table_xml(h2, r2, [3000, 2800, 1760, 1800])
+    h2, r2 = parse_markdown_table("cache/table2_lcga_model_selection.md")
+    if h2: tables["Table 2"] = create_apa_table_xml(h2, r2, [2000, 1500, 1200, 1500, 1500, 1660])
     
-    h3, r3 = parse_markdown_table("cache/table3_lcga_model_selection.md")
-    if h3: tables["Table 3"] = create_apa_table_xml(h3, r3, [2000, 1500, 1200, 1500, 1500, 1660])
+    h3, r3 = parse_markdown_table("cache/table3_mlogit_lcga_predictors.md")
+    if h3: tables["Table 3"] = create_apa_table_xml(h3, r3, [2560, 1100, 1200, 900, 1100, 1200, 900])
     
-    h4, r4 = parse_markdown_table("cache/table4_multilevel_model_comparison.md")
-    if h4: tables["Table 4"] = create_apa_table_xml(h4, r4, [1600, 3600, 1400, 1380, 1380])
-    
-    h5, r5 = parse_markdown_table("cache/table5_multilevel_glmm_estimates.md")
-    if h5: tables["Table 5"] = create_apa_table_xml(h5, r5, [3600, 1800, 2360, 1600])
-    
-    h6, r6 = parse_markdown_table("cache/table6_decomposed_trajectory_means.md")
-    if h6: tables["Table 6"] = create_apa_table_xml(h6, r6, [2360, 1200, 1450, 1450, 1450, 1450])
+    hA1, rA1 = parse_markdown_table("cache/tableA1_multilevel_glmm_estimates.md")
+    if hA1: tables["Table A1"] = create_apa_table_xml(hA1, rA1, [3600, 1800, 2360, 1600])
     
     return tables
 
@@ -167,17 +161,11 @@ def sync_docx(in_docx, out_docx, inject_tables=True):
     
     # 1. Figure Tag Replacement
     figure_tags = {
-        "{{FIGURE_1}}": "Plots/fig1_8cat_logical_trajectories.png",
-        "{{FIGURE_2}}": "Plots/fig2_4cat_simplified_trajectories.png",
-        "{{FIGURE_3}}": "Plots/fig3_kmeans_elbow_curves.png",
-        "{{FIGURE_4}}": "Plots/fig4_kmeans_demeaned_k4.png",
-        "{{FIGURE_5}}": "Plots/fig5_lcga_optimal_trajectories.png",
-        "{{FIGURE_6}}": "Plots/fig6_multilevel_predicted_trajectories.png",
-        "{{FIGURE_7}}": "Plots/fig7_decomposed_degree_trajectories.png",
-        "{{FIGURE_8}}": "Plots/fig8_chisq_pvalues_by_type.png",
-        "{{FIGURE_9}}": "Plots/fig9_pseudo_r2_by_type.png",
-        "{{FIGURE_10}}": "Plots/fig10_pseudo_r2_by_type_and_signif.png",
-        "{{FIGURE_11}}": "Plots/fig11_variable_significance_rates.png"
+        "{{FIGURE_1}}": "Plots/fig1_decomposed_degree_trajectories.png",
+        "{{FIGURE_2}}": "Plots/fig2_lcga_8wave_trajectories.png",
+        "{{FIGURE_3}}": "Plots/fig3_lcga_functional_profiles.png",
+        "{{FIGURE_4}}": "Plots/fig4_mlogit_forest_plot.png",
+        "{{FIGURE_A1}}": "Plots/figA1_multilevel_predicted_trajectories.png"
     }
     
     existing_rids = [e.get('Id') for e in root_rels if e.get('Id', '').startswith('rId')]

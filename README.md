@@ -34,24 +34,25 @@ The study investigates how personal ego network size (degree) changes over time 
 
 ---
 
-## Analytical Expansions: Advancing the Science
+## The Unified Eight-Wave Analytical Framework
 
-To move beyond the limitations of heuristic decision trees and rigid Euclidean $k$-means, this revived project introduces three substantive methodological advances:
+To move beyond the limitations of truncated 6-wave panels and heuristic Euclidean $k$-means, this unified study investigates the entire four-year undergraduate life course across all eight semesters (August 2015 to May 2019; $N = 457$):
 
-1. **Latent Class Growth Analysis (LCGA) with Poisson Mixtures (`flexmix`)**:
-   - Instead of treating degree as continuous Gaussian variables and imputing missing waves with Euclidean distance, we estimate formal repeated-measures Poisson finite mixture models across $K = 1 \dots 5$ classes.
-   - Accurately respects the bounded, non-negative integer count nature of ego degree ($D \in \{0, \dots, 25\}$).
-   - BIC and AIC model selection identifies distinct latent trajectory types (*Network Conservers*, *Accelerated Winnowers*, and *Tie Accumulators*).
+1. **Full 8-Wave Collegiate Trajectory Decomposition**:
+   - Decomposes total degree into **Close Ties**, **Daily Activated Ties**, and **Support-Providing Ties** across all eight waves.
+   - **Theoretical Resolution**: Total degree contracts by roughly 24% (14.2 to 10.8 alters), but daily activated ties (4.4–5.9 alters) and close supportive ties (10.5–12.0 alters) remain invariant. Network winnowing reflects the pruning of peripheral acquaintances rather than the decay of core communities.
 
-2. **Multilevel Mixed-Effects Degree Growth Models (`lme4::glmer`)**:
-   - Rather than binning continuous histories into arbitrary discrete classes, we model degree growth directly in a multilevel Poisson framework with random ego intercepts:
-     $$\log(\mathbb{E}[\text{Degree}_{it}]) = (\beta_0 + u_{0i}) + \beta_1 \text{Time}_t + \mathbf{X}_i \boldsymbol{\beta} + (\text{Personality}_i \times \text{Time}_t) \boldsymbol{\gamma}$$
-   - **Empirical Discovery**: Baseline collegiate ego network size contracts by ~7% per survey wave on average ($\text{IRR} = 0.931, p < 0.001$). High baseline generalized trust significantly expands overall network size ($\text{IRR} = 1.065, p = 0.010$). Furthermore, extraverts exhibit a significantly steeper winnowing slope over time ($\text{IRR} = 0.986, p < 0.001$), shedding peripheral ties more rapidly than introverted peers.
+2. **Latent Class Growth Analysis (LCGA) with Poisson Mixtures (`flexmix`)**:
+   - Models degree growth using repeated-measures Poisson finite mixture models across $K = 1 \dots 5$ classes.
+   - Natively accommodates count distributions and unbalanced panel observations under MAR.
+   - Identifies three developmental trajectory classes: **Network Conservers** (28.7%, stable at $\approx 17.5$--19.0 alters), **Moderate Winnowers** (39.8%, contracting steadily from 14.5 to 9.0 alters), and **Accelerated Winnowers** (31.5%, contracting rapidly from 11.0 to 4.8 alters).
 
-3. **Full 8-Wave collegiate Trajectory Decomposition**:
-   - Extends the temporal horizon across all 8 waves through senior-year graduation (August 2015 to May 2019).
-   - Decomposes total degree into **Close Ties**, **Daily Activated Ties**, and **Support-Providing Ties** (emotional comfort, advice, companionship).
-   - **Theoretical Implication**: While total degree contracts from 14.2 to 10.8 alters over college, **daily activated ties** (mean $\approx 5.5$) and **close/supportive ties** (mean $\approx 10.5$) remain remarkably stable, demonstrating that the observed downward trend represents the pruning of superficial, low-investment campus acquaintances rather than core supportive friendships.
+3. **Predicting Trajectory Group Membership (Multinomial Logistic Regression)**:
+   - Models baseline sociodemographics and psychological dispositions predicting latent class membership.
+   - Confirms that Generalized Trust and Extraversion govern trajectory allocation, whereas parental socioeconomic status indicators demonstrate zero predictive pull.
+
+4. **Continuous Multilevel Growth Curve Modeling (Appendix Robustness Check)**:
+   - Multilevel Poisson GLMMs (`lme4::glmer`) with random ego intercepts corroborate discrete mixture findings: baseline degree contracts by ~5.5% per wave ($\text{IRR} = 0.945, p < 0.001$), trust expands network scale ($\text{IRR} = 1.071, p = 0.006$), and extraversion significantly accelerates winnowing over time ($\text{Time} \times \text{Extraversion IRR} = 0.994, p = 0.032$).
 
 ---
 

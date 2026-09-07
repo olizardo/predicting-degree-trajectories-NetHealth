@@ -787,30 +787,33 @@ scale_fill_manual(values = COLOR_CREDIBILITY, name = "Directional Credibility")
   - *Expanded Waves 1–8 Sample:* $N = 457$ participants tracked through senior-year graduation.
 
 ### 2. Theoretical Grounding & Empirical Design
-The project investigates how personal network size (degree) changes dynamically across the collegiate life course, whether individuals follow distinct, predictable degree pathways, and how baseline psychological traits and sociodemographic background predict these trajectories:
-1. **Replication of Chandler & Hachen (Sunbelt 2018)**:
-   - Evaluates six trajectory classification schemes: Deductive 8-category decision tree, simplified 4-category scheme, raw $k$-means ($k=7, 9$), and demeaned $k$-means ($k=4, 8$).
-   - Estimates 84 multinomial logistic regression models across Demographic ($n=30$), Personality ($n=18$), and Mixed ($n=36$) specifications.
-   - Replicates core findings: Personality traits (Extraversion, Neuroticism, Openness) and Generalized Trust consistently predict trajectory membership, whereas standard socioeconomic indicators (parental income, parental education, citizenship, sex) show negligible explanatory power.
-2. **Expansion 1: Latent Class Growth Analysis (LCGA) with Poisson Mixtures (`flexmix`)**:
-   - Replaces continuous Euclidean $k$-means with formal repeated-measures Poisson finite mixture models across $K = 1 \dots 5$.
-   - Accurately respects the bounded, non-negative integer count nature of degree ($D \in \{0, \dots, 25\}$).
-   - Identifies three primary latent classes in the parsimonious $K = 3$ solution: “Network Conservers” ($n = 132$, 29.3\%, stable at $\bar{D} \approx 17$--18 alters), “Moderate Winnowers” ($n = 187$, 41.6\%, modal contraction from $14.87 \to 8.98$ alters), and “Accelerated Winnowers” ($n = 131$, 29.1\%, sharp early pruning from $9.76 \to 4.03$ alters).
-3. **Expansion 2: Multilevel Poisson Growth Curve Models (`lme4::glmer`)**:
-   - Models degree growth directly in continuous time with random ego intercepts:
-     $$\log(\mathbb{E}[D_{it}]) = (\beta_0 + u_{0i}) + \beta_1 \text{Time}_t + \mathbf{X}_i \boldsymbol{\beta} + (\text{Time}_t \times \mathbf{Z}_i) \boldsymbol{\gamma}$$
-   - **Key Empirical Discovery**: Collegiate networks contract by ~6.9% per wave on average ($\text{IRR} = 0.931, p < 0.001$). High baseline trust maintains systematically larger networks ($\text{IRR} = 1.065, p = 0.010$). Crucially, extraverts experience significantly *steeper* winnowing slopes over time ($\text{Time} \times \text{Extraversion IRR} = 0.986, p < 0.001$), casting a wide net initially ($\approx 14.2$ alters) and shedding peripheral ties more rapidly than introverted peers, crossing below them by junior year ($\approx 8.9$--9.6 vs.~$9.6$--10.4 alters).
-4. **Expansion 3: Full 8-Wave collegiate Trajectory Decomposition**:
-   - Decomposes total degree into **Close Ties**, **Daily Activated Ties**, and **Support-Providing Ties** across all four undergraduate years.
-   - **Substantive Resolution**: Total network size declines from 14.19 to 10.80 alters, but daily activated ties (peaking at 6.9 in freshman spring and stabilizing at 4.4--5.9 across later years) and close/supportive ties (mean $\approx 10.5$--12.0) remain invariant over time. The observed downward trend represents the pruning of superficial campus acquaintances rather than an erosion of core personal communities.
+The project investigates how personal network size (degree) changes dynamically across the complete collegiate life course, whether individuals follow distinct, predictable degree pathways, and how baseline psychological traits and sociodemographic background predict these trajectories:
+1. **Unified Eight-Wave Panel Architecture ($N = 457$)**:
+   - Spans eight full semesters from freshman matriculation in August 2015 to senior graduation in May 2019.
+   - Positions Chandler & Hachen (Sunbelt 2018) as the foundational preliminary study, while unifying the entire empirical investigation around principled count mixtures across all four collegiate years.
+2. **The Collegiate Network Landscape & Functional Tie Decomposition**:
+   - Decomposes total degree into **Close Ties**, **Daily Activated Ties**, and **Support-Providing Ties** across all eight waves.
+   - **Key Substantive Discovery**: Total network size winnows steadily from 14.19 to 10.80 alters (-24%), but daily activated ties (stabilizing at 4.4--5.9 alters after a 6.9 freshman spring peak) and close/supportive ties (10.5--12.0 alters) remain invariant over time. Collegiate degree contraction reflects the pruning of superficial campus acquaintances rather than the decay of core personal communities.
+3. **Latent Class Growth Analysis (LCGA) with Repeated-Measures Poisson Mixtures**:
+   - Replaces heuristic Euclidean $k$-means with formal repeated-measures Poisson finite mixture models across $K = 1 \dots 5$.
+   - Identifies three primary developmental trajectory archetypes ($K = 3$):
+     * **Network Conservers** ($n = 131$, 28.7\%): Maintain large, resilient circles ($\bar{D} \approx 17.5$--19.0 alters) throughout college.
+     * **Moderate Winnowers** ($n = 182$, 39.8\%): The modal pathway, matriculating with $\approx 14.5$ alters and steadily pruning down to $\approx 9.0$ alters by graduation.
+     * **Accelerated Winnowers** ($n = 144$, 31.5\%): Enter college with smaller networks ($\approx 11.0$ alters), undergo rapid early winnowing, and stabilize at an intimate core of $\approx 4.8$ alters.
+   - Functional tie profiling across classes demonstrates that winnowers actively protect their core support clique while pruning peripheral ties.
+4. **Predicting Trajectory Group Membership (Multinomial Logistic Regression)**:
+   - Evaluates baseline sociodemographic background (Gender identity, Race/ethnicity, Parental income, Parental education) versus psychological dispositions (Big Five traits, Generalized Trust, Birth order).
+   - Confirms the psychological primacy hypothesis: Generalized Trust promotes membership in the stable Conserver class ($\text{OR} = 1.31, p = 0.072$), whereas parental income and parental education exhibit negligible predictive capacity.
+5. **Continuous Growth Modeling as Supplementary Robustness Check (Appendix)**:
+   - Multilevel Poisson mixed-effects models (`glmer`) with random ego intercepts across all eight waves confirm that student networks contract by ~5.5% per wave ($\text{IRR} = 0.945, p < 0.001$), trust expands network volume ($\text{IRR} = 1.071, p = 0.006$), and extraverts experience significantly steeper winnowing over time ($\text{Time} \times \text{Extraversion IRR} = 0.994, p = 0.032$).
 
 ### 3. Directory Structure & Asset Taxonomy
 ```
 project/
 ├── AGENTS.md                                # Project-specific guidelines and asset inventory
-├── manuscript.tex                           # Canonical master LaTeX manuscript
-├── references.bib                           # Standalone BibTeX bibliography (38 entries)
-├── manuscript.pdf                           # Compiled 35-page publication PDF
+├── manuscript.tex                           # Canonical master LaTeX manuscript (unified 8-wave)
+├── references.bib                           # Standalone BibTeX bibliography (39 entries)
+├── manuscript.pdf                           # Compiled 29-page publication PDF
 ├── draft_manuscript.md                      # Active local markdown mirror
 ├── README.md                                # Full technical and empirical documentation
 ├── data/
@@ -819,35 +822,24 @@ project/
 ├── Plots/                                   # Publication-grade PNG figures (6.5 in wide, 300 DPI)
 ├── cache/                                   # Pre-compiled APA markdown tables
 └── Scripts/                                 # Turnkey modular execution pipeline
-    ├── 01_prepare_trajectory_data.R         # Data ingestion & baseline covariate harmonization
-    ├── 02_classify_trajectories.R           # Deductive decision tree & k-means clustering
-    ├── 03_replicate_multinomial_models.R    # 84 multinomial logit models & fit diagnostics
-    ├── 04_expansion_latent_class_growth.R   # LCGA Poisson mixture models (K=3)
-    ├── 05_expansion_multilevel_growth.R     # Multilevel Poisson GLMMs
-    ├── 06_expansion_tie_decomposition.R     # 8-Wave trajectory decomposition
-    ├── generate_md_tables.R                 # Pre-compiles APA markdown tables to cache/
+    ├── 01_prepare_trajectory_data.R         # Ingestion, covariate cleaning, and 8-wave cohort creation
+    ├── 02_fit_8wave_lcga_models.R           # 8-Wave Poisson LCGA, decomposition, Figs 1-3, Tabs 1-2
+    ├── 03_predict_8wave_trajectories.R      # Multinomial logit predicting 8-wave LCGA classes, Fig 4, Tab 3
+    ├── 04_appendix_multilevel_growth.R      # Appendix 8-wave Multilevel Poisson GLMM, Fig A1, Tab A1
     ├── sync_manuscript.py                   # In-place OpenXML table & figure injector
     └── sync_manuscript.R                    # Master Drive sync driver (Rscript Scripts/sync_manuscript.R)
 ```
 
 ### 4. Tables and Figures Inventory in Live Document & LaTeX (Strict Sequential Order)
-- **Table 1**: Empirical Distribution of Undergraduate Ego Networks Across Trajectory Classification Schemes ($N = 450$) (`cache/table1_trajectory_schemes.md`, LaTeX `\label{tab:schemes}`)
-- **Figure 1**: Degree Trajectories Classified by A Priori Logic across Survey Waves 1–6 ($N = 450$) (`Plots/fig1_8cat_logical_trajectories.png`, LaTeX `\label{fig:fig1}`)
-- **Figure 2**: Degree Trajectories Classified by Simplified A Priori Logic ($N = 450$) (`Plots/fig2_4cat_simplified_trajectories.png`, LaTeX `\label{fig:fig2}`)
-- **Figure 3**: Within-Cluster Distance to Centroids Across $k = 1 \dots 10$ (Elbow Analysis) (`Plots/fig3_kmeans_elbow_curves.png`, LaTeX `\label{fig:fig3}`)
-- **Figure 4**: Degree Trajectories Classified by $k$-Means Clustering Zeroed on Ego Mean ($k = 4, N = 450$) with Intuitive Labels: Conservers ($n = 199$), Sophomore Dip & Rebound ($n = 110$), Early Winnowers ($n = 89$), Late Winnowers ($n = 52$) (`Plots/fig4_kmeans_demeaned_k4.png`, LaTeX `\label{fig:fig4}`)
-- **Table 2**: Predictor Variable Significance Rates Across 84 Multinomial Logistic Regression Models (`cache/table2_variable_significance_rates.md`, LaTeX `\label{tab:signif_rates}`)
-- **Figure 8**: Likelihood Ratio Chi-Squared $p$-Values Across Model Specification Families (`Plots/fig8_chisq_pvalues_by_type.png`, LaTeX `\label{fig:fig8}`)
-- **Figure 9**: McFadden Pseudo $R$-Squared Values Across Model Specification Families (`Plots/fig9_pseudo_r2_by_type.png`, LaTeX `\label{fig:fig9}`)
-- **Figure 10**: McFadden Pseudo $R$-Squared Values Stratified by Omnibus Significance ($p < .05$ vs. $p \ge .05$) (`Plots/fig10_pseudo_r2_by_type_and_signif.png`, LaTeX `\label{fig:fig10}`)
-- **Figure 11**: Proportion of Multinomial Logistic Regression Models Where Each Candidate Predictor Achieves Statistical Significance ($p < .05$) (`Plots/fig11_variable_significance_rates.png`, LaTeX `\label{fig:fig11}`)
-- **Table 3**: Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models ($K = 1 \dots 5$) (`cache/table3_lcga_model_selection.md`, LaTeX `\label{tab:lcga}`)
-- **Figure 5**: Latent Class Growth Analysis (LCGA) Trajectory Profiles from Repeated-Measures Poisson Mixture Model ($K = 3$) (`Plots/fig5_lcga_optimal_trajectories.png`, LaTeX `\label{fig:fig5}`)
-- **Table 4**: Model Comparison Hierarchy for Multilevel Poisson Growth Curve Models (`cache/table4_multilevel_model_comparison.md`, LaTeX `\label{tab:glmm_fit}`)
-- **Table 5**: Fixed Effects Estimates from Multilevel Poisson Growth Curve GLMM with Random Ego Intercepts (Model 4) (`cache/table5_multilevel_glmm_estimates.md`, LaTeX `\label{tab:glmm_estimates}`)
-- **Figure 6**: Predicted Ego Degree Growth Trajectories by Extraversion and Neuroticism Profiles from Multilevel Poisson GLMM (`Plots/fig6_multilevel_predicted_trajectories.png`, LaTeX `\label{fig:fig6}`)
-- **Table 6**: Longitudinal Means and Standard Errors of Decomposed Relational Dimensions Across Eight Collegiate Waves (`cache/table6_decomposed_trajectory_means.md`, LaTeX `\label{tab:decomp}`)
-- **Figure 7**: Decomposing Ego Network Evolution Across Eight Collegiate Waves: Total Degree, Strong Ties, Daily Ties, and Support Ties (`Plots/fig7_decomposed_degree_trajectories.png`, LaTeX `\label{fig:fig7}`)
+- **Table 1**: Longitudinal Means and Standard Errors of Decomposed Relational Dimensions Across Eight Collegiate Waves ($N = 457$) (`cache/table1_decomposed_trajectory_means.md`, LaTeX `\label{tab:decomp}`)
+- **Figure 1**: Decomposing Ego Network Evolution Across Eight Collegiate Waves: Total Degree, Strong Ties, Daily Ties, and Support Ties (`Plots/fig1_decomposed_degree_trajectories.png`, LaTeX `\label{fig:decomp}`)
+- **Table 2**: Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_lcga_model_selection.md`, LaTeX `\label{tab:lcga}`)
+- **Figure 2**: Latent Class Growth Analysis (LCGA) Trajectory Profiles from Repeated-Measures Poisson Mixture Model Across Eight Collegiate Waves ($K = 3$) (`Plots/fig2_lcga_8wave_trajectories.png`, LaTeX `\label{fig:lcga_trajectories}`)
+- **Figure 3**: Functional Tie Decomposition Stratified by Latent Trajectory Class Across Eight Waves (`Plots/fig3_lcga_functional_profiles.png`, LaTeX `\label{fig:lcga_functional}`)
+- **Table 3**: Multinomial Logistic Regression Estimates Predicting Eight-Wave Latent Trajectory Class Membership (`cache/table3_mlogit_lcga_predictors.md`, LaTeX `\label{tab:mlogit_predictors}`)
+- **Figure 4**: Forest Plot of Odds Ratios for Baseline Sociodemographic and Psychological Predictors of Trajectory Class Membership (`Plots/fig4_mlogit_forest_plot.png`, LaTeX `\label{fig:mlogit_forest}`)
+- **Table A1**: Fixed Effects Estimates from Multilevel Poisson Growth Curve GLMM with Random Ego Intercepts Across Eight Waves (`cache/tableA1_multilevel_glmm_estimates.md`, LaTeX `\label{tab:glmm_appendix}`)
+- **Figure A1**: Predicted Ego Degree Growth Trajectories by Personality Profiles Across Eight Waves from Multilevel Poisson GLMM (`Plots/figA1_multilevel_predicted_trajectories.png`, LaTeX `\label{fig:glmm_predicted}`)
 
 ### 5. Strict Protocol for Autonomous Execution & Synchronization
 1. **The Live Google Doc Is King (ZERO OVERWRITING)**: Human authors edit and style text online. Never overwrite the live document by uploading a fresh Pandoc-compiled `.docx` file.

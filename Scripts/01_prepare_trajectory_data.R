@@ -264,6 +264,14 @@ write_csv(degree_long, "data/processed/degree_trajectories_long.csv")
 saveRDS(analytical_w16, "data/processed/degree_analytical_w16.rds")
 write_csv(analytical_w16, "data/processed/degree_analytical_w16.csv")
 
+# Analytical dataset for Waves 1-8 (N = 457)
+analytical_w18 <- w18_obs %>%
+  filter(n_waves_w18 >= 3) %>%
+  left_join(baseline_ivs, by = "egoid")
+
+saveRDS(analytical_w18, "data/processed/degree_analytical_w18.rds")
+write.csv(analytical_w18, "data/processed/degree_analytical_w18.csv", row.names = FALSE)
+
 saveRDS(degree_wide_w16, "data/processed/degree_wide_w16.rds")
 write_csv(degree_wide_w16, "data/processed/degree_wide_w16.csv")
 

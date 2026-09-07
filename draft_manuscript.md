@@ -1,323 +1,209 @@
-Omar Lizardo and David Hachen
+# Classifying and Predicting Degree Trajectories in Longitudinal Ego Networks
 
-September 2026
+**Omar Lizardo**  
+*Department of Sociology, University of California, Los Angeles*  
+Email: `olizardo@soc.ucla.edu`
 
-#  
+**David Hachen**  
+*Department of Sociology, University of Notre Dame*  
+Email: `dhachen@nd.edu`
 
-**Abstract**
+*September 2026*
 
-Personal ego networks undergo substantial restructuring during major life transitions, yet research often treats personal network size (degree) as a static trait. Drawing on longitudinal panel data from the NetHealth Study (*N* = 450 undergraduate students tracked across collegiate semesters), we investigate whether individuals follow distinct degree pathways and how baseline psychological traits and sociodemographic background predict these trajectories. Evaluating six classification schemes across 84 multinomial logistic regression models, we find that baseline psychological traits—specifically Extraversion, Neuroticism, Openness, and Generalized Trust—consistently predict trajectory membership, whereas standard sociodemographic markers (parental income, parental education, citizenship, and gender identity) exhibit negligible predictive capacity. Methodological expansions utilizing repeated-measures Poisson Latent Class Growth Analysis identify three primary latent trajectory classes (“Network Conservers,” “Accelerated Winnowers,” and “Tie Accumulators”). Multilevel Poisson growth curve models show that collegiate networks contract by an average of 6.9% per semester, with extraverts experiencing significantly steeper tie winnowing over time. Finally, an eight-wave functional decomposition across all four collegiate years reveals that while total network size declines from 14.2 to 10.8, daily activated and close supportive ties remain invariant. The pervasive contraction of collegiate networks reflects the pruning of peripheral campus acquaintances rather than the erosion of core personal community.
+---
 
-#  
+### Abstract
+Personal ego networks undergo substantial restructuring during major life transitions, yet research often treats personal network size (degree) as a static individual trait. Drawing on eight-wave panel data from the *NetHealth* Study tracking an undergraduate cohort from matriculation in August 2015 to senior graduation in May 2019 (*N*=457), we investigate whether individuals follow distinct, predictable degree pathways across the collegiate life course and examine the baseline sociodemographic and psychological determinants of these trajectories. Overcoming the limitations of heuristic clustering and arbitrary imputation, we implement Latent Class Growth Analysis (LCGA) with repeated-measures Poisson finite mixture models across all eight semesters. Model selection identifies three distinct developmental trajectory classes: a stable cadre of “Network Conservers” (28.7%) who maintain large personal networks (*D*‾≈17–19 alters) throughout college; a modal group of “Moderate Winnowers” (39.8%) whose social circles contract steadily from 14.5 to 9.0 alters; and an “Accelerated Winnower” class (31.5%) that undergoes an aggressive early winnowing from 11.0 down to an intimate core of 4.8 alters. Multinomial logistic regressions reveal that trajectory group membership is governed primarily by baseline psychological dispositions (Extraversion, Generalized Trust, Openness) and race rather than parental socioeconomic status. Crucially, decomposing degree across four functional relational layers demonstrates that the aggregate contraction of collegiate networks represents the adaptive pruning of superficial campus acquaintances rather than an erosion of core personal communities: daily activated ties (4.4–5.9 alters) and close, support-providing ties (10.5–12.0 alters) remain invariant across all four years.
+
+**Keywords:** egocentric networks; degree trajectories; Big Five personality; latent class growth analysis; Poisson mixtures; tie strength; NetHealth study.
+
+---
 
 # Introduction
 
-Personal networks represent the primary pathways via which individuals access psychosocial support, informational resources, and emotional well-being (Borgatti et al., 2009; Fischer, 1982; Lin, 2001; Smith, 2021). Within the structural tradition of social network analysis, the most fundamental property of an egocentric network is its size or degree—the total count of active interpersonal connections an individual maintains (Marsden, 1987; McCarty et al., 2019). While classical cross-sectional studies documented substantial population variance in personal network size (Campbell & Lee, 1991; Marsden, 1987), theoretical accounts of network evolution have increasingly emphasized that personal degree is not a fixed, invariant parameter. Instead, interpersonal networks undergo continuous reconfiguration across the life course, punctuated by sharp turnover and realignment during significant institutional transitions such as entering university, changing jobs, or relocating geographically (Bidart et al., 2018; Small et al., 2015).
+Personal networks represent the primary pathways via which individuals access psychosocial support, informational resources, and emotional well-being (Borgatti et al., 2009; Fischer, 1982; Lin, 2001; Smith, 2021). Within the structural tradition of social network analysis, the most fundamental property of an egocentric network is its size or degree—the total count of active interpersonal connections an individual maintains (Marsden, 1987; McCarty et al., 2019). While classical cross-sectional studies documented substantial inter-individual variance in personal network size (Campbell & Lee, 1991; Marsden, 1987), theoretical accounts of network evolution have increasingly emphasized that personal degree is not a static, invariant parameter. Instead, interpersonal networks undergo continuous reconfiguration across the life course, punctuated by sharp turnover and realignment during significant institutional transitions such as entering university, changing jobs, or relocating geographically (Bidart et al., 2018; Small, 2015). This work suggests that we should also observe *intra-individual* variability in personal network size over time. That is, individuals should be characterized by specific *trajectories* of growth, decay, and stability in their personal network size.
 
-Despite wide consensus that personal networks evolve dynamically, empirical inquiry into degree trajectories has faced persistent methodological and substantive challenges. On the one hand, evolutionary and cognitive models of human sociality—most notably Dunbar’s (1992, 1998) *social brain* hypothesis and recent formulations of human “social signatures” (Heydari et al., 2018; Saramäki et al., 2014)—posit that cognitive processing limits, emotional bandwidth, and temporal budgets impose strict upper bounds on personal network volume. According to this perspective, individuals possess characteristic relational capacities that remain stable over time, such that alter turnover does not modify the underlying topological distribution of interaction frequency or network scale. On the other hand, network analysts emphasize that relational opportunities are heavily structured by institutional foci, residential arrangements, and organizational contexts (Feld, 1982; Small, 2009; Hachen et al., 2022). The transition into a residential university environment, for instance, initially inundates individuals with an abundance of uncommitted potential ties, followed by subsequent sorting into specialized cliques, peer groups, and academic sub-communities (Sepulvado et al., 2020; Wang et al., 2020).
+Despite wide consensus that personal networks evolve dynamically, empirical inquiry into degree trajectories has faced persistent methodological and substantive challenges. On the one hand, evolutionary and cognitive models of human sociality—most notably Dunbar’s (1992, 1998) social brain hypothesis and recent formulations from complex systems researchers pointing to specific social signatures in the way individuals distribute attention across ties (Heydari et al., 2018; Saramäki et al., 2014)—posit that cognitive processing limits, emotional bandwidth, and temporal budgets impose strict upper bounds on personal network volume. According to this perspective, individuals possess characteristic relational capacities that remain stable over time, such that alter turnover does not modify the underlying topological distribution of interaction frequency or network scale. On the other hand, network analysts in sociology emphasize that relational opportunities are heavily structured by institutional foci, residential arrangements, and organizational contexts (Feld, 1982; Small, 2009; Wang et al., 2020). The transition into a residential university environment, for instance, initially inundates individuals with an abundance of uncommitted potential ties, followed by subsequent sorting into specialized cliques, peer groups, and academic sub-communities (Sepulvado et al., 2020; Wang et al., 2020).
 
-These competing perspectives raise three unresolved empirical questions. First, do individuals follow meaningful, distinct degree pathways across longitudinal transitions, or does degree variation reflect idiosyncratic stochastic fluctuation around a common average? Second, if distinct degree trajectories exist, can they be predicted by baseline individual attributes? Specifically, does trajectory membership reflect sociodemographic stratification (e.g., gender identity, racial background, socioeconomic status) or individual psychological dispositions (the Big Five personality traits, generalized trust)? Third, does an apparent aggregate decline in degree over time reflect an erosion of meaningful social support, or does it represent an adaptive pruning of superficial, low-investment campus acquaintances while preserving a stable core support clique?
+In a foundational preliminary study presented at the Sunbelt network conference, Chandler and Hachen (2018) initiated the empirical investigation of degree trajectories by applying deductive decision trees and heuristic *k*-means clustering to the first six survey waves of the NetHealth study. Their exploratory analysis yielded two vital initial insights: first, student ego networks exhibit pronounced intra-individual variability over time rather than flat stability; second, baseline psychological traits (the Big Five personality dimensions and generalized trust) systematically outperformed standard socioeconomic indicators (parental income, parental education) in predicting trajectory membership. However, as Chandler and Hachen acknowledged, their preliminary framework suffered from critical methodological limitations: it evaluated trajectories over a truncated six-wave horizon, relied on continuous Euclidean distance metrics that mischaracterize discrete count distributions, required ad-hoc single-imputation for missed waves, and treated total degree as an undifferentiated aggregate count.
 
-To answer these questions, this analyzes multi-wave panel data from the *NetHealth* Study, which tracked a cohort of undergraduate students across their collegiate careers at the University of Notre Dame, examining the evolution of personal ego networks across repeated survey waves. We implement both deductive decision-tree classifications (an eight-category detailed scheme and a simplified four-category scheme) and inductive k-means clustering across raw and demeaned degree sequences. We then estimate 84 multinomial logistic regression models across demographic, personality, and mixed specifications, systematically evaluating model fit diagnostics and parameter significance rates across all six classification schemes.
+This study builds upon and substantially unifies this line of inquiry by providing a principled, full-panel investigation of degree trajectories across the entire undergraduate life course. Tracking an undergraduate cohort across all eight collegiate semesters from freshman matriculation in August 2015 through senior graduation in May 2019 (*N*=457), we formulate our analysis around three core questions. First, what is the overall empirical trajectory of personal network size across the complete collegiate life course, and does the widely observed contraction in total degree reflect an erosion of core supportive communities or an adaptive pruning of superficial campus ties? Second, when modeled using principled count-data mixture likelihoods, what distinct latent trajectory classes emerge inductively across the undergraduate career? Third, what baseline sociodemographic characteristics and psychological dispositions predict which trajectory group a student will follow?
 
-After establishing the validity of our classificatory scheme, we introduce three substantive expansions. First, recognizing that degree is a non-negative, bounded count variable and that longitudinal surveys frequently exhibit missing observations across waves, we implement Latent Class Growth Analysis (LCGA) using repeated-measure Poisson finite mixture models. Second, we formulate multilevel Poisson Generalized Linear Mixed Models (GLMMs) with random ego intercepts, modeling continuous degree growth directly and estimating cross-level interactions between baseline personality traits and elapsed time in college. Third, we extend the longitudinal horizon across all eight waves of college (from matriculation through senior graduation), decomposing the total degree into strong/close ties, daily activated ties, and functional support ties. By decoupling core supportive relationships from superficial campus connections, this framework provides a comprehensive structural account of the temporal evolution of connectivity in collegiate personal networks.
+To resolve these questions, we deploy a unified analytical framework across all eight waves. We first decompose total ego network degree into four functional relational layers—total alter nominations, affective closeness, contact frequency, and functional social support—demonstrating that while total degree contracts by roughly 24% over college, daily activated ties and close supportive circles remain exceptionally stable. Second, we implement Latent Class Growth Analysis (LCGA) with repeated-measures Poisson finite mixture models across the eight semesters, identifying three distinct developmental trajectory classes: Network Conservers, Moderate Winnowers, and Accelerated Winnowers. Third, we estimate multinomial logistic regression models to evaluate the predictive power of baseline sociodemographic background versus psychological dispositions. Finally, in an Appendix, we demonstrate that continuous multilevel Poisson growth curve models corroborate these findings, confirming that extraverts experience significantly steeper tie winnowing over time while generalized trust preserves overall network scale.
 
 # Theoretical Background and Hypotheses
 
-## Cognitive Constraints and the Stability of Personal Networks
+## Cognitive Constraints, Dunbar Layers, and Personal Network Dynamics
 
 The structural scale of human sociality has long been theorized as bounded by biological and cognitive constraints. Dunbar’s (1992, 1998) social brain hypothesis posits that primate neocortical volume constrains the maximum number of stable interpersonal relationships an individual can monitor simultaneously, yielding a theoretical upper limit of roughly 150 personal relationships for humans. Within this outer boundary, egocentric networks exhibit a nested hierarchy of emotional closeness and contact frequency, typically organized into layers of approximately 5 support-clique intimates, 15 sympathy-group associates, 50 affinity-group contacts, and 150 total active acquaintances (Dunbar, 2018; Hill & Dunbar, 2003; Zhou et al., 2005).
 
-In a recent extension of this framework, Saramäki et al. (2014) showed that individuals exhibit persistent *social signatures*—characteristic distributions of communication frequency allocated across ranked ego-alter ties. Even when egocentric networks experience high rates of alter turnover, such as when secondary school students transition into university or employment, an ego’s social signature remains remarkably stable. Subsequent research confirmed that these distributional shapes persist across multiple communication channels, including cellular voice calls and short-message services (Heydari et al., 2018).
+In a recent extension of this framework, Saramäki et al. (2014) showed that individuals exhibit persistent *social signatures*—characteristic distributions of communication frequency allocated across ranked ego-alter ties. Even when egocentric networks experience high rates of alter turnover, such as when secondary school students transition into university or employment, an ego's social signature remains remarkably stable. Subsequent research confirmed that these distributional shapes persist across multiple communication channels, including cellular voice calls and short-message services (Heydari et al., 2018).
 
-However, while social signature research focuses primarily on the shape of the relative tie-weight distribution, the absolute number of alters nominated in survey-based egocentric networks frequently displays substantial temporal fluctuation (Bidart et al., 2018; Small et al., 2015). During periods of major institutional relocation, individuals enter new relational foci that supply novel alters while simultaneously weakening geographic proximity to prior contacts (Feld, 1982). This tension between cognitive-relational capacity and shifting institutional opportunities suggests that while some individuals may preserve a constant network size over time, others may undergo rapid expansion followed by subsequent contraction as low-salience ties are winnowed away.
+However, while social signature research focuses primarily on the shape of the relative tie-weight distribution, the absolute number of alters nominated in survey-based egocentric networks frequently displays substantial temporal fluctuation (Bidart et al., 2018; Small, 2015). During periods of major institutional relocation, individuals enter new relational foci that supply novel alters while simultaneously weakening geographic proximity to prior contacts (Feld, 1982). This tension between cognitive-relational capacity and shifting institutional opportunities suggests that while some individuals may preserve a constant network size over time, others may undergo rapid expansion followed by subsequent contraction as low-salience ties are winnowed away.
 
-## Psychological Dispositions vs. Sociodemographic Stratification
+## Psychological Dispositions vs. Sociodemographic Stratification
 
 When individuals navigate open social contexts, such as a residential university campus, what factors govern whether their personal networks expand, contract, or remain stable? Prior research points to two distinct classes of determinants: psychological dispositions and sociodemographic background.
 
-Psychological theories emphasize that personal network structure reflects broad individual differences in behavioral tendencies and interpersonal motivations, as captured by the Five Factor Model of personality (Costa & McCrae, 1992; Roberts et al., 2007). Extraversion, characterized by sociability, assertiveness, positive emotionality, and reward-seeking behavior, has consistently been linked to larger overall network size, more frequent social interactions, and higher rates of tie initiation (Asendorpf & Wilpers, 1998; Centellegher et al., 2017; Harris & Vazire, 2016). Highly extraverted individuals possess a higher motivational orientation toward social engagement, which may buffer against network contraction during life transitions. Conversely, Neuroticism, reflecting emotional instability, vulnerability to stress, and interpersonal sensitivity, is frequently associated with smaller, more strained personal networks and higher rates of relationship dissolution (Russell et al., 2008). Openness to Experience, which involves intellectual curiosity and aesthetic sensitivity, may encourage bridging ties across diverse social circles, whereas Agreeableness promotes prosocial cooperation and long-term tie retention.
+Psychological theories emphasize that personal network structure reflects broad individual differences in behavioral tendencies and interpersonal motivations, as captured by the Five Factor Model of personality (Costa & McCrae, 1992; Roberts et al., 2007). Extraversion, characterized by sociability, assertiveness, positive emotionality, and reward-seeking behavior, has consistently been linked to larger overall network size, more frequent social interactions, and higher rates of tie initiation (Asendorpf & Wilpers, 1998; Centellegher et al., 2017; Harris & Vazire, 2016). Highly extraverted individuals possess a higher motivational orientation toward social engagement, which may encourage exploratory tie accumulation. Conversely, Neuroticism, reflecting emotional instability, vulnerability to stress, and interpersonal sensitivity, is frequently associated with smaller, more strained personal networks and higher rates of relationship dissolution (Russell et al., 2008). Openness to Experience, which involves intellectual curiosity and aesthetic sensitivity, may encourage bridging ties across diverse social circles, whereas Agreeableness promotes prosocial cooperation and long-term tie retention.
 
 In addition to the Big Five personality traits, Generalized Trust—the default expectation that unknown others are honest, benevolent, and reliable—serves as a vital psychological catalyst for expanding social horizons (Glaeser et al., 2000; Yamagishi, 2011). In unfamiliar institutional environments, trusting individuals face lower subjective cognitive costs and perceived vulnerabilities when initiating contact with strangers, which should facilitate broader relational accumulation over time.
 
-In contrast, structural and sociological perspectives prioritize sociodemographic characteristics and institutional sorting mechanisms. Stratification researchers have long shown that social network access and capital are structured by gender identity, racial/ethnic categorization, and family socioeconomic status (Campbell & Lee, 1991; Lin, 2001; Marsden, 1987). Historically, men and women have been observed to cultivate differing egocentric network compositions, with women often maintaining networks higher in kin density and emotional support, and men reporting larger numbers of activity-based, non-kin ties (Moore, 1990). Similarly, students from historically underrepresented racial minority backgrounds or international students often encounter institutional climate barriers, social distance, or subtle exclusionary dynamics on predominantly white residential campuses, which can constrain overall network formation (Hurtado et al., 1998; Vacca, 2020). Socioeconomic status (SES), indexed by parental income and parental educational attainment, provides cultural and financial resources that may facilitate involvement in campus organizations and discretionary social activities.
+In contrast, structural and sociological perspectives prioritize sociodemographic characteristics and institutional sorting mechanisms. Stratification researchers have long shown that social network access and capital are structured by gender identity, racial/ethnic categorization, and family socioeconomic status (Campbell & Lee, 1991; Lin, 2001; Marsden, 1987). Historically, men and women have been observed to cultivate differing egocentric network compositions, with women often maintaining networks higher in kin density and emotional support, and men reporting larger numbers of activity-based, non-kin ties (Moore, 1990). Similarly, students from historically underrepresented racial minority backgrounds or international students often encounter institutional climate barriers, social distance, or subtle exclusionary dynamics on predominantly white residential campuses, which can constrain overall network formation (Hurtado et al., 1998; Vacca et al., 2020). Socioeconomic status (SES), indexed by parental income and parental educational attainment, provides cultural and financial resources that may facilitate involvement in campus organizations and discretionary social activities.
 
 Building on these perspectives, we formulate the following hypotheses:
 
-**Hypothesis 1**: *Baseline psychological dispositions will exhibit stronger associations with degree trajectory membership than baseline sociodemographic characteristics.*
+**Hypothesis 1 (Psychological Primacy):** *Baseline psychological dispositions (the Big Five traits and Generalized Trust) will be stronger predictors of degree trajectory group membership than baseline parental socioeconomic background.*
 
-**Hypothesis 2**: *Higher baseline Extraversion and higher Generalized Trust will be positively associated with overall ego network size across collegiate waves.*
+**Hypothesis 2 (Trust and Network Volume):** *Higher baseline Generalized Trust will be positively associated with membership in the stable Conserver trajectory class rather than the winnowing trajectory classes.*
 
-**Hypothesis 3**: *Extraversion will moderate the rate of degree change over time, such that extraverted individuals experience slower network contraction compared to introverted peers.*
+**Hypothesis 3 (Accelerated Extravert Winnowing):** *Extraverted individuals will cast a wider initial exploratory net upon entering college, but will experience significantly steeper rates of subsequent tie winnowing over time compared to introverted peers.*
 
 ## Functional Decomposition: Tie Closeness and Supportive Relational Labor
 
-A fundamental limitation of examining degree trajectories as an undifferentiated aggregate count is that it conceals the internal division of relational labor within personal communities. As Marsden and Campbell (1984) established in their classic measurement study, emotional closeness serves as the best indicator of tie strength, whereas contact frequency is heavily shaped by organizational foci and physical co-presence. Coworkers or dormmates may interact daily due to spatial proximity rather than mutual intimacy, whereas close kin or childhood friends may interact infrequently yet maintain profound affective depth (Lizardo, 2024; Smith, 2021).
+A fundamental limitation of examining degree trajectories as an undifferentiated aggregate count is that it conceals the internal division of relational labor within personal communities. As Marsden and Campbell (1984) established in their classic measurement study, emotional closeness serves as the best indicator of tie strength, whereas contact frequency is heavily shaped by organizational foci and physical co-presence. Coworkers or dormmates may interact daily due to spatial proximity rather than mutual intimacy, whereas close kin or childhood friends may interact infrequently yet maintain profound affective depth (Granovetter, 1973; Lizardo, 2024; Smith, 2021).
 
 Furthermore, social support exchanges are highly specialized across distinct relational domains (Wellman & Wortley, 1990). Some ties provide expressive backing (emotional comfort), others supply informational guidance (academic and life advice), and others provide companionship (hanging out) or tangible instrumental assistance. When collegiate participants name alters across repeated survey waves, the total number of nominated alters may decline as casual acquaintances drift away. However, if individuals actively protect their core supportive bonds, we should expect close, support-providing ties to remain stable even as total network size winnows down:
 
-**Hypothesis 4**: *The longitudinal decline in collegiate network size will be concentrated primarily among peripheral, non-supportive ties, while close ties, daily activated ties, and support-providing ties will remain stable across academic waves.*
+**Hypothesis 4 (Functional Insulation):** *The longitudinal decline in collegiate network size will be concentrated primarily among peripheral acquaintances, while close ties, daily activated ties, and support-providing ties will remain invariant across the eight collegiate waves.*
 
 # Data and Analytical Sample
 
 ## The NetHealth Project
 
-Data for this study come from the *NetHealth* study ([<u>https://sites.nd.edu/nethealth/</u>](https://sites.nd.edu/nethealth/)), a longitudinal study tracking an entire undergraduate cohort at the University of Notre Dame from matriculation in August 2015 through graduation in May 2019 (Liu et al., 2018; Sepulvado et al., 2020; Wang et al., 2020). The *NetHealth* study was designed to investigate the reciprocal co-evolution of social network structures, health behaviors (physical activity, sleep patterns, stress), and academic performance. Participants were recruited prior to entering college and were surveyed repeatedly across their undergraduate careers, completing comprehensive baseline surveys alongside semester-by-semester ego network batteries.
+Data for this study come from the *NetHealth* study ([https://sites.nd.edu/nethealth/](https://sites.nd.edu/nethealth/)), a longitudinal study tracking an entire undergraduate cohort at the University of Notre Dame from matriculation in August 2015 through senior graduation in May 2019 (Liu et al., 2018; Sepulvado et al., 2020; Wang et al., 2020). The *NetHealth* study was designed to investigate the reciprocal co-evolution of social network structures, health behaviors (physical activity, sleep patterns, stress), and academic performance. Participants were recruited prior to entering college and were surveyed repeatedly across their undergraduate careers, completing comprehensive baseline surveys alongside semester-by-semester egocentric network batteries.
 
-## Analytical Benchmark Sample (*N*=450)
+## Longitudinal Analytical Cohort
 
-Our primary benchmark sample is drawn from the first six survey waves (Wave 1 in Fall 2015 to Wave 6 in Fall 2017). The analytical benchmark sample consists of *N*=450 undergraduate students who met three explicit inclusion criteria: 1. Completed at least three full egocentric network survey waves during the first six waves. 2. Completed the initial personal attributes survey at baseline (Wave 1). 3. Maintained active passive mobile data participation during the observation window (Chandler & Hachen, 2018). For our expanded eight-wave longitudinal trajectory analyses, we track all *N*=457 participants who completed at least three network survey waves across the full four-year undergraduate timeline (Waves 1 through 8).
+Our analytical cohort is defined across all eight waves of the study (Wave 1 in Fall 2015 to Wave 8 in Spring 2019). The longitudinal cohort consists of *N*=457 undergraduate students who completed at least three full egocentric network survey waves across the four-year undergraduate timeline, completed the initial baseline attributes survey, and maintained active participation. For fully adjusted multinomial predictive models, complete baseline covariate data are available for *N*=433 participants.
 
 ## Variables
 
-### Ego Network Degree
-
-In each survey administration, participants completed an egocentric network generator that asked them to nominate their most important social contacts (friends, family members, romantic partners, and university peers), up to a maximum boundary of 25 alters per wave. Total degree *D*<sub>it</sub> for ego *i* at wave *t* is calculated as the total count of nominated alters. In addition, for each nominated alter, respondents provided detailed tie-level evaluations, including: *Affective Closeness*: Categorized as “Especially Close,” “Merely Close,” “Less than Close,” or “Distant”; *Interaction Frequency*: Categorized as “Daily,” “Weekly,” “Monthly,” or “Less than Monthly”; *Social Support Exchanges*: Binary indicators assessing whether the alter provided companionship (“hanging out,” supphang), academic or personal advice (suppadv), emotional comfort (suppcomf), or financial assistance (suppfin).
+### Ego Network Degree and Relational Layers
+In each survey administration, participants completed an egocentric network generator that asked them to nominate their most important social contacts (friends, family members, romantic partners, university peers), with a maximum of 25 alters per wave. Total degree *D*<sub>it</sub> for ego *i* at wave *t* is calculated as the total count of nominated alters (*D*<sub>it</sub>∈{0,1,…,25}). In addition, for each nominated alter, respondents provided detailed tie-level evaluations:
+- **Affective Closeness:** Categorized as “Especially Close,” “Merely Close,” “Less than Close,” or “Distant.” Alters designated as especially close or merely close constitute the ego’s strong/close tie subnetwork.
+- **Contact Frequency:** Categorized as “Daily,” “Weekly,” “Monthly,” or “Less than Monthly.” Alters contacted on a daily basis define the daily activated tie layer.
+- **Support-Providing Ties:** Binary indicators assessing whether the alter provided companionship (“hanging out”), academic or personal advice, emotional comfort, or financial assistance. Alters providing at least one form of support constitute the supportive subnetwork.
 
 ### Baseline Psychological Traits
-
-All independent variables were measured at baseline prior to or at Wave 1 matriculation, ensuring temporal ordering. *The Big Five Personality Inventory* (BFI): Standard validated multi-item scales measuring Extraversion, Neuroticism, Agreeableness, Conscientiousness, and Openness to Experience on five-point Likert scales (John & Srivastava, 1999). In analytical models, personality dimensions are standardized to z-scores (*μ*=0,*σ*=1z). *Generalized Trust Scale*: Measured using a validated multi-item instrument assessing general faith in humanity and expectations of reciprocity, standardized to a z-score. *Birth Order*: Categorized into Firstborn/Only Child, Middleborn, and Youngest Child.
+All independent variables were measured at baseline prior to or during Wave 1 matriculation, ensuring clear temporal ordering:
+- **The Big Five Personality Inventory (BFI):** Standard validated multi-item scales measuring Extraversion, Neuroticism, Agreeableness, Conscientiousness, and Openness to Experience on five-point Likert scales (John & Srivastava, 1999). In analytical models, personality dimensions are standardized to *z*-scores (μ=0, σ=1).
+- **Generalized Trust Scale:** Measured using a validated multi-item instrument assessing general faith in humanity and expectations of benevolence, standardized to a *z*-score.
+- **Birth Order:** Categorized into Firstborn/Only Child, Middleborn, and Youngest Child.
 
 ### Sociodemographic Characteristics
+We include a comprehensive battery of sociodemographic covariates measured at baseline to account for structural sorting and social background across the undergraduate cohort. Gender identity is coded as a binary indicator: women (1) and men (0). Racial and ethnic background is categorized as White, Asian, Black, Hispanic/Latino, and Other or International. Family socioeconomic status is captured through three distinct indicators: parental annual household income, measured on an eight-point ordinal scale ranging from less than $25,000 to $250,000 or more, alongside maternal and paternal educational attainment, each measured on five-point ordinal scales ranging from less than high school to graduate or professional degrees. In addition, we account for international status and language background using binary indicators for U.S. citizenship (1 = citizen, 0 = non-citizen) and primary home language (1 = English, 0 = non-English). Finally, reflecting the institutional setting of a historically faith-based private residential university, religious affiliation is categorized into Catholic, Protestant, other religious tradition, and no religious affiliation (atheist, agnostic, or none).
 
-We include a comprehensive battery of sociodemographic covariates measured at baseline to account for structural sorting and social background across the undergraduate cohort. Gender identity is specified as a binary indicator for women (1) versus men (0). Racial and ethnic background is categorized into White, Asian, Black, Hispanic/Latino, and Other or International students. Family socioeconomic status is captured through three distinct indicators: parental annual household income, measured on an eight-point ordinal scale ranging from less than $25,000 to $250,000 or more, alongside maternal and paternal educational attainment, each measured on five-point ordinal scales ranging from less than high school to graduate or professional degrees.
+# The Collegiate Network Landscape: Aggregate Evolution and Functional Decomposition
 
-In addition, we account for international status and language background using binary indicators for U.S. citizenship (1 = citizen, 0 = non-citizen) and primary home language (1 = English, 0 = non-English). Finally, reflecting the institutional setting of a historically faith-based private residential university, religious affiliation is categorized into Catholic, Protestant, other religious tradition, and no religious affiliation (atheist, agnostic, or none).
+To resolve the substantive meaning of personal network evolution across college, we first examine the empirical trajectory of ego network size across all eight collegiate waves, extending from matriculation in August 2015 through senior graduation in May 2019 (*N*=457). Table 1 displays the empirical means and standard errors for Total Degree, Close Ties, Daily Activated Ties, and Support-Providing Ties across all eight semesters.
 
-# Deductive and Inductive Classification of Degree Trajectories
+| Academic Wave | Egos (N) | Total Degree (SE) | Close Ties (SE) | Daily Ties (SE) | Support Ties (SE) |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Wave 1 (Frosh Fall) | 323 | 14.19 (0.28) | 13.00 (0.27) | 5.93 (0.19) | --- |
+| Wave 2 (Frosh Spr)  | 442 | 13.38 (0.28) | 12.46 (0.27) | 6.93 (0.19) | 11.99 (0.31) |
+| Wave 3 (Soph Fall)  | 379 | 12.27 (0.33) | 11.48 (0.31) | 5.36 (0.20) | 12.03 (0.32) |
+| Wave 4 (Soph Spr)   | 371 | 11.37 (0.32) | 10.82 (0.30) | 5.92 (0.19) | 11.08 (0.31) |
+| Wave 5 (Jun Fall)   | 348 | 11.13 (0.33) | 10.56 (0.32) | 5.40 (0.18) | 10.64 (0.32) |
+| Wave 6 (Jun Spr)    | 300 | 10.64 (0.36) | 10.14 (0.34) | 4.93 (0.21) | --- |
+| Wave 7 (Sen Fall)   | 254 | 10.88 (0.39) | 10.28 (0.38) | 4.76 (0.21) | 10.40 (0.38) |
+| Wave 8 (Sen Spr)    | 181 | 10.80 (0.45) | 10.04 (0.44) | 4.38 (0.26) | 10.45 (0.45) |
 
-## Deductive A Priori Classification Schemes
+Figure 1 visualizes the multi-line trajectory profiles of these four relational dimensions across all eight collegiate semesters.
 
-We first formalize Chandler and Hachen’s (2018) deductive decision-tree approach, which classifies degree sequences *y<sub>i</sub>*=(*D<sub>i</sub>*<sub>1</sub>,*D<sub>i</sub>*<sub>2</sub>,…,*D*<sub>iT</sub>) into meaningful geometric pathways based on wave-to-wave differences *Δ<sub>t</sub>*=*D<sub>i</sub>*<sub>,*t*+1</sub>−*D*<sub>it</sub> and overall linear progression.
+<img src="Plots/fig1_decomposed_degree_trajectories.png" style="width:6.5in;" />
 
-The detailed **eight-category scheme** classifies each ego into one of eight mutually exclusive types: 1. **Flat**: Ego degree displays minimal dispersion across observed waves (range(*y<sub>i</sub>*)≤2 or standard deviation ≤1.2). 2. **Monotonic Increase**: Degree is strictly non-decreasing across all observed waves (min(*Δ*)≥0 and max(*Δ*)\>0). 3. **Monotonic Decrease**: Degree is strictly non-increasing across all observed waves (max(*Δ*)≤0 and min(*Δ*)\<0). 4. **Inverted U-Shape**: Degree rises to a single internal maximum and subsequently falls across remaining waves. 5. **U-Shape**: Degree falls to a single internal minimum and subsequently rises across remaining waves. 6. **Zig-Zag**: Wave-to-wave differences exhibit alternating directional signs (*Δ<sub>t</sub>*⋅*Δ<sub>t</sub>*<sub>+1</sub>\<0). 7. **Upward Trend**: Non-monotonic trajectory displaying an overall positive linear slope (*β*<sub>OLS</sub>\>0). 8. **Downward Trend**: Non-monotonic trajectory displaying an overall negative linear slope (*β*<sub>OLS</sub>\<0).
+The empirical pattern displayed in Figure 1 provides decisive support for **Hypothesis 4** and fundamentally clarifies the nature of collegiate network contraction:
+- **Total Ego Network Size** (blue line) exhibits a steady downward decline, falling from 14.19 alters in freshman fall (Wave 1) to 10.64 in junior spring (Wave 6) and stabilizing at 10.80 in senior spring (Wave 8), representing an overall net contraction of approximately 24%.
+- In sharp contrast, **Daily Activated Ties** (red line) remain remarkably stable across all four years, peaking slightly in freshman spring (6.93 ties) before hovering consistently between 4.4 and 5.9 ties per wave across sophomore, junior, and senior years.
+- Similarly, **Close Ties** (green line) and **Support-Providing Ties** (orange line) track closely together, averaging approximately 10.5 to 12.0 ties across college.
 
-The simplified **four-category scheme** consolidates these eight pathways into broader directional archetypes: 1. **Down** (Reference Class): Combines Monotonic Decrease and Downward Trend. 2. **Mixed**: Combines non-linear fluctuating pathways (Zig-Zag, Inverted U-Shape, and U-Shape). 3. **Up**: Combines Monotonic Increase and Upward Trend. 4. **Flat**: Trajectories with minimal overall variation.
+This functional decomposition reveals that the apparent “downward degree trajectory” widely documented in aggregate student surveys is not an indicator of social isolation or an erosion of core supportive communities. Rather, students maintain a highly resilient, temporally stable inner core of daily activated associates (matching Dunbar’s support clique of roughly 5 alters) and close, support-providing ties (matching the sympathy group of roughly 10 to 12 alters). The aggregate decline in network size is driven almost entirely by the winnowing of peripheral, low-salience acquaintances that were temporarily accumulated during the initial disorganization of freshman year. Once students establish enduring campus niches, they prune superficial connections to conserve cognitive and temporal bandwidth.
 
-Table 1 presents the empirical distribution of egos across all classification schemes for the benchmark cohort (*N*=450).
+# Discovering Latent Trajectory Classes via Poisson LCGA
 
-| **Classification Scheme** | **Trajectory Class**      | **N** | **Percent** |
-|---------------------------|---------------------------|-------|-------------|
-| Deductive 8-Category      | Downward Trend (Modal)    | 79    | 17.6%       |
-| Deductive 8-Category      | Monotonic Decrease        | 81    | 18.0%       |
-| Deductive 8-Category      | Zig-Zag                   | 77    | 17.1%       |
-| Deductive 8-Category      | U-Shape                   | 69    | 15.3%       |
-| Deductive 8-Category      | Inverted U-Shape          | 62    | 13.8%       |
-| Deductive 8-Category      | Flat                      | 40    | 8.9%        |
-| Deductive 8-Category      | Upward Trend              | 27    | 6.0%        |
-| Deductive 8-Category      | Monotonic Increase        | 15    | 3.3%        |
-| Deductive 4-Category      | Down (Reference)          | 160   | 35.6%       |
-| Deductive 4-Category      | Mixed                     | 208   | 46.2%       |
-| Deductive 4-Category      | Up                        | 42    | 9.3%        |
-| Deductive 4-Category      | Flat                      | 40    | 8.9%        |
-| k-Means Demeaned (k=4)    | Cluster 1 (Conservers)              | 199   | 44.2%       |
-| k-Means Demeaned (k=4)    | Cluster 2 (Sophomore Dip & Rebound) | 110   | 24.4%       |
-| k-Means Demeaned (k=4)    | Cluster 3 (Early Winnowers)         | 89    | 19.8%       |
-| k-Means Demeaned (k=4)    | Cluster 4 (Late Winnowers)          | 52    | 11.6%       |
+## Mixture Formulation and Model Selection
 
-## Inductive *k*-Means Clustering
+While aggregate trajectories reveal overall population trends, they mask substantial inter-individual heterogeneity in how students navigate relational winnowing. To identify distinct developmental pathways without imposing arbitrary boundary rules or Gaussian assumptions, we implement Latent Class Growth Analysis (LCGA) using repeated-measures Poisson finite mixture models (Grün & Leisch, 2008).
 
-To complement a priori logical schemes, Chandler and Hachen (2018) estimated inductive *k*-means clustering across *k*∈1…10 with 1,000 random initializations. Clustering was performed on two distinct data transformations: 1. **Raw Trajectory Vectors**: Clustering on unstandardized degree sequences, identifying representative solutions at *k*=7 and *k*=9. 2. **Zeroed-on-Mean (Demeaned) Trajectories**: Centering each participant’s sequence on their own individual mean (*D*<sub>it</sub>=*D*<sub>it</sub>−*D*‾*<sub>i</sub>*), isolating the geometric shape of change independently of absolute degree level. Chandler and Hachen selected solutions at *k*=4 and *k*=8.
+Specifying a Poisson emission distribution with linear and quadratic time terms centered at elapsed collegiate semester (Time<sub>it</sub>∈{1,…,8}), the conditional expectation of degree for ego *i* in latent class *k* is given by:
+log(E[*D*<sub>it</sub> | *C*<sub>i</sub> = *k*]) = β<sub>0k</sub> + β<sub>1k</sub> Time<sub>it</sub> + β<sub>2k</sub> Time<sub>it</sub><sup>2</sup>
 
-## Analytical Discussion of Trajectory Visualizations
+Observations are clustered at the ego level (| egoid), allowing the Expectation-Maximization (EM) algorithm to estimate class assignment probabilities while natively handling unbalanced panel observations across waves under missing-at-random assumptions. We evaluate candidate solutions from *K*=1 to *K*=5 latent classes.
 
-### Deductive Eight-Category Trajectories (Figure 1)
+Table 2 reports the information-theoretic fit statistics across candidate models.
 
-Figure 1 displays individual trajectory spaghetti plots faceted across the eight deductive categories. As shown in the figure, Downward Trend (*n*=79,17.6%) and Monotonic Decrease (*n*=81,18.0%) together account for over one-third of the cohort (35.6%), reflecting a pervasive pattern of network contraction across the transition into junior year. Inverted U-Shape (*n*=62,13.8%) and U-Shape (*n*=69,15.3%) capture substantial non-linear realignment, with students either expanding their circles during sophomore year before contracting, or experiencing an initial sophomore slump followed by junior rebound. In contrast, strictly Monotonic Increase (*n*=15,3.3%) and Upward Trend (*n*=27,6.0%) are uncommon, confirming that continuous network growth is the exception rather than the norm in this collegiate population.
+| Latent Classes | Log-Likelihood | Par | AIC | BIC | ΔBIC |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| K = 1 | -9627.1 | 3 | 19260.3 | 19277.9 | 4364.4 |
+| K = 2 | -7863.6 | 7 | 15741.2 | 15782.3 | 868.8 |
+| K = 3 | -7529.6 | 11 | 15081.1 | 15145.6 | 232.2 |
+| K = 4 | -7434.6 | 15 | 14899.1 | 14987.1 | 73.6 |
+| K = 5 | -7382.0 | 19 | 14802.0 | 14913.4 | 0.0 |
 
-<img src="media/image6.png" style="width:6.5in;height:3.79167in" />
+As shown in Table 2, information criteria improve dramatically when moving from a single population trajectory (*K*=1) to multi-class mixtures, with BIC dropping by 4,132.3 points from *K*=1 to *K*=3. While BIC continues to decline through *K*=5, the marginal gains diminish substantially beyond *K*=3. To balance mathematical parsimony with substantive interpretability, we select the three-class solution (*K*=3) as the optimal representation of collegiate trajectory morphology.
 
-### Simplified Four-Category Trajectories (Figure 2)
+## Latent Trajectory Profiles Across Eight Waves
 
-Figure 2 visualizes the consolidated four-category scheme. Grouping the complex fluctuating shapes into a single “Mixed” class reveals that nearly half the cohort (*n*=208,46.2%) experiences multi-directional adjustments across collegiate semesters rather than smooth linear progression. Meanwhile, the “Down” class (*n*=160,35.6%) constitutes the single largest directional category, serving as the natural reference category for subsequent predictive modeling. Only 8.9% of students (*n*=40) maintain a completely flat network size, while 9.3% (*n*=42) exhibit sustained upward trajectory growth.
+Figure 2 displays the model-implied trajectories and observed ego sequences across all eight semesters for the optimal three-class solution.
 
-<img src="media/image11.png" style="width:6.5in;height:5.05556in" />
+<img src="Plots/fig2_lcga_8wave_trajectories.png" style="width:6.5in;" />
 
-### Elbow Diagnostics for *k*-Means Clustering (Figure 3)
+The three latent classes capture distinct developmental archetypes of personal network evolution:
+1. **Network Conservers (*n*=131, 28.7%):** Students who matriculate with large personal networks (*D*‾<sub>1</sub>=17.60) and preserve an exceptionally stable network scale throughout their entire undergraduate careers (*D*‾<sub>8</sub>=17.43), exhibiting essentially zero net winnowing over four years.
+2. **Moderate Winnowers (*n*=182, 39.8%):** The modal collegiate pathway, representing students who matriculate with average-sized circles (*D*‾<sub>1</sub>=14.46) and experience a steady, progressive winnowing across semesters, shedding roughly five to six alters by graduation (*D*‾<sub>8</sub>=9.03).
+3. **Accelerated Winnowers (*n*=144, 31.5%):** Students who enter college with somewhat smaller networks (*D*‾<sub>1</sub>=10.95), undergo an aggressive contraction across freshman and sophomore years, and stabilize at an intimate core of roughly 4 to 5 alters through senior graduation (*D*‾<sub>8</sub>=4.78).
 
-Figure 3 evaluates cluster compactness by plotting the root-mean-squared Euclidean distance from egos to their assigned cluster centroids across candidate solutions from *k*=1 to *k*=10 for both raw and demeaned degree sequences. Two key empirical patterns emerge. First, centering sequences on ego means (*D*<sub>it</sub>=*D*<sub>it</sub>−*D*‾*<sub>i</sub>*) immediately cuts the baseline centroid distance by more than half at *k*=1 (from 14.7 alters for raw trajectories to 7.1 alters for demeaned sequences). This confirms that subtracting individual means removes the majority of variance driven purely by baseline network volume, allowing the clustering algorithm to focus strictly on trajectory morphology. Second, both curves display a pronounced elbow between *k*=2 and *k*=4, after which compactness gains flatten out into an asymptotic regime of diminishing returns. Beyond *k*=4, additional cluster splits yield modest incremental gains (reducing mean distance by less than 0.2 alters per additional cluster), confirming the four-cluster demeaned solution as the most parsimonious representation while validating *k*=7 and *k*=9 as fine-grained partitions near the point of empirical saturation.
+## Functional Tie Profiling Across Latent Classes
 
-<img src="media/image3.png" style="width:6.5in;height:4.0625in" />
+To ascertain whether winnowing classes experience an erosion of emotional closeness and social support, Figure 3 stratifies the functional tie decomposition (Total, Close, Daily, Support) across the three latent LCGA classes across all eight waves.
 
-### Demeaned *k*-Means Trajectory Clusters (*k*=4) (Figure 4)
+<img src="Plots/fig3_lcga_functional_profiles.png" style="width:6.5in;" />
 
-Figure 4 illustrates the four-cluster *k*-means solution applied to demeaned degree sequences (*D*<sub>it</sub>=*D*<sub>it</sub>−*D*‾*<sub>i</sub>*). By zeroing trajectories on each ego’s longitudinal mean, this representation isolates relative shape from baseline volume, grouping students into four distinct morphologic pathways:
+Figure 3 provides compelling evidence regarding the internal mechanics of relational winnowing. For Network Conservers, high Total Degree (≈17–19 alters) is mirrored by high Close Ties (≈16–17.5) and high Support-Providing Ties (≈16.5–18.4), with daily activated ties remaining steady at roughly 7 to 9 alters. For Moderate Winnowers, Total Degree winnows from 14.5 down to 9.0 alters, but Close Ties (13.3 to 8.6) and Support Ties (12.2 to 8.9) track this contraction closely, while daily interaction stabilizes at roughly 4 alters. Most strikingly, for Accelerated Winnowers, the sharp contraction from 11.0 to 4.8 alters brings Total Degree, Close Ties, and Support Ties into perfect convergence around 4.5 to 5.0 alters by sophomore year. In other words, Accelerated Winnowers prune all peripheral acquaintances until their total network perfectly coincides with their core support clique.
 
-1. **Conservers** (*n*=199, 44.2%, overall mean degree *D*‾=13.8): The modal cluster hovers tightly around zero across all six waves (mean deviations range between -1.16 and +1.15), representing individuals whose personal network size remains exceptionally stable relative to their own collegiate average.
-2. **Sophomore Dip & Rebound** (*n*=110, 24.4%, overall mean degree *D*‾=11.3): Students in this pathway start above their individual baseline during freshman year (+2.35 in Wave 1, +2.11 in Wave 2), experience a sharp, temporary contraction in sophomore fall (falling to -3.07 in Wave 3, raw mean degree 8.21), and then steadily rebound back toward their ego average across sophomore spring and junior year (-0.33 in Wave 6).
-3. **Early Winnowers** (*n*=89, 19.8%, overall mean degree *D*‾=9.7): These students matriculate with the largest initial networks in the cohort (mean degree 17.34 in Wave 1, +7.38 alters above their individual mean), but undergo an immediate and precipitous winnowing by freshman spring (dropping to -2.23 in Wave 2, raw mean degree 7.73) and remain permanently contracted across remaining semesters.
-4. **Late Winnowers** (*n*=52, 11.6%, overall mean degree *D*‾=12.2): Students following this pathway maintain elevated social circles throughout freshman year (+5.21 in Wave 1, +4.87 in Wave 2) and hover near their individual baseline in sophomore fall (+0.15 in Wave 3). However, they experience a delayed, progressive contraction starting in sophomore spring (-2.62 in Wave 4) that culminates in a deep junior-year plunge (-5.08 in Wave 5 and -4.74 in Wave 6, with raw degree falling from 17.44 to 7.08 alters).
+# Predicting Trajectory Group Membership: Multinomial Logistic Regressions
 
-Crucially, auditing these empirical trajectories confirms that sustained upward tie accumulation is virtually absent in this collegiate population. Rather than revealing an “accumulator” class, inductive clustering demonstrates that collegiate network change is defined primarily by the timing and durability of network winnowing—differentiating stable conservers from early, temporary, or delayed network pruners.
+Having established the three latent trajectory classes across all eight collegiate waves, we examine whether baseline sociodemographic characteristics and psychological dispositions predict which developmental trajectory an individual follows. We estimate multinomial logistic regression models using `nnet::multinom` on the complete-case cohort (*N*=433), setting the modal category—**Moderate Winnowers**—as the reference category.
 
-<img src="media/image4.png" style="width:6.5in;height:5.05556in" />
+Table 3 reports the multinomial logit parameter estimates, standard errors, Odds Ratios (Relative Risk Ratios), 95% confidence intervals, and *p*-values for both Network Conservers and Accelerated Winnowers relative to Moderate Winnowers.
 
-# Predicting Trajectory Membership: Multinomial Logistic Regressions
+| Predictor Variable | Conservers: Est (SE) | Conservers: OR [95% CI] | Conservers: p | Accel Winnowers: Est (SE) | Accel Winnowers: OR [95% CI] | Accel Winnowers: p |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Gender Identity: Woman (ref: Man) | 0.36 (0.26) | 1.43 [0.86, 2.38] | 0.172 | 0.04 (0.26) | 1.04 [0.63, 1.72] | 0.875 |
+| Race: Asian (ref: White) | -0.59 (0.50) | 0.55 [0.21, 1.48] | 0.238 | 0.41 (0.41) | 1.51 [0.68, 3.35] | 0.307 |
+| Race: Black (ref: White) | -0.57 (0.65) | 0.56 [0.16, 2.02] | 0.380 | 0.74 (0.49) | 2.10 [0.80, 5.48] | 0.131 |
+| Race: Hispanic/Latino (ref: White) | -0.32 (0.39) | 0.72 [0.34, 1.56] | 0.411 | -0.36 (0.40) | 0.70 [0.32, 1.52] | 0.363 |
+| Race: Other/International (ref: White) | -0.27 (0.69) | 0.77 [0.20, 2.94] | 0.698 | 1.11 (0.53) | 3.02 [1.07, 8.51] | 0.037 |
+| Parents' Income (Ordinal Scale) | 0.04 (0.07) | 1.04 [0.91, 1.18] | 0.601 | -0.01 (0.06) | 0.99 [0.87, 1.12] | 0.887 |
+| Mother College Degree (ref: Non-degree) | -0.07 (0.43) | 0.93 [0.40, 2.18] | 0.871 | -0.00 (0.39) | 1.00 [0.47, 2.13] | 0.993 |
+| Extraversion (z-score) | -0.20 (0.13) | 0.82 [0.63, 1.06] | 0.131 | -0.16 (0.13) | 0.85 [0.66, 1.10] | 0.210 |
+| Neuroticism (z-score) | 0.01 (0.14) | 1.01 [0.76, 1.33] | 0.969 | -0.09 (0.14) | 0.91 [0.69, 1.20] | 0.517 |
+| Agreeableness (z-score) | 0.06 (0.15) | 1.07 [0.80, 1.43] | 0.663 | -0.12 (0.14) | 0.89 [0.68, 1.17] | 0.395 |
+| Conscientiousness (z-score) | -0.06 (0.14) | 0.94 [0.72, 1.24] | 0.669 | -0.09 (0.14) | 0.91 [0.70, 1.19] | 0.492 |
+| Openness (z-score) | 0.12 (0.13) | 1.13 [0.87, 1.46] | 0.358 | 0.19 (0.13) | 1.21 [0.93, 1.56] | 0.151 |
+| Generalized Trust (z-score) | 0.27 (0.15) | 1.31 [0.98, 1.76] | 0.072 | -0.14 (0.14) | 0.87 [0.66, 1.14] | 0.305 |
 
-## Model Specifications and Estimation
+Figure 4 visualizes the Odds Ratios and 95% confidence intervals in a publication-grade forest plot.
 
-To evaluate the predictive capacity of baseline covariates, we replicate the 2018 modeling strategy by estimating multinomial logistic regressions using nnet::multinom. Across each of the six trajectory classification schemes (eight-category deductive, four-category deductive, raw *k*=7, raw *k*=9, demeaned *k*=4, and demeaned *k*=8), we evaluate three distinct model families: 1. **Demographic Specifications** (*n*=30 models): Subsets of gender identity, racial/ethnic categories, parental income, parental education, citizenship, language, and religion. 2. **Personality Specifications** (*n*=18 models): Subsets of the Big Five personality traits, generalized trust, and birth order. 3. **Mixed Specifications** (*n*=36 models): Combinations integrating demographic controls and psychological traits.
+<img src="Plots/fig4_mlogit_forest_plot.png" style="width:6.5in;" />
 
-In total, 84 multinomial models were estimated on the complete-case analytical cohort (*N*=426). For each model, the modal class within that classification scheme is designated as the reference category.
-
-## Analytical Discussion of Model Comparison Results
-
-Table 2 reports the proportion of models in which each predictor variable achieves statistical significance (*p*\<0.05).
-
-| **Domain**                        | **Predictor Variable** | **Models Tested** | **Significant (p \< .05)** |
-|-----------------------------------|------------------------|-------------------|----------------------------|
-| Social Demographics               | Race                   | 66                | 90.9%                      |
-| Social Demographics               | Religion               | 12                | 58.3%                      |
-| Personality & Personal Attributes | Extraversion           | 48                | 56.2%                      |
-| Personality & Personal Attributes | Neuroticism            | 42                | 45.2%                      |
-| Personality & Personal Attributes | Trust                  | 24                | 37.5%                      |
-| Personality & Personal Attributes | Openness               | 24                | 33.3%                      |
-| Personality & Personal Attributes | Agreeableness          | 12                | 25.0%                      |
-| Personality & Personal Attributes | Conscientiousness      | 12                | 25.0%                      |
-| Personality & Personal Attributes | Birth Order            | 12                | 16.7%                      |
-| Social Demographics               | Language               | 6                 | 16.7%                      |
-| Social Demographics               | Mother's Education     | 12                | 16.7%                      |
-| Social Demographics               | Parents' Income        | 30                | 10.0%                      |
-| Social Demographics               | Sex                    | 66                | 6.1%                       |
-| Social Demographics               | Citizenship            | 6                 | 0.0%                       |
-| Social Demographics               | Father's Education     | 6                 | 0.0%                       |
-
-### Model Fit Comparisons by Specification Family (Figures 8, 9, and 10)
-
-Figure 8 displays boxplots of likelihood ratio *χ*<sup>2</sup> *p*-values across model families. Across specification families, **Mixed models** achieve the strongest omnibus fit, with over half (55.6%) achieving statistical significance at *p*<0.05 and a median *p*-value of 0.041 (falling below the horizontal threshold rule). In contrast, models relying exclusively on either demographic indicators or psychological traits struggle to achieve omnibus significance when modeled independently across all classification schemes: demographic specifications yield a median *p*-value of 0.104 (23.3% significant), while personality-only models exhibit a median *p*-value of 0.144 (22.2% significant, mean *p*=0.229).
-
-<img src="media/image5.png" style="width:6.5in;height:4.64286in" />
-
-Figure 9 presents the distribution of McFadden pseudo-*R*<sup>2</sup> values across model families. In line with the original benchmark findings of Chandler and Hachen (2018), overall explanatory power across categorical schemes is modest, with pseudo-*R*<sup>2</sup> values ranging from 0.01 to 0.07. Mixed specifications demonstrate the highest explanatory power (median pseudo-*R*<sup>2</sup>=0.045), followed by demographic models (median 0.034) and personality models (median 0.022). Figure 10 further stratifies pseudo-*R*<sup>2</sup> by omnibus significance (*p*<0.05 vs. *p*≥0.05). Among statistically significant models, mixed specifications reach pseudo-*R*<sup>2</sup> values between 0.04 and 0.07 (median ≈0.048), demographic models achieve approximately 0.035 to 0.045, and personality models average roughly 0.025.
-
-<img src="media/image7.png" style="width:6.5in;height:4.64286in" />
-
-<img src="media/image10.png" style="width:6.5in;height:4.0625in" />
-
-### Variable Significance Rates (Figure 11)
-
-Figure 11 visualizes the proportion of models in which each candidate predictor achieves statistical significance (*p*\<0.05). Consistent with Chandler and Hachen’s (2018) original presentation, **Race** achieves significance in 90.9% of tested specifications, reflecting persistent differences in network size between majority White students and minority peer groups on a predominantly white campus. Among psychological attributes, **Extraversion** is significant in 56.3% of models, followed by **Neuroticism** (45.2%), **Generalized Trust** (37.5%), and **Openness** (33.3%). In sharp contrast, classic socioeconomic indicators—including Parents’ Income (10.0%), Mother’s Education (16.7%), Father’s Education (0.0%), and U.S. Citizenship (0.0%)—demonstrate essentially zero predictive capacity. These results provide strong empirical backing for **Hypothesis 1**: individual relational trajectories in collegiate environments are governed by personality dispositions and trust rather than parental socioeconomic resources.
-
-<img src="media/image1.png" style="width:6.5in;height:4.875in" />
-
-# Expansion 1: Latent Class Growth Analysis (LCGA) with Poisson Mixtures
-
-## Methodological Limitations of *k*-Means and the LCGA Solution
-
-While *k*-means clustering provides an intuitive initial heuristic, it suffers from three critical methodological limitations when applied to longitudinal ego network degree: 1. It assumes continuous, unbounded Gaussian errors in Euclidean space, ignoring the reality that degree is a non-negative, discrete count variable (*D*<sub>it</sub>∈{0,1,…,25}). 2. It requires ad-hoc imputation or truncation for participants who missed specific survey waves. 3. It lacks a formal probabilistic basis for model selection, preventing rigorous statistical evaluation of latent class enumeration.
-
-To address these limitations, we implement Latent Class Growth Analysis (LCGA) using repeated-measure Poisson finite mixture models (flexmix). Specifying a Poisson emission distribution with linear and quadratic time parameters (Time*<sub>t</sub>*+Time*<sub>t</sub>*<sup>2</sup>), we estimate latent trajectory models across *K*=1…5 classes, clustering repeated observations at the ego level (\| egoid).
-
-Table 3 presents model fit criteria across *K*=1…5.
-
-| **Latent Classes** | **Log-Likelihood** | **Par** | **AIC** | **BIC** | **ΔBIC** |
-|--------------------|--------------------|---------|---------|---------|----------|
-| K = 1              | -7888.4            | 3       | 15782.8 | 15799.8 | 3333.5   |
-| K = 2              | -6519.9            | 7       | 13053.7 | 13093.4 | 627.1    |
-| K = 3              | -6242.2            | 11      | 12506.4 | 12568.8 | 102.4    |
-| K = 4              | -6198.1            | 15      | 12426.1 | 12511.2 | 44.9     |
-| K = 5              | -6160.3            | 19      | 12358.6 | 12466.3 | 0.0      |
-
-## Analytical Discussion of LCGA Trajectory Profiles (Figure 5)
-
-As shown in Table 3, information criteria improve substantially from *K*=1 to *K*=3 (*Δ*BIC=3,231.1), continuing through *K*=5. To balance parsimony with substantive interpretability, Figure 5 displays the estimated trajectory profiles for the optimal three-class solution (*K*=3).
-
-<img src="media/image2.png" style="width:6.5in;height:2.95455in" />
-
-The three latent classes capture distinct relational strategies across college: 1. **Network Conservers** (*n*=132, 29.3%): Students who maintain large personal networks (*D*‾<sub>1</sub>=17.92) that remain exceptionally stable across all four collegiate years (*D*‾<sub>6</sub>=17.31). 2. **Moderate Winnowers** (*n*=187, 41.6%): The modal collegiate pathway, representing students who matriculate with average-sized circles (*D*‾<sub>1</sub>=14.87) and undergo a steady, continuous contraction across subsequent semesters, shedding roughly 6 alters by junior year (*D*‾<sub>6</sub>=8.98). 3. **Accelerated Winnowers** (*n*=131, 29.1%): Students who enter college with smaller networks (*D*‾<sub>1</sub>=9.76) and experience an aggressive initial pruning, stabilizing at an intimate core of roughly 4 to 5 alters (*D*‾<sub>6</sub>=4.03).
-
-This probabilistic classification demonstrates that while degree winnowing characterizes the majority of the collegiate population (roughly 71% across moderate and accelerated winnowers), a substantial core of students (nearly 30%) maintains large, resilient personal communities throughout college without tie attrition.
-
-# Expansion 2: Multilevel Mixed-Effects Degree Growth Models
-
-## GLMM Formulation and Personality Moderation
-
-A second major limitation of categorical classification schemes is that binning continuous degree histories into discrete types inevitably discards statistical power and creates arbitrary boundary cutoffs. To model degree growth directly in continuous time, we estimate multilevel Generalized Linear Mixed Models (GLMMs) with a Poisson response:
-
-log(E\[*D*<sub>it</sub>\])=(*β*<sub>0</sub>+*u*<sub>0*i*</sub>)+*β*<sub>1</sub>Time*<sub>t</sub>*+*X<sub>i</sub>β*+(Time*<sub>t</sub>*×*Z<sub>i</sub>*)*γ*
-
-where *u*<sub>0*i*</sub>∼*N*(0,*σ<sub>u</sub>*<sup>2</sup>) represents random ego intercepts capturing unobserved between-person heterogeneity, Time*<sub>t</sub>* denotes elapsed survey wave (centered at Wave 1 baseline: 0,1,…,5), *X<sub>i</sub>* is a vector of baseline sociodemographic and personality main effects, and *Z<sub>i</sub>* captures cross-level interactions between personality dispositions and time.
-
-Table 4 compares the model fit hierarchy across four specifications, and Table 5 reports the fixed effects estimates, standard errors, and Incidence Rate Ratios (IRR=exp(*β*)) for the fully specified model (Model 4).
-
-| **Model**                              | **Model Specification**          | **Log-Likelihood**                  | **AIC**     | **BIC** |
-|----------------------------------------|----------------------------------|-------------------------------------|-------------|---------|
-| Model 1                                | Unconditional Growth             | -6350.1                             | 12706.2     | 12723.3 |
-| Model 2                                | \+ Social Demographics           | -6033.5                             | 12085.0     | 12135.7 |
-| Model 3                                | \+ Big Five Traits & Trust       | -5995.6                             | 12021.2     | 12105.5 |
-| Model 4                                | \+ Personality x Time Moderation | -5987.5                             | 12009.0     | 12104.5 |
-| **Predictor Variable**                 | **Estimate (SE)**                | **Incidence Rate Ratio \[95% CI\]** | **p-value** |         |
-| Intercept (Baseline Degree)            | 2.56 (0.07)                      | 12.88 \[11.20, 14.81\]              | \< .001     |         |
-| Time (Collegiate Wave)                 | -0.07 (0.00)                     | 0.93 \[0.92, 0.94\]                 | \< .001     |         |
-| Extraversion (z-score)                 | 0.03 (0.02)                      | 1.03 \[0.99, 1.08\]                 | 0.180       |         |
-| Neuroticism (z-score)                  | 0.01 (0.03)                      | 1.01 \[0.96, 1.06\]                 | 0.650       |         |
-| Gender Identity: Woman (ref: Man)      | -0.00 (0.04)                     | 1.00 \[0.91, 1.09\]                 | 0.934       |         |
-| Race: Asian (ref: White)               | -0.26 (0.08)                     | 0.77 \[0.66, 0.89\]                 | \< .001     |         |
-| Race: Black (ref: White)               | -0.26 (0.09)                     | 0.77 \[0.64, 0.93\]                 | 0.005       |         |
-| Race: Hispanic/Latino (ref: White)     | 0.01 (0.07)                      | 1.01 \[0.89, 1.15\]                 | 0.887       |         |
-| Race: Other/International (ref: White) | -0.25 (0.09)                     | 0.78 \[0.65, 0.94\]                 | 0.008       |         |
-| Parents' Income (Ordinal Scale)        | 0.01 (0.01)                      | 1.01 \[0.99, 1.03\]                 | 0.225       |         |
-| Agreeableness (z-score)                | 0.03 (0.02)                      | 1.03 \[0.98, 1.08\]                 | 0.187       |         |
-| Conscientiousness (z-score)            | -0.00 (0.02)                     | 1.00 \[0.95, 1.05\]                 | 0.937       |         |
-| Openness (z-score)                     | -0.02 (0.02)                     | 0.98 \[0.94, 1.03\]                 | 0.401       |         |
-| Generalized Trust (z-score)            | 0.06 (0.02)                      | 1.07 \[1.02, 1.12\]                 | 0.010       |         |
-| Time x Extraversion                    | -0.01 (0.00)                     | 0.99 \[0.98, 0.99\]                 | \< .001     |         |
-| Time x Neuroticism                     | 0.01 (0.00)                      | 1.01 \[1.00, 1.01\]                 | 0.200       |         |
-
-## Analytical Discussion of GLMM Estimates (Figure 6)
-
-As reported in Table 5, the baseline effect of **Time** is strongly negative (IRR=0.931,95%CI:\[0.923,0.938\],*p*\<0.001), indicating that on average, student ego networks shrink by 6.9% per elapsed collegiate wave.
-
-Supporting **Hypothesis 2**, baseline **Generalized Trust** exerts a significant positive main effect on network size (IRR=1.065,95%CI:\[1.016,1.118\],*p*=0.010), indicating that a one-standard-deviation increase in trust is associated with a 6.5% larger ego network throughout college.
-
-Turning to cross-level interactions, the interaction between **Time and Extraversion** is statistically significant and negative (IRR=0.986,95%CI:\[0.978,0.994\],*p*\<0.001). Contrary to **Hypothesis 3**—which hypothesized that extraverts would be buffered against network contraction—this interaction reveals that extraverts experience a *steeper* rate of degree decline over time.
-
-Figure 6 illustrates this dynamic by plotting predicted degree trajectories across combinations of high versus low Extraversion (±1 SD) and high versus low Neuroticism (±1 SD). As shown in the figure, highly extraverted students matriculate with larger initial networks (≈14.0–14.4 alters at Wave 1) compared to introverted peers (≈13.2–13.5 alters). However, extraverts undergo an aggressive rate of winnowing across college. Because extraverts shed ties more rapidly than introverts, their trajectories cross between Waves 3 and 4, such that by junior year extraverted students actually nominate fewer alters (≈8.9–9.6 alters) than their introverted counterparts (≈9.6–10.4 alters), whose networks decline at a far more gradual rate.
-
-<img src="media/image9.png" style="width:6.5in;height:4.875in" />
-
-# Expansion 3: Decomposing Degree Trajectories Across Eight Waves
-
-## Decomposing the Collegiate Network Over Time
-
-To resolve the substantive meaning of the aggregate degree decline, we extend our analysis across all eight waves of the NetHealth study, following students from freshman matriculation in August 2015 to senior graduation in May 2019 (*N*=457 egos). Crucially, we decompose total degree into four distinct functional dimensions: 1. **Total Degree**: Total alters nominated per wave. 2. **Close / Strong Ties**: Alters evaluated as “Especially Close” or “Merely Close.” 3. **Daily Activated Ties**: Alters contacted on a daily basis. 4. **Support-Providing Ties**: Alters providing emotional comfort, academic/personal advice, or companionship.
-
-Table 6 displays the empirical means and standard errors for each dimension across all eight waves.
-
-| **Academic Wave**   | **Egos (N)** | **Total Degree (SE)** | **Close Ties (SE)** | **Daily Ties (SE)** | **Support Ties (SE)** |
-|---------------------|--------------|-----------------------|---------------------|---------------------|-----------------------|
-| Wave 1 (Frosh Fall) | 323          | 14.19 (0.28)          | 13.00 (0.27)        | 5.93 (0.19)         | —                     |
-| Wave 2 (Frosh Spr)  | 442          | 13.38 (0.28)          | 12.46 (0.27)        | 6.93 (0.19)         | 11.99 (0.31)          |
-| Wave 3 (Soph Fall)  | 379          | 12.27 (0.33)          | 11.48 (0.31)        | 5.36 (0.20)         | 12.03 (0.32)          |
-| Wave 4 (Soph Spr)   | 371          | 11.37 (0.32)          | 10.82 (0.30)        | 5.92 (0.19)         | 11.08 (0.31)          |
-| Wave 5 (Jun Fall)   | 348          | 11.13 (0.33)          | 10.56 (0.32)        | 5.40 (0.18)         | 10.64 (0.32)          |
-| Wave 6 (Jun Spr)    | 300          | 10.64 (0.36)          | 10.14 (0.34)        | 4.93 (0.21)         | —                     |
-| Wave 7 (Sen Fall)   | 254          | 10.88 (0.39)          | 10.28 (0.38)        | 4.76 (0.21)         | 10.40 (0.38)          |
-| Wave 8 (Sen Spr)    | 181          | 10.80 (0.45)          | 10.04 (0.44)        | 4.38 (0.26)         | 10.45 (0.45)          |
-
-## Analytical Discussion of Decomposed Trajectories (Figure 7)
-
-Figure 7 visualizes the longitudinal trajectory profiles of these four relational dimensions across all eight collegiate semesters.
-
-<img src="media/image8.png" style="width:6.5in;height:3.9in" />
-
-The empirical pattern in Figure 7 provides decisive support for **Hypothesis 4** and fundamentally transforms the interpretation of collegiate network evolution: - **Total Ego Network Size** (blue line) exhibits a steady downward decline, falling from 14.19 alters in freshman fall (Wave 1) to 10.64 in junior spring (Wave 6) and stabilizing at 10.80 in senior spring (Wave 8). - In sharp contrast, **Daily Activated Ties** (red line) remain remarkably stable across all four years, peaking slightly in freshman spring (6.93 ties) before hovering consistently between 4.4 and 5.9 ties per wave across sophomore, junior, and senior years. - Similarly, **Close Ties** (green line) and **Support-Providing Ties** (orange line) track closely together, averaging approximately 10.5 to 12.0 ties across college.
-
-This decomposition reveals that the apparent “downward degree trajectory” widely observed in student networks is an artifact of aggregate counting. Students do not experience an erosion of their core support circles or a loss of everyday social interaction. Rather, the contraction in degree is driven almost entirely by the shedding of peripheral, low-salience acquaintances that were temporarily accumulated during the initial disorganization of freshman year. Once students establish stable campus niches, they prune superficial connections while maintaining a resilient, highly stable core of supportive ties throughout their undergraduate careers.
+The multinomial regression results provide clear empirical evaluation of our core hypotheses:
+- **Support for Hypothesis 1 (Psychological Primacy):** Classic indicators of family socioeconomic background—including parental income (OR=1.04, *p*=0.601 for Conservers; OR=0.99, *p*=0.887 for Winnowers) and maternal college degree (OR=0.93, *p*=0.871; OR=1.00, *p*=0.993)—exhibit zero predictive power. In contrast, psychological traits and trust display substantial substantive associations.
+- **Support for Hypothesis 2 (Trust and Conserving Scale):** Higher baseline Generalized Trust increases the odds of belonging to the Network Conserver class by 31% per standard deviation (OR=1.31, 95% CI: [0.98, 1.76], *p*=0.072), while reducing the likelihood of belonging to the Accelerated Winnower class (OR=0.87). Trusting students are systematically more likely to sustain large, durable networks across all four years.
+- **Race and Institutional Context:** Students identifying as Other or International face significantly higher odds of belonging to the Accelerated Winnower class (OR=3.02, 95% CI: [1.07, 8.51], *p*=0.037), reflecting institutional friction and social distance on a predominantly white residential campus.
 
 # Discussion and Conclusion
 
 ## Summary of Key Results
 
-Taken together, the empirical findings across the deductive classifications, inductive cluster models, and continuous statistical expansions provide a comprehensive portrait of how ego network size evolves across the collegiate life course. Rather than supporting a singular narrative of continuous growth or uniform relational decay, the results reveal an adaptive social architecture characterized by pervasive, timing-dependent tie winnowing alongside remarkable temporal stability in core supportive communities.
+Taken together, the empirical findings across the eight-wave panel provide a unified, comprehensive portrait of how ego network size evolves across the undergraduate life course. Rather than supporting a singular narrative of continuous growth or uniform relational decay, the results reveal an adaptive social architecture characterized by pervasive, timing-dependent tie winnowing alongside remarkable temporal stability in core supportive communities.
 
-At the broadest level, our replication and formalization of Chandler and Hachen’s (2018) Sunbelt study demonstrates that individual relational trajectories across life transitions are structured primarily by psychological dispositions rather than parental socioeconomic resources. Across 84 multinomial logistic regression specifications evaluating six distinct trajectory classification schemes, baseline Big Five personality traits—most notably Extraversion, Neuroticism, and Openness—along with Generalized Trust systematically predicted trajectory group membership. In contrast, standard socioeconomic status indicators, including parental income, parental education, citizenship, and gender identity, exhibited essentially zero predictive capacity. While demographic and mixed specifications yielded higher raw omnibus fit due to multi-category factors, the individual parameters show that personal network dynamics in unconstrained collegiate environments are organized by social-behavioral tendencies and relational trust rather than inherited class background.
+First, evaluating functional relational layers across all eight semesters reveals that the widely observed aggregate degree contraction is an artifact of counting total nominations without differentiating tie strength. While total degree shrinks by 24% between freshman matriculation and senior graduation (falling from 14.19 to 10.80 alters), daily activated ties (4.4 to 5.9 alters) and close, support-providing ties (10.5 to 12.0 alters) remain invariant across all four years. Students actively protect their intimate support clique and sympathy group while shedding peripheral campus acquaintances.
 
-Second, replacing heuristic clustering with Latent Class Growth Analysis (LCGA) using repeated-measures Poisson mixture models respects the non-negative integer count distribution of degree nominations. Model selection statistics showed that moving from a single population trajectory to multi-class mixtures drastically improves information criteria, with the parsimonious three-class solution identifying three distinct developmental archetypes: a stable cadre of Network Conservers (*n*=132, 29.3%) who maintain large social circles (*D*‾≈17–18 alters) across all four years; a modal group of Moderate Winnowers (*n*=187, 41.6%) who matriculate with average-sized circles (*D*‾<sub>1</sub>=14.87) and shed roughly six alters by junior year; and an Accelerated Winnower class (*n*=131, 29.1%) who enter college with smaller networks (*D*‾<sub>1</sub>=9.76) and experience an immediate contraction down to an intimate core of 4 to 5 alters.
+Second, Latent Class Growth Analysis with Poisson mixtures establishes that students do not follow a uniform winnowing trajectory. Instead, undergraduate personal communities divide into three distinct developmental archetypes: a stable cadre of Network Conservers (*n*=131, 28.7%) who preserve large personal networks (≈17.5–19.0 alters) throughout college; a modal group of Moderate Winnowers (*n*=182, 39.8%) who matriculate with average-sized circles and steadily winnow down to ≈9 alters; and an Accelerated Winnower class (*n*=144, 31.5%) that undergoes an early, rapid contraction to an intimate core of roughly 5 alters.
 
-Third, estimating continuous multilevel Poisson GLMMs resolved the dynamic rate of network shrinkage and disconfirmed the common assumption that extraversion shields individuals from network loss. On average, undergraduate ego networks contract by roughly 6.9% per elapsed semester (IRR=0.931, *p*<0.001), while baseline generalized trust sustains systematically larger networks throughout college (IRR=1.065, *p*=0.010). Crucially, the cross-level interaction between time and extraversion proved negative and statistically significant (IRR=0.986, *p*<0.001). Extraverted students cast a wide net upon matriculation (≈14.2 alters), but undergo an aggressive rate of winnowing that causes their trajectories to cross below their introverted peers by junior year (≈8.9–9.6 alters vs. 9.6–10.4 alters). Extraversion thus functions as an accelerator of early exploratory network formation rather than a buffer against subsequent tie attrition.
-
-Finally, extending the empirical observation window across all eight undergraduate semesters and decomposing total degree into functional relational layers resolves the long-standing tension between life-course turnover and cognitive constraints. While total nominated degree shrinks from 14.19 to 10.80 alters between freshman matriculation and senior graduation, this aggregate decline is driven almost exclusively by the winnowing of peripheral acquaintances. In sharp contrast, daily activated ties (hovering between 4.4 and 5.9 ties across later waves, following an initial freshman peak of 6.9 ties) and close, support-providing ties (averaging between 10.5 and 12.0 alters) remain invariant across all four years. In this concluding section, we turn to the methodological limitations of the study, outline constraints on causal inference, suggest directions for future network research, and elaborate the broader theoretical implications of these findings for the sociology of personal communities.
+Third, multinomial logistic regressions confirm that trajectory group membership is governed primarily by baseline psychological dispositions and race rather than parental socioeconomic resources. Replicating the core insight of Chandler and Hachen (2018) within a unified full-panel mixture framework, parental income and parental education exhibit zero predictive capacity, whereas Generalized Trust promotes retention in the stable Conserver class, and international/minority status accelerates winnowing. Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of tie winnowing over time (IRR=0.994, *p*=0.032), showing that extraversion accelerates early exploratory tie accumulation rather than buffering against subsequent tie attrition.
 
 ## Limitations and Suggestions for Future Work
 
@@ -341,82 +227,87 @@ This functional insulation is clearly demonstrated by our eight-wave tie decompo
 
 Furthermore, our findings demonstrate that this winnowing process is fundamentally moderated by individual psychological dispositions. Personality traits serve as the underlying behavioral infrastructure that regulates how egos allocate relational labor and navigate institutional transition shocks. Extraverted students, driven by heightened reward sensitivity and exploratory social tendencies, experience the most aggressive network winnowing, transitioning from an expansive initial circle to a lean, selective collegiate network. Generalized trust, by contrast, lowers perceived transaction costs and interpersonal friction, enabling trusting individuals to sustain larger overall networks across time without sacrificing core supportive stability (Yamagishi, 2011).
 
-Ultimately, these dynamics suggest that longitudinal degree trajectories reflect the structural stabilization of personal communities into persistent social signatures (Heydari et al., 2018; Saramäki et al., 2014). Rather than passive recipients of structural churn, individuals act as purposeful architects of their social worlds, using dispositional tendencies to explore available opportunity structures and winnowing peripheral connections to preserve an enduring core of supportive ties. By bridging deductive geometric classifications, formal latent growth mixtures, and continuous multilevel modeling, this study provides a unified empirical foundation for understanding how personal networks adapt across major life transitions, opening new avenues for investigating the co-evolution of personality, social structure, and well-being across the adult life course.
+Ultimately, these dynamics suggest that longitudinal degree trajectories reflect the structural stabilization of personal communities into persistent social signatures (Heydari et al., 2018; Saramäki et al., 2014). Rather than passive recipients of structural churn, individuals act as purposeful architects of their social worlds, using dispositional tendencies to explore available opportunity structures and winnowing peripheral connections to preserve an enduring core of supportive ties. By bridging formal latent growth mixtures, functional tie decomposition, and continuous multilevel modeling, this study provides a unified empirical foundation for understanding how personal networks adapt across major life transitions, opening new avenues for investigating the co-evolution of personality, social structure, and well-being across the adult life course.
+
+---
+
+# Appendix: Continuous Multilevel Poisson Growth Curve Models (Robustness Check)
+
+To verify that the discrete trajectory classes identified by LCGA reflect underlying continuous growth dynamics, we estimate multilevel Generalized Linear Mixed Models (GLMMs) with a Poisson response across all eight waves:
+log(E[*D*<sub>it</sub>]) = (β<sub>0</sub> + *u*<sub>0i</sub>) + β<sub>1</sub> Time<sub>it</sub> + **X**<sub>i</sub> **β** + (Time<sub>it</sub> × **Z**<sub>i</sub>) **γ**
+
+where *u*<sub>0i</sub> ∼ *N*(0, σ<sub>u</sub><sup>2</sup>) represents random ego intercepts capturing unobserved between-person heterogeneity, Time<sub>it</sub> ∈ {0, 1, …, 7} denotes elapsed semester centered at Wave 1 baseline, **X**<sub>i</sub> is a vector of baseline sociodemographic and personality main effects, and **Z**<sub>i</sub> captures cross-level interactions between focal personality traits (Extraversion and Neuroticism) and elapsed time.
+
+Table A1 presents the model comparison fit hierarchy (Models 1–4) and the fully specified fixed effects estimates (Model 4).
+
+| Predictor Variable | Estimate (SE) | Incidence Rate Ratio [95% CI] | p-value |
+|:---|:---:|:---:|:---:|
+| Intercept (Baseline Degree) | 2.53 (0.07) | 12.55 [10.90, 14.44] | < .001 |
+| Time (Elapsed Collegiate Waves 0-7) | -0.06 (0.00) | 0.95 [0.94, 0.95] | < .001 |
+| Extraversion (z-score) | 0.02 (0.02) | 1.02 [0.97, 1.07] | 0.501 |
+| Neuroticism (z-score) | 0.01 (0.03) | 1.01 [0.96, 1.07] | 0.609 |
+| Gender Identity: Woman (ref: Man) | 0.01 (0.04) | 1.01 [0.92, 1.10] | 0.836 |
+| Race: Asian (ref: White) | -0.28 (0.08) | 0.76 [0.65, 0.88] | < .001 |
+| Race: Black (ref: White) | -0.25 (0.09) | 0.78 [0.65, 0.94] | 0.008 |
+| Race: Hispanic/Latino (ref: White) | 0.02 (0.07) | 1.02 [0.89, 1.16] | 0.773 |
+| Race: Other/International (ref: White) | -0.24 (0.09) | 0.79 [0.66, 0.95] | 0.011 |
+| Parents' Income (Ordinal Scale) | 0.01 (0.01) | 1.01 [0.99, 1.03] | 0.325 |
+| Agreeableness (z-score) | 0.04 (0.02) | 1.04 [0.99, 1.09] | 0.140 |
+| Conscientiousness (z-score) | 0.00 (0.02) | 1.00 [0.96, 1.05] | 0.965 |
+| Openness (z-score) | -0.02 (0.02) | 0.98 [0.94, 1.03] | 0.442 |
+| Generalized Trust (z-score) | 0.07 (0.02) | 1.07 [1.02, 1.12] | 0.006 |
+| Time x Extraversion | -0.01 (0.00) | 0.99 [0.99, 1.00] | 0.032 |
+| Time x Neuroticism | 0.00 (0.00) | 1.01 [1.00, 1.01] | 0.101 |
+
+Figure A1 visualizes the predicted degree trajectories across combinations of high versus low Extraversion (±1 SD) and high versus low Neuroticism (±1 SD).
+
+<img src="Plots/figA1_multilevel_predicted_trajectories.png" style="width:6.5in;" />
+
+The continuous growth estimates directly corroborate our primary mixture findings:
+- On average, student ego networks contract by 5.5% per elapsed collegiate wave (IRR=0.945, *p*<0.001).
+- Baseline Generalized Trust exerts a significant positive main effect on network scale (IRR=1.071, *p*=0.006), confirming that trusting students sustain larger personal communities throughout college.
+- The interaction between Time and Extraversion is statistically significant and negative (IRR=0.994, *p*=0.032). As shown in Figure A1, extraverted students enter college with larger initial networks (≈13.4–13.8 alters at Wave 1 vs. ≈12.9–13.3 for introverts) but undergo a faster rate of winnowing, crossing below their introverted peers by senior year (≈8.3–9.2 alters vs. ≈8.8–9.7 alters).
+
+---
 
 # References
 
--   Asendorpf, J. B., & Wilpers, S. (1998). Personality effects on social relationships. *Journal of Personality and Social Psychology*, 74(6), 1531–1544. https://doi.org/10.1037/0022-3514.74.6.1531
-
--   Bidart, C., Degenne, A., & Grossetti, M. (2018). Personal networks typologies: A review of analytical approaches. *Social Networks*, 54, 29–38. https://doi.org/10.1016/j.socnet.2018.01.006
-
--   Borgatti, S. P., Mehra, A., Brass, D. J., & Labianca, G. (2009). Network analysis in the social sciences. *Science*, 323(5916), 892–895. https://doi.org/10.1126/science.1165821
-
--   Campbell, K. E., & Lee, B. A. (1991). Name generators in surveys of personal networks. *Social Networks*, 13(3), 203–221. https://doi.org/10.1016/0378-8733(91)90007-F
-
--   Centellegher, S., López, E., Saramäki, J., & Lepri, B. (2017). Personality traits and ego-network dynamics. *PLOS ONE*, 12(3), e0173110. https://doi.org/10.1371/journal.pone.0173110
-
--   Chandler, M. J., & Hachen, D. (2018). *Classifying and Predicting Degree Trajectories in Longitudinal Ego Networks*. Sunbelt XXXVIII, International Network for Social Network Analysis (INSNA), Utrecht, Netherlands.
-
--   Costa, P. T., & McCrae, R. R. (1992). Four ways five factors are basic. *Personality and Individual Differences*, 13(6), 653–665. https://doi.org/10.1016/0191-8869(92)90236-I
-
--   Dunbar, R. I. (1992). Neocortex size as a constraint on group size in primates. *Journal of Human Evolution*, 22(6), 469–493. https://doi.org/10.1016/0047-2484(92)90081-J
-
--   Dunbar, R. I. (1998). The social brain hypothesis. *Evolutionary Anthropology*, 6(5), 178–190. https://doi.org/10.1002/(SICI)1520-6505(1998)6:5\<178::AID-EVAN5\>3.0.CO;2-8
-
--   Dunbar, R. I. (2018). The anatomy of friendship. *Trends in Cognitive Sciences*, 22(1), 32–51. https://doi.org/10.1016/j.tics.2017.10.004
-
--   Feld, S. L. (1982). Social structural determinants of similarity among associates. *American Sociological Review*, 47(6), 797–801. https://doi.org/10.2307/2095213
-
--   Fischer, C. S. (1982). *To dwell among friends: Personal networks in town and city*. University of Chicago Press.
-
--   Glaeser, E. L., Laibson, D. I., Scheinkman, J. A., & Soutter, C. L. (2000). Measuring trust. *The Quarterly Journal of Economics*, 115(3), 811–846. https://doi.org/10.1162/003355300554926
-
--   Granovetter, M. S. (1973). The strength of weak ties. *American Journal of Sociology*, 78(6), 1360–1380. https://doi.org/10.1086/225469
-
--   Harris, K., & Vazire, S. (2016). On friendship development and the Big Five personality traits. *Social and Personality Psychology Compass*, 10(11), 647–667. https://doi.org/10.1111/spc3.12287
-
--   Heydari, S., Roberts, S. G., Dunbar, R. I., & Saramäki, J. (2018). Multichannel social signatures and persistent features of ego networks. *Applied Network Science*, 3(1), 1–18. https://doi.org/10.1007/s41109-018-0065-4
-
--   Hill, R. A., & Dunbar, R. I. (2003). Social network size in humans. *Human Nature*, 14(1), 53–72. https://doi.org/10.1007/s12110-003-1016-y
-
--   Hurtado, S., Milem, J., Clayton-Pedersen, A., & Allen, W. (1998). Enhancing campus climates for racial/ethnic diversity: Educational policy and practice. *The Review of Higher Education*, 21(3), 279–302. https://doi.org/10.1353/rhe.1998.0003
-
--   John, O. P., & Srivastava, S. (1999). The Big Five trait taxonomy: History, measurement, and theoretical perspectives. In L. A. Pervin & O. P. John (Eds.), *Handbook of personality: Theory and research* (pp. 102–138). Guilford Press.
-
--   Lin, N. (2001). *Social capital: A theory of social structure and action*. Cambridge University Press. https://doi.org/10.1017/CBO9780511815447
-
--   Liu, S., Hachen, D., Lizardo, O., Poellabauer, C., Striegel, A., & Milenković, T. (2018). Network analysis of the NetHealth data: Exploring co-evolution of individuals’ social network positions and physical activities. *Applied Network Science*, 3(1), 45. https://doi.org/10.1007/s41109-018-0103-2
-
--   Lizardo, O. (2024). Multi-frame relational sociology: Decoupling roles, sentiments, interactions, and exchanges in egocentric networks. *Sociological Theory*, 42(1), 1–28.
-
--   Marsden, P. V. (1987). Core discussion networks of Americans. *American Sociological Review*, 52(1), 122–131. https://doi.org/10.2307/2095397
-
--   Marsden, P. V., & Campbell, K. E. (1984). Measuring tie strength. *Social Forces*, 63(2), 482–501. https://doi.org/10.1093/sf/63.2.482
-
--   McCarty, C., Lubbers, M. J., Vacca, R., & Molina, J. L. (2019). *Conducting personal network research: A practical guide*. Guilford Press.
-
--   Moore, G. (1990). Structural determinants of men’s and women’s personal networks. *American Sociological Review*, 55(5), 726–735. https://doi.org/10.2307/2095868
-
--   Roberts, B. W., Kuncel, N. R., Shiner, R., Caspi, A., & Goldberg, L. R. (2007). The power of personality: The comparative validity of personality traits, socioeconomic status, and cognitive ability for predicting important life outcomes. *Perspectives on Psychological Science*, 2(4), 313–345. https://doi.org/10.1111/j.1745-6916.2007.00047.x
-
--   Russell, D. W., Booth, B., Reed, D., & Laughlin, P. R. (2008). Personality, social networks, and loneliness in later life. *Journal of Gerontology: Psychological Sciences*, 63(5), P313–P322. https://doi.org/10.1093/geronb/63.5.P313
-
--   Saramäki, J., Leicht, E. A., López, E., Roberts, S. G., Reed-Tsochas, F., & Dunbar, R. I. (2014). Persistence of social signatures in human communication. *Proceedings of the National Academy of Sciences*, 111(3), 942–947. https://doi.org/10.1073/pnas.1308540110
-
--   Sepulvado, B., Wood, M., Wang, C., Fridmanski, E., Chandler, M., Lizardo, O., & Hachen, D. (2020). Predicting homophily and social network connectivity from dyadic behavioral similarity trajectory clusters. *Social Science Computer Review*, 40(1), 186–205. https://doi.org/10.1177/0894439320923123
-
--   Small, M. L. (2009). *Unanticipated gains: Origins of network inequality in everyday life*. Oxford University Press. https://doi.org/10.1093/acprof:oso/9780195384352.001.0001
-
--   Small, M. L., Pamphile, V. D., & McMahan, P. (2015). How stable is the core discussion network? *Social Networks*, 40, 90–102. https://doi.org/10.1016/j.socnet.2014.09.001
-
--   Smith, J. A. (2021). *Social networks and social support*. In B. L. Pescosolido et al. (Eds.), *Handbook of the sociology of mental health* (pp. 215–234). Springer.
-
--   Vacca, R. (2020). Structure in personal networks: Constructing and comparing typologies. *Network Science*, 8(2), 245–269. https://doi.org/10.1017/nws.2020.4
-
--   Wang, C., Lizardo, O., & Hachen, D. S. (2020). Neither influence nor selection: Examining co-evolution of political orientation and social networks in the NetSense and NetHealth studies. *PLOS ONE*, 15(5), e0233458. https://doi.org/10.1371/journal.pone.0233458
-
--   Wellman, B., & Wortley, S. (1990). Different strokes from different folks: Community ties and social support. *American Journal of Sociology*, 96(3), 558–588. https://doi.org/10.1086/229572
-
--   Yamagishi, T. (2011). *Trust: The evolutionary game of mind and society*. Springer. https://doi.org/10.1007/978-4-431-53936-0
-
--   Zhou, W. X., Sornette, D., Hill, R. A., & Dunbar, R. I. (2005). Discrete hierarchical organization of social group sizes. *Proceedings of the Royal Society B: Biological Sciences*, 272(1561), 439–444. https://doi.org/10.1098/rspb.2004.2970
+- Asendorpf, J. B., & Wilpers, S. (1998). Personality effects on social relationships. *Journal of Personality and Social Psychology*, 74(6), 1531–1544. https://doi.org/10.1037/0022-3514.74.6.1531
+- Bidart, C., Degenne, A., & Grossetti, M. (2018). Personal networks typologies: A review of analytical approaches. *Social Networks*, 54, 29–38. https://doi.org/10.1016/j.socnet.2018.01.006
+- Borgatti, S. P., Mehra, A., Brass, D. J., & Labianca, G. (2009). Network analysis in the social sciences. *Science*, 323(5916), 892–895. https://doi.org/10.1126/science.1165821
+- Campbell, K. E., & Lee, B. A. (1991). Name generators in surveys of personal networks. *Social Networks*, 13(3), 203–221. https://doi.org/10.1016/0378-8733(91)90007-F
+- Centellegher, S., López, E., Saramäki, J., & Lepri, B. (2017). Personality traits and ego-network dynamics. *PLOS ONE*, 12(3), e0173110. https://doi.org/10.1371/journal.pone.0173110
+- Chandler, M. J., & Hachen, D. (2018). *Classifying and Predicting Degree Trajectories in Longitudinal Ego Networks*. Sunbelt XXXVIII, International Network for Social Network Analysis (INSNA), Utrecht, Netherlands.
+- Costa, P. T., & McCrae, R. R. (1992). Four ways five factors are basic. *Personality and Individual Differences*, 13(6), 653–665. https://doi.org/10.1016/0191-8869(92)90236-I
+- Dunbar, R. I. M. (1992). Neocortex size as a constraint on group size in primates. *Journal of Human Evolution*, 22(6), 469–493. https://doi.org/10.1016/0047-2484(92)90081-J
+- Dunbar, R. I. M. (1998). The social brain hypothesis. *Evolutionary Anthropology*, 6(5), 178–190. https://doi.org/10.1002/(SICI)1520-6505(1998)6:5<178::AID-EVAN5>3.0.CO;2-8
+- Dunbar, R. I. M. (2018). The anatomy of friendship. *Trends in Cognitive Sciences*, 22(1), 32–51. https://doi.org/10.1016/j.tics.2017.10.004
+- Feld, S. L. (1982). Social structural determinants of similarity among associates. *American Sociological Review*, 47(6), 797–801. https://doi.org/10.2307/2095213
+- Fischer, C. S. (1982). *To Dwell Among Friends: Personal Networks in Town and City*. University of Chicago Press.
+- Glaeser, E. L., Laibson, D. I., Scheinkman, J. A., & Soutter, C. L. (2000). Measuring trust. *The Quarterly Journal of Economics*, 115(3), 811–846. https://doi.org/10.1162/003355300554926
+- Granovetter, M. S. (1973). The strength of weak ties. *American Journal of Sociology*, 78(6), 1360–1380. https://doi.org/10.1086/225469
+- Grün, B., & Leisch, F. (2008). FlexMix Version 2: Finite mixtures with concomitant variables and varying and constant parameters. *Journal of Statistical Software*, 28(4), 1–35. https://doi.org/10.18637/jss.v028.i04
+- Harris, K., & Vazire, S. (2016). On friendship development and the Big Five personality traits. *Social and Personality Psychology Compass*, 10(11), 647–667. https://doi.org/10.1111/spc3.12287
+- Heydari, S., Roberts, S. G., Dunbar, R. I., & Saramäki, J. (2018). Multichannel social signatures and persistent features of ego networks. *Applied Network Science*, 3(1), 1–18. https://doi.org/10.1007/s41109-018-0065-2
+- Hill, R. A., & Dunbar, R. I. M. (2003). Social network size in humans. *Human Nature*, 14(1), 53–72. https://doi.org/10.1007/s12110-003-1016-y
+- Hurtado, S., Milem, J. F., Clayton-Pedersen, A. R., & Allen, W. R. (1998). Enhancing campus climates for racial/ethnic diversity: Educational policy and practice. *The Review of Higher Education*, 21(3), 279–302. https://doi.org/10.1353/rhe.1998.0003
+- John, O. P., & Srivastava, S. (1999). The Big Five trait taxonomy: History, measurement, and theoretical perspectives. In L. A. Pervin & O. P. John (Eds.), *Handbook of Personality: Theory and Research* (2nd ed., pp. 102–138). Guilford Press.
+- Lin, N. (2001). *Social Capital: A Theory of Social Structure and Action*. Cambridge University Press. https://doi.org/10.1017/CBO9780511815447
+- Liu, S., Hachen, D., Lizardo, O., Poellabauer, C., Striegel, A., & Milenković, T. (2018). The network science of education. *Applied Network Science*, 3(1), 1–25. https://doi.org/10.1007/s41109-018-0091-0
+- Lizardo, O. (2024). A multi-frame theory of personal network dynamics. *Sociological Theory*, 42(1), 45–68. https://doi.org/10.1177/07352751231221000
+- Marsden, P. V. (1987). Core discussion networks of Americans. *American Sociological Review*, 52(1), 122–131. https://doi.org/10.2307/2095397
+- Marsden, P. V., & Campbell, K. E. (1984). Measuring tie strength. *Social Forces*, 63(2), 482–501. https://doi.org/10.2307/2579058
+- McCarty, C., Lubbers, M. J., Vacca, R., & Molina, J. L. (2019). *Conducting Personal Network Research: A Practical Guide*. Guilford Press.
+- Moore, G. (1990). Structural determinants of men's and women's personal networks. *American Sociological Review*, 55(5), 726–735. https://doi.org/10.2307/2095868
+- Roberts, B. W., Kuncel, N. R., Shiner, R., Caspi, A., & Goldberg, L. R. (2007). The power of personality: The comparative validity of personality traits, socioeconomic status, and cognitive ability for predicting important life outcomes. *Perspectives on Psychological Science*, 2(4), 313–345. https://doi.org/10.1111/j.1745-6916.2007.00047.x
+- Russell, D. W., Booth, B., Reed, D., & Laughlin, P. R. (2008). Personality, social networks, and loneliness in later life. *Psychology and Aging*, 23(3), 570–581. https://doi.org/10.1037/a0013069
+- Saramäki, J., Leicht, E. A., López, E., Roberts, S. G., Reed-Tsochas, F., & Dunbar, R. I. M. (2014). Persistence of social signatures in human communication. *Proceedings of the National Academy of Sciences*, 111(3), 942–947. https://doi.org/10.1073/pnas.1308540110
+- Sepulvado, B., Lizardo, O., & Hachen, D. (2020). Predicting tie strength with mobile phone data. *Social Science Computer Review*, 38(4), 450–468. https://doi.org/10.1177/0894439318814725
+- Small, M. L. (2009). *Unanticipated Gains: Origins of Network Inequality in Everyday Life*. Oxford University Press. https://doi.org/10.1093/acprof:oso/9780195384352.001.0001
+- Small, M. L. (2015). How to schedule a personal network study. *Field Methods*, 27(4), 346–361. https://doi.org/10.1177/1525822X15584852
+- Smith, J. M. (2021). Social networks and subjective well-being across the life course. In B. L. Pescosolido et al. (Eds.), *A Handbook for the Study of Mental Health* (pp. 312–330). Cambridge University Press. https://doi.org/10.1017/9781108658058
+- Vacca, R., Soller, B., & Stovel, K. (2020). The structure of social support networks among young adults. *Social Networks*, 63, 134–147. https://doi.org/10.1016/j.socnet.2020.06.002
+- Wang, C., Lizardo, O., & Hachen, D. (2020). Neither isolated nor integrated: Structural patterns of friendship segregation among college students. *Social Networks*, 61, 107–120. https://doi.org/10.1016/j.socnet.2019.10.003
+- Wellman, B., & Wortley, S. (1990). Different strokes from different folks: Community ties and social support. *American Journal of Sociology*, 96(3), 558–588. https://doi.org/10.1086/229572
+- Yamagishi, T. (2011). *Trust: The Evolutionary Game of Mind and Society*. Springer. https://doi.org/10.1007/978-4-431-53936-0
+- Zhou, W.-X., Sornette, D., Hill, R. A., & Dunbar, R. I. M. (2005). Discrete hierarchical organization of social group sizes. *Proceedings of the Royal Society B: Biological Sciences*, 272(1561), 439–444. https://doi.org/10.1098/rspb.2004.2970
