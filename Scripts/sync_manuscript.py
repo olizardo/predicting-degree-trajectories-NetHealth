@@ -161,10 +161,10 @@ def sync_docx(in_docx, out_docx, inject_tables=True):
     
     # 1. Figure Tag Replacement
     figure_tags = {
-        "{{FIGURE_1}}": "Plots/fig1_decomposed_degree_trajectories.png",
-        "{{FIGURE_2}}": "Plots/fig2_lcga_8wave_trajectories.png",
-        "{{FIGURE_3}}": "Plots/fig3_lcga_functional_profiles.png",
-        "{{FIGURE_4}}": "Plots/fig4_mlogit_forest_plot.png",
+        "{{FIGURE_1}}": "Plots/fig1_compound_strong_weak_trajectories.png",
+        "{{FIGURE_2}}": "Plots/fig2_bivariate_lcga_trajectories.png",
+        "{{FIGURE_3}}": "Plots/fig3_bivariate_mlogit_forest_plot.png",
+        "{{FIGURE_4}}": "Plots/fig4_bivariate_marginal_effects.png",
         "{{FIGURE_A1}}": "Plots/figA1_multilevel_predicted_trajectories.png"
     }
     

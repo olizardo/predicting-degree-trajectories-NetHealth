@@ -834,7 +834,7 @@ project/
 ├── cache/                                   # Pre-compiled APA markdown tables
 └── Scripts/                                 # Turnkey modular execution pipeline
     ├── 01_prepare_trajectory_data.R         # Ingestion, covariate cleaning, and 8-wave cohort creation
-    ├── 02_fit_bivariate_trajectory_models.R # Bivariate LCGA, decomposition, Figs 1-3, Tabs 1-4
+    ├── 02_fit_bivariate_trajectory_models.R # Bivariate LCGA, decomposition, Figs 1-4, Tabs 1-4
     ├── 04_appendix_multilevel_growth.R      # Appendix 8-wave Multilevel Poisson GLMM, Fig A1, Tab A1
     ├── sync_manuscript.py                   # In-place OpenXML table & figure injector
     └── sync_manuscript.R                    # Master Drive sync driver (Rscript Scripts/sync_manuscript.R)
@@ -846,8 +846,9 @@ project/
 - **Table 2**: Bivariate Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_bivariate_model_selection.md`, LaTeX `\label{tab:biv_lcga}`)
 - **Figure 2**: Bivariate Multi-Trajectory Latent Class Growth Analysis Profiles Across Eight Collegiate Waves ($K = 3$) (`Plots/fig2_bivariate_lcga_trajectories.png`, LaTeX `\label{fig:biv_lcga}`)
 - **Table 3**: Model Fit Comparison of Endogenous Concomitant Bivariate Mixture Specifications ($K = 3, N = 433$) (`cache/table3_bivariate_concomitant_model_comparison.md`, LaTeX `\label{tab:concomitant_comparison}`)
-- **Table 4**: Multinomial Logistic Regression Estimates Predicting Bivariate Trajectory Class Membership (`cache/table4_bivariate_mlogit_predictors.md`, LaTeX `\label{tab:mlogit_predictors}`)
+- **Table 4**: Endogenous Multinomial Logistic Regression Estimates Predicting Bivariate Trajectory Class Membership (`cache/table4_bivariate_mlogit_predictors.md`, LaTeX `\label{tab:mlogit_predictors}`)
 - **Figure 3**: Forest Plot of Odds Ratios for Baseline Sociodemographic and Psychological Predictors of Bivariate Trajectory Class Membership (`Plots/fig3_bivariate_mlogit_forest_plot.png`, LaTeX `\label{fig:mlogit_forest}`)
+- **Figure 4**: Model-Implied Marginal Predicted Class Probabilities from Bivariate LCGA across Generalized Trust, Extraversion, and Race/Ethnicity (`Plots/fig4_bivariate_marginal_effects.png`, LaTeX `\label{fig:biv_marginal_effects}`)
 - **Table A1**: Fixed Effects Estimates from Multilevel Poisson Growth Curve GLMM with Random Ego Intercepts Across Eight Waves (`cache/tableA1_multilevel_glmm_estimates.md`, LaTeX `\label{tab:glmm_appendix}`)
 - **Figure A1**: Predicted Ego Degree Growth Trajectories by Personality Profiles Across Eight Waves from Multilevel Poisson GLMM (`Plots/figA1_multilevel_predicted_trajectories.png`, LaTeX `\label{fig:glmm_predicted}`)
 

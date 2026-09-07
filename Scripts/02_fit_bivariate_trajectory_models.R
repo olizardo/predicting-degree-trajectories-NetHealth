@@ -12,7 +12,7 @@ suppressPackageStartupMessages({
   library(ggplot2)
   library(scales)
   library(flexmix)
-  library(nnet)
+  library(grid)
 })
 
 cat("==> [1/6] Loading data and constructing compound strong/weak ties...\n")
@@ -393,72 +393,81 @@ md3 <- c(
 writeLines(md3, "cache/table3_bivariate_concomitant_model_comparison.md")
 
 # -------------------------------------------------------------------
-# 5. Table 4 & Figure 3: Full Multivariable Model & Block Wald Tests
+# 5. Table 4 & Figures 3-4: Direct Endogenous flexmix Estimates & Marginal Effects
 # -------------------------------------------------------------------
-cat("==> [6/6] Generating Table 4 (Full Model & Wald Tests) and Figure 3 (Forest Plot)...\n")
+cat("==> [6/6] Generating Table 4 (Direct flexmix Parameters), Figure 3 (Forest Plot), and Figure 4 (Marginal Effects)...\n")
 
-# Re-estimate mlogit on bivariate classes for clean APA table and forest plot
-df_biv_complete$comp_clust <- clusters(mod_biv3)[1:nrow(df_biv_complete)] # wait, match by egoid
-ego_biv_map <- tibble(egoid = biv_data_all$egoid, c = clusters(mod_biv3)) %>%
-  group_by(egoid) %>%
-  summarize(raw_class = names(which.max(table(c))), .groups = "drop")
-
-df_model_comp <- base_df %>%
-  inner_join(ego_biv_map, by = "egoid") %>%
-  mutate(
-    class_name = factor(
-      case_when(
-        raw_class == "1" ~ "Network Conservers",
-        raw_class == "2" ~ "Accelerated Winnowers",
-        raw_class == "3" ~ "High-Core Conservers"
-      ),
-      levels = c("Accelerated Winnowers", "Network Conservers", "High-Core Conservers") # Accelerated Winnowers as ref
-    )
-  ) %>%
-  filter(
-    !is.na(female), !is.na(race), !is.na(parents_income_num), !is.na(mom_college),
-    !is.na(z_extraversion), !is.na(z_neuroticism), !is.na(z_agreeableness),
-    !is.na(z_conscientiousness), !is.na(z_openness), !is.na(z_trust)
-  )
-
-# Let's make Moderate Winnowers the ref if preferred, or Accelerated Winnowers
-# Let's set Moderate / Accelerated as reference:
-# In biv model:
-# Raw 2 = Accelerated Winnowers (n = 191) -> modal group!
-# Raw 1 = Network Conservers (n = 141)
-# Raw 3 = High-Core Conservers (n = 125)
-df_model_comp$class_name <- relevel(df_model_comp$class_name, ref = "Accelerated Winnowers")
-
-m_full_biv <- multinom(
-  class_name ~ female + race + parents_income_num + mom_college +
-    z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness + z_trust,
-  data = df_model_comp, trace = FALSE
+# Fit the full multivariable concomitant model directly to retain the full flexmix object
+set.seed(2026)
+m3_full_obj <- flexmix(
+  cbind(strong_degree, weak_degree) ~ wave_num + I(wave_num^2) | egoid,
+  data = df_biv_complete, k = 3, model = biv_specs,
+  concomitant = FLXPmultinom(~ female + race + parents_income_num + mom_college +
+    z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness + z_trust),
+  control = list(iter.max = 300, minprior = 0.02)
 )
 
-# Extract tidy results
-s <- summary(m_full_biv)
-coefs <- s$coefficients
-ses <- s$standard.errors
-z_vals <- coefs / ses
-p_vals <- (1 - pnorm(abs(z_vals))) * 2
+# Extract full variance-covariance matrix of all model parameters
+vc_full <- flexmix:::VarianceCovariance(m3_full_obj)
+concom_idx <- grep("^concomitant_", names(vc_full$coef))
+concom_coef <- vc_full$coef[concom_idx]
+concom_vcov <- vc_full$vcov[concom_idx, concom_idx]
 
-classes <- rownames(coefs)
-out_list <- list()
-for (cl in classes) {
-  terms <- colnames(coefs)
-  out_list[[cl]] <- tibble(
-    Comparison_Class = cl,
-    Term = terms,
-    Estimate = coefs[cl, ],
-    SE = ses[cl, ],
-    Z = z_vals[cl, ],
-    P_Value = p_vals[cl, ],
-    OR = exp(coefs[cl, ]),
-    OR_Low = exp(coefs[cl, ] - 1.96 * ses[cl, ]),
-    OR_High = exp(coefs[cl, ] + 1.96 * ses[cl, ])
-  )
+# Map flexmix components to substantive trajectory archetypes:
+# Comp 1 = High-Core Conservers (baseline parameter vector = 0)
+# Comp 2 = Accelerated Winnowers (modal group)
+# Comp 3 = Network Conservers
+
+p_names <- sub("concomitant_Comp.2.", "", names(concom_coef)[1:14])
+b_c2 <- concom_coef[paste0("concomitant_Comp.2.", p_names)]
+b_c3 <- concom_coef[paste0("concomitant_Comp.3.", p_names)]
+
+# Re-reference to modal group: Accelerated Winnowers (Comp 2)
+# Contrast A: Network Conservers vs Accelerated Winnowers (Comp 3 - Comp 2)
+est_net <- b_c3 - b_c2
+se_net  <- numeric(length(p_names))
+names(se_net) <- p_names
+for (pn in p_names) {
+  n3 <- paste0("concomitant_Comp.3.", pn)
+  n2 <- paste0("concomitant_Comp.2.", pn)
+  var_diff <- concom_vcov[n3, n3] + concom_vcov[n2, n2] - 2 * concom_vcov[n3, n2]
+  se_net[pn] <- sqrt(var_diff)
 }
-tidy_full_biv <- bind_rows(out_list)
+
+tidy_net <- tibble(
+  Comparison_Class = "Network Conservers",
+  Term = p_names,
+  Estimate = est_net,
+  SE = se_net,
+  Z = est_net / se_net,
+  P_Value = 2 * (1 - pnorm(abs(est_net / se_net))),
+  OR = exp(est_net),
+  OR_Low = exp(est_net - 1.96 * se_net),
+  OR_High = exp(est_net + 1.96 * se_net)
+)
+
+# Contrast B: High-Core Conservers vs Accelerated Winnowers (Comp 1 - Comp 2 = 0 - Comp 2)
+est_high <- -b_c2
+se_high  <- numeric(length(p_names))
+names(se_high) <- p_names
+for (pn in p_names) {
+  n2 <- paste0("concomitant_Comp.2.", pn)
+  se_high[pn] <- sqrt(concom_vcov[n2, n2])
+}
+
+tidy_high <- tibble(
+  Comparison_Class = "High-Core Conservers",
+  Term = p_names,
+  Estimate = est_high,
+  SE = se_high,
+  Z = est_high / se_high,
+  P_Value = 2 * (1 - pnorm(abs(est_high / se_high))),
+  OR = exp(est_high),
+  OR_Low = exp(est_high - 1.96 * se_high),
+  OR_High = exp(est_high + 1.96 * se_high)
+)
+
+tidy_full_biv <- bind_rows(tidy_net, tidy_high)
 write.csv(tidy_full_biv, "output/tables/table4_bivariate_mlogit_predictors.csv", row.names = FALSE)
 
 # Generate Table 4 markdown (Panel A & Panel B)
@@ -478,8 +487,8 @@ term_labels <- c(
   "z_trust"                  = "Generalized Trust (z-score)"
 )
 
-panel_a <- tidy_full_biv %>% filter(Comparison_Class == classes[1], Term != "(Intercept)")
-panel_b <- tidy_full_biv %>% filter(Comparison_Class == classes[2], Term != "(Intercept)")
+panel_a <- tidy_full_biv %>% filter(Comparison_Class == "Network Conservers", Term != "(Intercept)")
+panel_b <- tidy_full_biv %>% filter(Comparison_Class == "High-Core Conservers", Term != "(Intercept)")
 
 format_panel_rows <- function(df_p) {
   apply(df_p, 1, function(r) {
@@ -495,14 +504,14 @@ format_panel_rows <- function(df_p) {
 md4 <- c(
   "| Predictor Variable | Estimate (SE) | Odds Ratio [95% CI] | p-value |",
   "|:---|:---:|:---:|:---:|",
-  paste0("| **Panel A: ", classes[1], " (vs. Accelerated Winnowers)** | | | |"),
+  "| **Panel A: Network Conservers (vs. Accelerated Winnowers)** | | | |",
   format_panel_rows(panel_a),
-  paste0("| **Panel B: ", classes[2], " (vs. Accelerated Winnowers)** | | | |"),
+  "| **Panel B: High-Core Conservers (vs. Accelerated Winnowers)** | | | |",
   format_panel_rows(panel_b)
 )
 writeLines(md4, "cache/table4_bivariate_mlogit_predictors.md")
 
-# Plot Figure 3: Forest Plot of Odds Ratios
+# Plot Figure 3: Forest Plot of Odds Ratios directly from flexmix
 plot_forest_df <- tidy_full_biv %>%
   filter(Term != "(Intercept)") %>%
   mutate(
@@ -519,8 +528,8 @@ p_fig3 <- ggplot(plot_forest_df, aes(x = OR, y = Clean_Term, color = Comparison_
   scale_color_manual(values = c("#1f77b4", "#2ca02c")) +
   scale_shape_manual(values = c("Not Significant" = 1, "p < 0.05" = 16)) +
   labs(
-    title = "Multinomial Logistic Regression Odds Ratios Predicting Bivariate Trajectory Classes",
-    subtitle = "Reference Category: Accelerated Winnowers (N = 433 Egos)",
+    title = "Endogenous Multinomial Logistic Odds Ratios from Bivariate LCGA",
+    subtitle = "Estimated simultaneously in flexmix; Reference Category: Accelerated Winnowers (N = 433)",
     x = "Odds Ratio (Relative Risk Ratio, Log Scale)",
     y = NULL,
     color = "Comparison Class",
@@ -536,5 +545,179 @@ p_fig3 <- ggplot(plot_forest_df, aes(x = OR, y = Clean_Term, color = Comparison_
 
 ggsave("Plots/fig3_bivariate_mlogit_forest_plot.png", p_fig3, width = 9.5, height = 7.0, dpi = 300)
 ggsave("output/figures/fig3_bivariate_mlogit_forest_plot.png", p_fig3, width = 9.5, height = 7.0, dpi = 300)
+
+# -------------------------------------------------------------------
+# 6. Figure 4: Model-Implied Marginal Class Probabilities (Marginal Effects)
+# -------------------------------------------------------------------
+cat("==> Generating Figure 4 (Model-Implied Marginal Class Probabilities)...\n")
+
+form_conc <- ~ female + race + parents_income_num + mom_college +
+  z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness + z_trust
+
+# Function to simulate predicted class probabilities and 95% CIs
+predict_prob_ci <- function(X_mat, beta_draws) {
+  n_grid <- nrow(X_mat)
+  n_draws <- nrow(beta_draws)
+  prob_draws <- array(0, dim = c(n_grid, 3, n_draws))
+  
+  for (d in 1:n_draws) {
+    b_c2_d <- beta_draws[d, 1:14]
+    b_c3_d <- beta_draws[d, 15:28]
+    eta1 <- rep(0, n_grid)
+    eta2 <- as.vector(X_mat %*% b_c2_d)
+    eta3 <- as.vector(X_mat %*% b_c3_d)
+    max_eta <- pmax(eta1, eta2, eta3)
+    exp1 <- exp(eta1 - max_eta)
+    exp2 <- exp(eta2 - max_eta)
+    exp3 <- exp(eta3 - max_eta)
+    sum_exp <- exp1 + exp2 + exp3
+    prob_draws[, 1, d] <- exp1 / sum_exp
+    prob_draws[, 2, d] <- exp2 / sum_exp
+    prob_draws[, 3, d] <- exp3 / sum_exp
+  }
+  
+  res <- list()
+  class_names <- c("High-Core Conservers", "Accelerated Winnowers", "Network Conservers")
+  for (k in 1:3) {
+    res[[class_names[k]]] <- tibble(
+      Class = class_names[k],
+      Mean = apply(prob_draws[, k, ], 1, mean),
+      Median = apply(prob_draws[, k, ], 1, median),
+      Low = apply(prob_draws[, k, ], 1, quantile, probs = 0.025),
+      High = apply(prob_draws[, k, ], 1, quantile, probs = 0.975)
+    )
+  }
+  bind_rows(res)
+}
+
+set.seed(2026)
+beta_draws <- MASS::mvrnorm(1000, mu = concom_coef, Sigma = concom_vcov)
+
+# Grid for Generalized Trust (-2.5 to 2.5)
+grid_trust <- tibble(
+  z_trust = seq(-2.5, 2.5, length.out = 100),
+  female = mean(df_biv_complete$female),
+  race = factor("White", levels = levels(factor(df_biv_complete$race))),
+  parents_income_num = mean(df_biv_complete$parents_income_num),
+  mom_college = mean(df_biv_complete$mom_college),
+  z_extraversion = 0,
+  z_neuroticism = 0,
+  z_agreeableness = 0,
+  z_conscientiousness = 0,
+  z_openness = 0
+)
+X_grid_trust <- model.matrix(form_conc, data = grid_trust)
+ci_trust <- predict_prob_ci(X_grid_trust, beta_draws) %>%
+  mutate(z_trust = rep(grid_trust$z_trust, 3))
+
+# Grid for Extraversion (-2.5 to 2.5)
+grid_ext <- tibble(
+  z_extraversion = seq(-2.5, 2.5, length.out = 100),
+  female = mean(df_biv_complete$female),
+  race = factor("White", levels = levels(factor(df_biv_complete$race))),
+  parents_income_num = mean(df_biv_complete$parents_income_num),
+  mom_college = mean(df_biv_complete$mom_college),
+  z_trust = 0,
+  z_neuroticism = 0,
+  z_agreeableness = 0,
+  z_conscientiousness = 0,
+  z_openness = 0
+)
+X_grid_ext <- model.matrix(form_conc, data = grid_ext)
+ci_ext <- predict_prob_ci(X_grid_ext, beta_draws) %>%
+  mutate(z_extraversion = rep(grid_ext$z_extraversion, 3))
+
+# Combined Continuous Dispositions
+ci_continuous <- bind_rows(
+  ci_trust %>% mutate(Predictor = "A: Generalized Trust", Value = z_trust),
+  ci_ext %>% mutate(Predictor = "B: Extraversion", Value = z_extraversion)
+)
+
+p_cont <- ggplot(ci_continuous, aes(x = Value, y = Mean, color = Class, fill = Class)) +
+  geom_ribbon(aes(ymin = Low, ymax = High), alpha = 0.15, color = NA) +
+  geom_line(linewidth = 1.2) +
+  facet_wrap(~ Predictor, scales = "fixed", ncol = 2) +
+  scale_color_manual(values = c("High-Core Conservers" = "#2ca02c", 
+                                "Accelerated Winnowers" = "#d62728", 
+                                "Network Conservers" = "#1f77b4")) +
+  scale_fill_manual(values = c("High-Core Conservers" = "#2ca02c", 
+                               "Accelerated Winnowers" = "#d62728", 
+                               "Network Conservers" = "#1f77b4")) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0, 0.75)) +
+  scale_x_continuous(breaks = seq(-2, 2, 1)) +
+  labs(
+    title = "Model-Implied Marginal Class Probabilities from Bivariate LCGA",
+    subtitle = "A: Continuous Psychological Dispositions (Generalized Trust & Extraversion)",
+    x = "Standardized Trait Score (z-score)",
+    y = "Predicted Probability of Class Membership",
+    color = "Trajectory Class",
+    fill  = "Trajectory Class"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    plot.title = element_text(face = "bold", size = 12, hjust = 0.5),
+    plot.subtitle = element_text(face = "bold", size = 10, hjust = 0.5, color = "black"),
+    strip.text = element_text(face = "bold", size = 11),
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  )
+
+# Grid for Race & Ethnicity
+grid_race <- tibble(
+  race = factor(levels(factor(df_biv_complete$race)), levels = levels(factor(df_biv_complete$race))),
+  female = mean(df_biv_complete$female),
+  parents_income_num = mean(df_biv_complete$parents_income_num),
+  mom_college = mean(df_biv_complete$mom_college),
+  z_trust = 0,
+  z_extraversion = 0,
+  z_neuroticism = 0,
+  z_agreeableness = 0,
+  z_conscientiousness = 0,
+  z_openness = 0
+)
+X_grid_race <- model.matrix(form_conc, data = grid_race)
+ci_race <- predict_prob_ci(X_grid_race, beta_draws) %>%
+  mutate(race = rep(grid_race$race, 3))
+
+race_clean_names <- c(
+  "White" = "White",
+  "Asian" = "Asian",
+  "Black" = "Black",
+  "Hispanic/Latino" = "Hispanic",
+  "Other/International" = "Other/Intl"
+)
+ci_race_plot <- ci_race %>%
+  mutate(clean_race = factor(race_clean_names[as.character(race)], 
+                             levels = c("White", "Asian", "Black", "Hispanic", "Other/Intl")))
+
+p_race_clean <- ggplot(ci_race_plot, aes(x = clean_race, y = Mean, color = Class)) +
+  geom_pointrange(aes(ymin = Low, ymax = High), position = position_dodge(width = 0.5), size = 0.6) +
+  scale_color_manual(values = c("High-Core Conservers" = "#2ca02c", 
+                                "Accelerated Winnowers" = "#d62728", 
+                                "Network Conservers" = "#1f77b4")) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0, 0.85)) +
+  labs(
+    title = "B: Model-Implied Class Probabilities by Race and Ethnicity",
+    x = "Racial/Ethnic Group",
+    y = "Predicted Probability",
+    color = "Trajectory Class"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    plot.title = element_text(face = "bold", size = 11, hjust = 0.5),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank()
+  )
+
+# Composite Figure 4 via base grid
+png("Plots/fig4_bivariate_marginal_effects.png", width = 8.5, height = 7.5, units = "in", res = 300)
+grid::grid.newpage()
+grid::pushViewport(grid::viewport(layout = grid::grid.layout(2, 1, heights = grid::unit(c(1.1, 1), "null"))))
+print(p_cont, vp = grid::viewport(layout.pos.row = 1, layout.pos.col = 1))
+print(p_race_clean, vp = grid::viewport(layout.pos.row = 2, layout.pos.col = 1))
+dev.off()
+
+# Copy to output/figures
+file.copy("Plots/fig4_bivariate_marginal_effects.png", "output/figures/fig4_bivariate_marginal_effects.png", overwrite = TRUE)
 
 cat("\n==> All bivariate models, tables, and figures generated successfully!\n")

@@ -190,38 +190,38 @@ Table 3 presents the model comparison hierarchy evaluating nested concomitant sp
 
 The model comparison hierarchy in Table 3 provides decisive empirical insights. Introducing **Family SES alone (Model 1a)** provides zero statistically significant improvement over the empty baseline (χ²=7.14, df=4, p=0.129). Adding SES to the Race/Gender model (Model 1b to Model 1c) yields a negligible gain of only Δχ²=3.31 (p=0.507). In sharp contrast, introducing **Extraversion alone (Model 2b)** produces a dramatic increase in model fit (χ²=19.03, df=2, p<0.001) and lowers AIC to 27,061.0 (the lowest AIC of any parsimonious model). **Generalized Trust alone (Model 2a)** similarly improves fit significantly (χ²=16.08, df=2, p<0.001). The **Full Multivariable Model (Model 3)** achieves a highly significant omnibus improvement over the baseline model (χ²=60.98, df=26, p<0.001).
 
-To examine specific parameter estimates, Table 4 reports the multivariable multinomial logistic regression estimates, standard errors, Odds Ratios (Relative Risk Ratios), 95% confidence intervals, and p-values estimated with `nnet` (Venables & Ripley, 2002), setting the modal category—**Accelerated Winnowers**—as the reference category.
+To examine specific parameter estimates, Table 4 reports the multivariable multinomial logistic parameters, standard errors, Odds Ratios (Relative Risk Ratios), 95% confidence intervals, and p-values estimated simultaneously within the full `flexmix` bivariate mixture specification (Model 3). Standard errors and hypothesis tests are derived from the empirical information matrix, re-referenced to the modal category—**Accelerated Winnowers**—as the baseline comparison group.
 
 | Predictor Variable | Estimate (SE) | Odds Ratio [95% CI] | p-value |
 |:---|:---:|:---:|:---:|
 | **Panel A: Network Conservers (vs. Accelerated Winnowers)** | | | |
-| Gender Identity: Woman (ref: Man) | 0.00 (0.26) | 1.00 [0.61, 1.65] | 0.996 |
-| Race: Asian (ref: White) | -1.11 (0.45) | 0.33 [0.14, 0.80] | 0.014 |
-| Race: Black (ref: White) | -0.68 (0.52) | 0.50 [0.18, 1.40] | 0.190 |
-| Race: Hispanic/Latino (ref: White) | -0.60 (0.41) | 0.55 [0.24, 1.23] | 0.145 |
-| Race: Other/International (ref: White) | -1.24 (0.58) | 0.29 [0.09, 0.90] | 0.033 |
-| Parents' Income (1-8 Ordinal) | -0.04 (0.07) | 0.96 [0.85, 1.10] | 0.582 |
-| Mother College Degree (ref: Non-degree) | 0.18 (0.42) | 1.19 [0.53, 2.69] | 0.669 |
-| Extraversion (z-score) | -0.17 (0.13) | 0.84 [0.65, 1.09] | 0.185 |
-| Neuroticism (z-score) | 0.06 (0.14) | 1.06 [0.80, 1.40] | 0.688 |
-| Agreeableness (z-score) | -0.01 (0.14) | 0.99 [0.76, 1.31] | 0.963 |
-| Conscientiousness (z-score) | -0.13 (0.14) | 0.88 [0.67, 1.15] | 0.346 |
-| Openness to Experience (z-score) | -0.17 (0.13) | 0.85 [0.66, 1.09] | 0.203 |
-| Generalized Trust (z-score) | 0.18 (0.14) | 1.20 [0.91, 1.58] | 0.205 |
+| Gender Identity: Woman (ref: Man) | -0.17 (0.27) | 0.85 [0.50, 1.44] | 0.533 |
+| Race: Asian (ref: White) | -1.11 (0.46) | 0.33 [0.13, 0.81] | 0.016 |
+| Race: Black (ref: White) | -0.58 (0.54) | 0.56 [0.19, 1.63] | 0.287 |
+| Race: Hispanic/Latino (ref: White) | -0.72 (0.46) | 0.49 [0.20, 1.19] | 0.114 |
+| Race: Other/International (ref: White) | -1.19 (0.59) | 0.30 [0.10, 0.96] | 0.042 |
+| Parents' Income (1-8 Ordinal) | -0.02 (0.07) | 0.98 [0.86, 1.12] | 0.800 |
+| Mother College Degree (ref: Non-degree) | 0.04 (0.43) | 1.04 [0.45, 2.41] | 0.925 |
+| Extraversion (z-score) | -0.20 (0.14) | 0.82 [0.63, 1.06] | 0.133 |
+| Neuroticism (z-score) | 0.08 (0.14) | 1.09 [0.82, 1.44] | 0.573 |
+| Agreeableness (z-score) | 0.01 (0.14) | 1.01 [0.77, 1.34] | 0.918 |
+| Conscientiousness (z-score) | -0.18 (0.14) | 0.84 [0.63, 1.10] | 0.204 |
+| Openness to Experience (z-score) | -0.16 (0.14) | 0.85 [0.65, 1.12] | 0.259 |
+| Generalized Trust (z-score) | 0.16 (0.14) | 1.18 [0.89, 1.56] | 0.258 |
 | **Panel B: High-Core Conservers (vs. Accelerated Winnowers)** | | | |
-| Gender Identity: Woman (ref: Man) | 0.17 (0.27) | 1.19 [0.71, 2.01] | 0.514 |
-| Race: Asian (ref: White) | -0.95 (0.48) | 0.39 [0.15, 0.99] | 0.048 |
-| Race: Black (ref: White) | -1.03 (0.63) | 0.36 [0.10, 1.22] | 0.100 |
-| Race: Hispanic/Latino (ref: White) | 0.28 (0.39) | 1.32 [0.62, 2.82] | 0.476 |
-| Race: Other/International (ref: White) | -0.77 (0.59) | 0.46 [0.14, 1.48] | 0.194 |
-| Parents' Income (1-8 Ordinal) | 0.08 (0.07) | 1.08 [0.95, 1.24] | 0.247 |
-| Mother College Degree (ref: Non-degree) | -0.28 (0.43) | 0.76 [0.33, 1.74] | 0.510 |
-| Extraversion (z-score) | 0.33 (0.14) | 1.39 [1.06, 1.83] | 0.017 |
-| Neuroticism (z-score) | -0.03 (0.15) | 0.97 [0.73, 1.29] | 0.834 |
-| Agreeableness (z-score) | -0.03 (0.15) | 0.97 [0.72, 1.30] | 0.827 |
-| Conscientiousness (z-score) | 0.01 (0.14) | 1.01 [0.76, 1.34] | 0.935 |
-| Openness to Experience (z-score) | -0.02 (0.14) | 0.98 [0.75, 1.28] | 0.876 |
-| Generalized Trust (z-score) | 0.46 (0.16) | 1.58 [1.17, 2.15] | 0.003 |
+| Gender Identity: Woman (ref: Man) | 0.17 (0.29) | 1.19 [0.67, 2.11] | 0.552 |
+| Race: Asian (ref: White) | -1.24 (0.56) | 0.29 [0.10, 0.87] | 0.028 |
+| Race: Black (ref: White) | -0.81 (0.64) | 0.45 [0.13, 1.57] | 0.209 |
+| Race: Hispanic/Latino (ref: White) | 0.42 (0.41) | 1.53 [0.68, 3.43] | 0.306 |
+| Race: Other/International (ref: White) | -0.95 (0.69) | 0.39 [0.10, 1.49] | 0.168 |
+| Parents' Income (1-8 Ordinal) | 0.11 (0.07) | 1.11 [0.96, 1.29] | 0.141 |
+| Mother College Degree (ref: Non-degree) | -0.49 (0.46) | 0.61 [0.25, 1.50] | 0.283 |
+| Extraversion (z-score) | 0.32 (0.15) | 1.37 [1.02, 1.84] | 0.034 |
+| Neuroticism (z-score) | -0.08 (0.16) | 0.92 [0.67, 1.27] | 0.621 |
+| Agreeableness (z-score) | 0.05 (0.16) | 1.05 [0.76, 1.44] | 0.778 |
+| Conscientiousness (z-score) | -0.07 (0.16) | 0.93 [0.69, 1.27] | 0.653 |
+| Openness to Experience (z-score) | 0.06 (0.15) | 1.06 [0.79, 1.42] | 0.704 |
+| Generalized Trust (z-score) | 0.44 (0.17) | 1.55 [1.11, 2.16] | 0.009 |
 
 Figure 3 visualizes the Odds Ratios and 95% confidence intervals in a publication-grade forest plot.
 
@@ -229,13 +229,21 @@ Figure 3 visualizes the Odds Ratios and 95% confidence intervals in a publicatio
 
 The parameter estimates in Table 4 provide striking confirmation of our core theoretical expectations:
 
-First, consistent with **Hypothesis 1**, classic indicators of family socioeconomic background---parental annual income (OR=0.96, p=0.582 in Panel A; OR=1.08, p=0.247 in Panel B) and maternal college degree (OR=1.19, p=0.669; OR=0.76, p=0.510)---exhibit zero predictive power. In contrast, psychological dispositions and institutional racial sorting display substantial, statistically credible associations.
+First, consistent with **Hypothesis 1**, classic indicators of family socioeconomic background---parental annual income (OR=0.98, p=0.800 in Panel A; OR=1.11, p=0.141 in Panel B) and maternal college degree (OR=1.04, p=0.925; OR=0.61, p=0.283)---exhibit zero predictive power. In contrast, psychological dispositions and institutional racial sorting display substantial, statistically credible associations.
 
-Second, supporting **Hypothesis 2**, higher baseline Generalized Trust increases the odds of belonging to the High-Core Conserver class by 58% per standard deviation (OR=1.58, 95% CI: [1.17, 2.15], p=0.003). Trusting students are systematically equipped to build and sustain an unusually large, dense core of close ties across all four years.
+Second, supporting **Hypothesis 2**, higher baseline Generalized Trust increases the odds of belonging to the High-Core Conserver class by 55% per standard deviation (OR=1.55, 95% CI: [1.11, 2.16], p=0.009). Trusting students are systematically equipped to build and sustain an unusually large, dense core of close ties across all four years.
 
-Third, consistent with **Hypothesis 3**, Extraversion serves as a powerful engine for building and maintaining large strong-tie networks (OR=1.39, 95% CI: [1.06, 1.83], p=0.017). Highly extraverted students are significantly more likely to belong to the High-Core Conserver class than to allow their networks to winnow down to an intimate circle.
+Third, consistent with **Hypothesis 3**, Extraversion serves as a powerful engine for building and maintaining large strong-tie networks (OR=1.37, 95% CI: [1.02, 1.84], p=0.034). Highly extraverted students are significantly more likely to belong to the High-Core Conserver class than to allow their networks to winnow down to an intimate circle.
 
-Finally, with respect to institutional climate and race, students identifying as Asian (OR=0.33, p=0.014) and Other/International (OR=0.29, p=0.033) have significantly lower odds of belonging to the Network Conserver class relative to Accelerated Winnowers. In other words, minority and international students are disproportionately channeled into the Accelerated Winnower pathway, where their weak-tie perimeter collapses while their strong-tie core is preserved.
+Finally, with respect to institutional climate and race, students identifying as Asian (OR=0.33, p=0.016) and Other/International (OR=0.30, p=0.042) have significantly lower odds of belonging to the Network Conserver class relative to Accelerated Winnowers, and Asian students additionally exhibit sharply reduced odds of High-Core Conserving (OR=0.29, p=0.028). In other words, minority and international students are disproportionately channeled into the Accelerated Winnower pathway, where their weak-tie perimeter collapses while their strong-tie core is preserved.
+
+## Model-Implied Marginal Class Probabilities
+
+To translate these multinomial logit coefficients into intuitive probability metrics, Figure 4 displays the model-implied marginal predicted class probabilities across the empirical range of focal predictors, holding other covariates at sample means and reference levels.
+
+<img src="Plots/fig4_bivariate_marginal_effects.png" style="width:6.5in;" />
+
+Panel A illustrates the sorting function of psychological dispositions: moving from low trust (-2 SD) to high trust (+2 SD) quadruples the predicted probability of belonging to High-Core Conservers (from 11.5% to 41.5%), while cutting the probability of Accelerated Winnowing from 56.4% down to 26.2%. For Extraversion, an introverted student (-2 SD) has a 51.5% probability of being a Network Conserver and only a 10.2% probability of being a High-Core Conserver; at +2 SD of Extraversion, this sorting completely reverses, with High-Core Conserving rising to 44.6% and Network Conserving falling to 19.3%. Panel B reveals the dramatic racial disparity in developmental pathways: while White students have a balanced distribution (41.7% Accelerated Winnowers, 34.9% Network Conservers, 23.4% High-Core Conservers), Asian and Other/International students face an acute winnowing gradient, with predicted probabilities of Accelerated Winnowing surging to 67.8% and 65.2%, respectively, while High-Core Conserving drops to approximately 11–16%.
 
 # Discussion and Conclusion
 
@@ -247,7 +255,7 @@ First, decomposing personal networks into compound strong ties (affectively clos
 
 Second, Bivariate Multi-Trajectory Latent Class Growth Analysis establishes that students do not follow a uniform winnowing trajectory. Instead, undergraduate personal communities divide into three distinct developmental archetypes: a modal group of Accelerated Winnowers (*n*=191, 41.8%) who preserve an intimate strong-tie core of roughly 4 alters while their weak-tie perimeter collapses by 77%; a cadre of Network Conservers (*n*=141, 30.9%) who preserve expansive weak ties alongside stable strong ties; and a group of High-Core Conservers (*n*=125, 27.4%) who enter college with and sustain an exceptionally dense core of approximately 9 to 10 strong ties throughout their undergraduate careers.
 
-Third, endogenous concomitant mixture models and multivariable multinomial logistic regressions confirm that trajectory group membership is governed primarily by baseline psychological dispositions and racial context rather than parental socioeconomic resources. Replicating and extending the core insight of Chandler and Hachen (2018), parental income and parental education exhibit zero predictive capacity, whereas Generalized Trust strongly promotes membership in the High-Core Conserver class (OR=1.58, *p*=0.003). Furthermore, Extraversion acts as a powerful engine for building and maintaining large strong-tie networks (OR=1.39, *p*=0.017), and international and racial minority students face institutional frictions that channel them into the Accelerated Winnower pathway. Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of weak-tie winnowing over time (IRR=0.994, *p*=0.032).
+Third, endogenous concomitant mixture models confirm that trajectory group membership is governed primarily by baseline psychological dispositions and racial context rather than parental socioeconomic resources. Replicating and extending the core insight of Chandler and Hachen (2018), parental income and parental education exhibit zero predictive capacity, whereas Generalized Trust strongly promotes membership in the High-Core Conserver class (OR=1.55, *p*=0.009). Furthermore, Extraversion acts as a powerful engine for building and maintaining large strong-tie networks (OR=1.37, *p*=0.034), and international and racial minority students face institutional frictions that channel them into the Accelerated Winnower pathway. Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of weak-tie winnowing over time (IRR=0.994, *p*=0.032).
 
 ## Limitations and Suggestions for Future Work
 
