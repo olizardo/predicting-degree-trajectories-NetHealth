@@ -736,6 +736,9 @@ scale_fill_manual(values = COLOR_CREDIBILITY, name = "Directional Credibility")
 - **Vernacular English & Reduction of Latinisms**:
   - Write in natural, direct, and accessible vernacular English rather than stiff, inflated Latinate vocabulary or bureaucratic abstractions (e.g., prefer *use* over *utilize*, *show* over *demonstrate*, *help* over *facilitate*, *start/begin* over *commence/initiate*, *run/do* over *effectuate*, *before* over *prior to*, *after* over *subsequent to*, *about/roughly* over *approximately*, *part* over *component*, *since/because* over *inasmuch as*).
   - Avoid unnecessary Latin phrases and idioms in running text (e.g., avoid *inter alia*, *ex ante*, *ceteris paribus*, *qua*, *vis-à-vis*) in favor of plain English equivalents, reserving Latin strictly for standard bibliographic citations (e.g., *et al.*) or verbatim historical/philosophical maxims explicitly under discussion.
+- **Software and Package Citations Standard (R and Primary R Packages - MANDATORY)**:
+  - Always include formal in-text citations and complete bibliographic entries for **R itself** (citing the R Core Team) and all primary **R packages** used in data ingestion, statistical modeling, estimation, and visualization (e.g., `flexmix`, `nnet`, `lme4`, `brms`, `ggplot2`, `splines`).
+  - Never mention software packages casually in running text without formal bibliographic citations (e.g., write *“using the \texttt{flexmix} package \citep{grun2008flexmix} in \textsf{R} \citep{Rmanual}”*).
 - **Discussion Section Structural Architecture (The CUA Tripartite Standard)**:
   All quantitative sociology manuscripts and empirical research reports should structure the concluding Discussion section into three distinct, cohesive subsections:
   1. **`Summary of Key Results`**:
@@ -831,14 +834,13 @@ project/
 ```
 
 ### 4. Tables and Figures Inventory in Live Document & LaTeX (Strict Sequential Order)
-- **Table 1**: Longitudinal Means and Standard Errors of Decomposed Relational Dimensions Across Eight Collegiate Waves ($N = 457$) (`cache/table1_decomposed_trajectory_means.md`, LaTeX `\label{tab:decomp}`)
-- **Figure 1**: Decomposing Ego Network Evolution Across Eight Collegiate Waves: Total Degree, Strong Ties, Daily Ties, and Support Ties (`Plots/fig1_decomposed_degree_trajectories.png`, LaTeX `\label{fig:decomp}`)
-- **Table 2**: Longitudinal Means and Standard Errors of Specific Support Dimensions and Multiplexity Tiers Across Waves ($N = 457$) (`cache/table2_support_subnetwork_decomposition.md`, LaTeX `\label{tab:supp_decomp}`)
-- **Table 3**: Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_lcga_model_selection.md`, LaTeX `\label{tab:lcga}`)
-- **Figure 2**: Latent Class Growth Analysis (LCGA) Trajectory Profiles from Repeated-Measures Poisson Mixture Model Across Eight Collegiate Waves ($K = 3$) (`Plots/fig2_lcga_8wave_trajectories.png`, LaTeX `\label{fig:lcga_trajectories}`)
-- **Figure 3**: Functional Tie Decomposition Stratified by Latent Trajectory Class Across Eight Waves (`Plots/fig3_lcga_functional_profiles.png`, LaTeX `\label{fig:lcga_functional}`)
-- **Table 4**: Multinomial Logistic Regression Estimates Predicting Eight-Wave Latent Trajectory Class Membership (`cache/table3_mlogit_lcga_predictors.md`, LaTeX `\label{tab:mlogit_predictors}`)
-- **Figure 4**: Forest Plot of Odds Ratios for Baseline Sociodemographic and Psychological Predictors of Trajectory Class Membership (`Plots/fig4_mlogit_forest_plot.png`, LaTeX `\label{fig:mlogit_forest}`)
+- **Table 1**: Longitudinal Means and Standard Errors of Decomposed Relational Layers Across Eight Collegiate Waves ($N = 457$) (`cache/table1_bivariate_trajectory_means.md`, LaTeX `\label{tab:decomp}`)
+- **Figure 1**: Decomposing Ego Network Evolution Across Eight Collegiate Waves: Total Degree, Strong Ties, and Weak Ties (`Plots/fig1_compound_strong_weak_trajectories.png`, LaTeX `\label{fig:decomp}`)
+- **Table 2**: Bivariate Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_bivariate_model_selection.md`, LaTeX `\label{tab:biv_lcga}`)
+- **Figure 2**: Bivariate Multi-Trajectory Latent Class Growth Analysis Profiles Across Eight Collegiate Waves ($K = 3$) (`Plots/fig2_bivariate_lcga_trajectories.png`, LaTeX `\label{fig:biv_lcga}`)
+- **Table 3**: Model Fit Comparison of Endogenous Concomitant Bivariate Mixture Specifications ($K = 3, N = 433$) (`cache/table3_bivariate_concomitant_model_comparison.md`, LaTeX `\label{tab:concomitant_comparison}`)
+- **Table 4**: Multinomial Logistic Regression Estimates Predicting Bivariate Trajectory Class Membership (`cache/table4_bivariate_mlogit_predictors.md`, LaTeX `\label{tab:mlogit_predictors}`)
+- **Figure 3**: Forest Plot of Odds Ratios for Baseline Sociodemographic and Psychological Predictors of Bivariate Trajectory Class Membership (`Plots/fig3_bivariate_mlogit_forest_plot.png`, LaTeX `\label{fig:mlogit_forest}`)
 - **Table A1**: Fixed Effects Estimates from Multilevel Poisson Growth Curve GLMM with Random Ego Intercepts Across Eight Waves (`cache/tableA1_multilevel_glmm_estimates.md`, LaTeX `\label{tab:glmm_appendix}`)
 - **Figure A1**: Predicted Ego Degree Growth Trajectories by Personality Profiles Across Eight Waves from Multilevel Poisson GLMM (`Plots/figA1_multilevel_predicted_trajectories.png`, LaTeX `\label{fig:glmm_predicted}`)
 

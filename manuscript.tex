@@ -51,7 +51,7 @@ Despite wide consensus that personal networks evolve dynamically, empirical inqu
 
 This study investigates the empirical implications of these competing perspectives by providing a full-panel investigation of degree trajectories across the entire undergraduate life course. Tracking an undergraduate cohort across all eight collegiate semesters from freshman matriculation in August 2015 through senior graduation in May 2019 ($N = 457$), we formulate our analysis around three core questions. First, what is the overall empirical trajectory of personal network size across the complete collegiate life course, and does the widely observed contraction in total degree reflect an erosion of core supportive communities or an adaptive pruning of weak ties? Second, when modeled using principled count-data mixture likelihoods, what distinct latent trajectory classes emerge inductively across the undergraduate career? Third, what baseline sociodemographic characteristics and psychological dispositions predict which trajectory group a student will follow?
 
-To answer these questions, we first decompose total ego network degree into four functional relational layers---total alter nominations, affective closeness, contact frequency, and functional social support---showing that while total degree contracts by roughly 24\% over the college career, daily activated ties and close supportive circles remain exceptionally stable. Second, we fit Latent Class Growth Analysis (LCGA) with repeated-measures Poisson finite mixture models across the eight semesters, identifying three distinct developmental trajectory classes: \textit{Network Conservers}, \textit{Moderate Winnowers}, and \textit{Accelerated Winnowers}. Third, we estimate multinomial logistic regression models to evaluate whether baseline sociodemographic background or psychological dispositions predict individual assignment to trajectory classes. Finally, in an Appendix, we demonstrate that continuous multilevel Poisson growth curve models corroborate our main findings, confirming that extraverts experience significantly steeper tie winnowing over time while generalized trust preserves overall network scale.
+To answer these questions, we advance an analytical framework implemented in \textsf{R} \citep{rcoreteam2024} using \texttt{flexmix} \citep{grun2008flexmix}, \texttt{nnet} \citep{venables2002modern}, and \texttt{ggplot2} \citep{wickham2016ggplot2}. First, drawing on \citet{marsden1984measuring}, we decompose personal networks into compound \textit{strong ties} (alters who are evaluated as especially close and actively engaged on a daily or weekly basis) versus \textit{weak ties} (all other nominated contacts), showing that while total degree contracts by roughly 24\% over the college career, strong ties remain remarkably invariant while weak ties contract by over 35\%. Second, rather than relying on univariate total degree counts, we estimate Bivariate Multi-Trajectory Latent Class Growth Analysis (LCGA) with repeated-measures Poisson finite mixture models across all eight semesters, discovering three distinct developmental archetypes of network evolution: \textit{Network Conservers}, \textit{Accelerated Winnowers}, and \textit{High-Core Conservers}. Third, we estimate endogenous concomitant mixture models and multivariable multinomial logistic regressions to evaluate whether baseline sociodemographic background or psychological dispositions predict individual assignment to trajectory classes. Finally, in an Appendix, we demonstrate that continuous multilevel Poisson growth curve models using \texttt{lme4} \citep{bates2015fitting} corroborate our main findings, confirming that extraverts experience significantly steeper tie winnowing over time while generalized trust preserves overall network scale.
 
 \section{Theoretical Background and Hypotheses}
 
@@ -120,9 +120,11 @@ Our analytical cohort is defined across all eight waves of the study (Wave 1 in 
 
 \subsubsection{Ego Network Degree and Relational Layers}
 
-In each survey administration, participants completed an egocentric network generator that asked them to nominate their most important social contacts (friends, family members, romantic partners, university peers), with an upper bound of 25 alters per wave. Total degree $D_{it}$ for ego $i$ at wave $t$ is calculated as the total count of nominated alters ($D_{it} \in \{0, 1, \dots, 25\}$). Following name generation, respondents completed detailed tie-level evaluations assessing affective closeness, contact frequency, and functional social support. Affective closeness was reported on a four-point ordinal scale (``Especially Close,'' ``Merely Close,'' ``Less than Close,'' or ``Distant''), with alters designated as especially close or merely close defining the ego's strong tie subnetwork. Contact frequency was similarly assessed across four categories (``Daily,'' ``Weekly,'' ``Monthly,'' or ``Less than Monthly''), with alters contacted on a daily basis constituting the daily activated tie layer.
+In each survey administration, participants completed an egocentric network generator that asked them to nominate their most important social contacts (friends, family members, romantic partners, university peers), with an upper bound of 25 alters per wave. Total degree $D_{it}$ for ego $i$ at wave $t$ is calculated as the total count of nominated alters ($D_{it} \in \{0, 1, \dots, 25\}$). Following name generation, respondents completed detailed tie-level evaluations assessing affective closeness, contact frequency, and duration across all eight waves. 
 
-Functional social support was evaluated using four binary indicators assessing whether each nominated alter provided companionship (``hanging out''), academic or personal advice, emotional comfort when upset or distressed, or financial assistance. Alters providing at least one form of support constitute the ego's overall supportive subnetwork. Crucially, the social support questions were not introduced into the NetHealth survey battery until Wave 2 (freshman spring) and were temporarily rotated out during Wave 6 (junior spring) due to survey modularization. As a consequence, supportive tie degree is available across Waves 2, 3, 4, 5, 7, and 8, but cannot be calculated for Wave 1 or Wave 6; hence, no data marker appears for support ties at Wave 1 in longitudinal trajectory figures.
+Drawing on \citet{marsden1984measuring}, measuring tie strength through contact frequency alone is problematic because interaction rates are heavily contaminated by spatial co-presence and organizational foci (such as dorm roommates or classmates seen daily out of convenience rather than affective depth). Conversely, relying on affective closeness alone suffers from ceiling compression in survey name generators that explicitly prompt respondents for ``important'' contacts. To overcome these limitations, we construct a compound operationalization of tie strength that combines emotional intensity with active interpersonal engagement. An alter is classified as a \textit{Strong Tie} if the respondent designates them as ``Especially Close'' \textit{and} interacts with them on an active basis (at least weekly, encompassing daily or weekly contact). \textit{Weak Ties} encompass all other nominated alters in the ego network (including emotionally close contacts who are dormant or contacted monthly or less, alongside casual peers evaluated as merely close or less than close). Because both emotional closeness and contact frequency were administered consistently across all eight waves without omission, this dual-layer partition is observed across the entire four-year panel ($N = 457$ egos, 2,598 observations).
+
+All computational workflows, statistical models, and visualizations were executed in \textsf{R} (version 4.4+) \citep{rcoreteam2024}. Repeated-measures mixture models were estimated using \texttt{flexmix} \citep{grun2008flexmix}, multinomial logistic regressions were fitted with \texttt{nnet} \citep{venables2002modern}, mixed-effects models were estimated with \texttt{lme4} \citep{bates2015fitting}, and publication graphics were produced using \texttt{ggplot2} \citep{wickham2016ggplot2}.
 
 \subsubsection{Baseline Psychological Traits}
 
@@ -132,188 +134,183 @@ All independent predictor variables were measured at baseline prior to or during
 
 We include a comprehensive battery of sociodemographic covariates measured at baseline to account for structural sorting and social background across the undergraduate cohort. Gender identity is coded as a binary indicator: women (1) and men (0). Racial and ethnic background is categorized as White, Asian, Black, Hispanic/Latino, and Other or International. Family socioeconomic status is captured through three distinct indicators: parental annual household income, measured on an eight-point ordinal scale ranging from less than \$25,000 to \$250,000 or more, alongside maternal and paternal educational attainment, each measured on five-point ordinal scales ranging from less than high school to graduate or professional degrees. In addition, we account for international status and language background using binary indicators for U.S.~citizenship (1 = citizen, 0 = non-citizen) and primary home language (1 = English, 0 = non-English). Finally, reflecting the institutional setting of a historically faith-based private residential university, religious affiliation is categorized into Catholic, Protestant, other religious tradition, and no religious affiliation (atheist, agnostic, or none).
 
-\section{The Collegiate Network Landscape}
+\section{The Collegiate Network Landscape: Decomposing Strong and Weak Ties}
 
-\subsection{Aggregate Evolution and Functional Decomposition}
-
-To resolve the substantive meaning of personal network evolution across college, we first examine the empirical trajectory of ego network size across all eight collegiate waves, extending from matriculation in August 2015 through senior graduation in May 2019 ($N = 457$). Table~\ref{tab:decomp} displays the empirical means and standard errors for Total Degree, Close Ties, Daily Activated Ties, and Support-Providing Ties across all eight semesters. Because the social support battery was first introduced into the NetHealth survey instrument during Wave 2 (freshman spring) and temporarily rotated out during Wave 6 (junior spring) due to survey modularization, support-providing degree cannot be computed for Waves 1 or 6; hence, these cells are designated with a dash in Table~\ref{tab:decomp}.
+To resolve the substantive meaning of personal network evolution across college, we first examine the empirical trajectory of ego network size across all eight collegiate waves, extending from matriculation in August 2015 through senior graduation in May 2019 ($N = 457$). Grounded in \citet{marsden1984measuring}, we decompose total degree into compound \textit{Strong Ties} (alters evaluated as especially close and engaged at least weekly) versus \textit{Weak Ties} (all other active alters in the nominated personal network). Table~\ref{tab:decomp} displays the empirical means and standard errors for Total Degree, Strong Ties, Weak Ties, and the proportionate share of strong ties across all eight semesters.
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Longitudinal Means and Standard Errors of Decomposed Relational Dimensions Across Eight Collegiate Waves ($N = 457$)}
+\caption{Longitudinal Means and Standard Errors of Decomposed Relational Layers Across Eight Collegiate Waves ($N = 457$)}
 \label{tab:decomp}
-\begin{tabularx}{\linewidth}{l>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
+\begin{tabularx}{\linewidth}{l>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
 \toprule
-\textbf{Academic Wave} & \textbf{Egos (\textit{N})} & \textbf{Total Degree (SE)} & \textbf{Close Ties (SE)} & \textbf{Daily Ties (SE)} & \textbf{Support Ties (SE)} \\
+\textbf{Academic Wave} & \textbf{Egos (\textit{N})} & \textbf{Total Degree (SE)} & \textbf{Strong Ties (SE)} & \textbf{Weak Ties (SE)} \\
 \midrule
-Wave 1 (Frosh Fall) & 323 & 14.19 (0.28) & 13.00 (0.27) & 5.93 (0.19) & --- \\
-Wave 2 (Frosh Spr)  & 442 & 13.38 (0.28) & 12.46 (0.27) & 6.93 (0.19) & 11.99 (0.31) \\
-Wave 3 (Soph Fall)  & 379 & 12.27 (0.33) & 11.48 (0.31) & 5.36 (0.20) & 12.03 (0.32) \\
-Wave 4 (Soph Spr)   & 371 & 11.37 (0.32) & 10.82 (0.30) & 5.92 (0.19) & 11.08 (0.31) \\
-Wave 5 (Jun Fall)   & 348 & 11.13 (0.33) & 10.56 (0.32) & 5.40 (0.18) & 10.64 (0.32) \\
-Wave 6 (Jun Spr)    & 300 & 10.64 (0.36) & 10.14 (0.34) & 4.93 (0.21) & --- \\
-Wave 7 (Sen Fall)   & 254 & 10.88 (0.39) & 10.28 (0.38) & 4.76 (0.21) & 10.40 (0.38) \\
-Wave 8 (Sen Spr)    & 181 & 10.80 (0.45) & 10.04 (0.44) & 4.38 (0.26) & 10.45 (0.45) \\
+Wave 1 (Frosh Fall) & 323 & 14.19 (0.28) & 7.11 (0.21) & 7.07 (0.24) \\
+Wave 2 (Frosh Spr)  & 442 & 13.38 (0.28) & 7.21 (0.20) & 6.17 (0.21) \\
+Wave 3 (Soph Fall)  & 379 & 12.27 (0.33) & 6.68 (0.22) & 5.54 (0.24) \\
+Wave 4 (Soph Spr)   & 371 & 11.37 (0.32) & 6.54 (0.21) & 4.84 (0.23) \\
+Wave 5 (Jun Fall)   & 348 & 11.13 (0.33) & 6.28 (0.20) & 4.85 (0.25) \\
+Wave 6 (Jun Spr)    & 300 & 10.64 (0.36) & 6.18 (0.23) & 4.46 (0.26) \\
+Wave 7 (Sen Fall)   & 254 & 10.88 (0.39) & 6.22 (0.25) & 4.66 (0.29) \\
+Wave 8 (Sen Spr)    & 181 & 10.80 (0.45) & 6.27 (0.29) & 4.53 (0.33) \\
 \bottomrule
 \end{tabularx}
 \begin{minipage}{\linewidth}
 \vspace{4pt}
 \footnotesize
-\textit{Note:} Standard errors in parentheses. Support questions were not administered in Wave 1 (freshman fall) or Wave 6 (junior spring); dashes indicate waves where the support battery was omitted.
+\textit{Note:} Standard errors in parentheses. Strong ties are defined following \citet{marsden1984measuring} as alters evaluated as ``Especially Close'' and engaged on a daily or weekly basis. Weak ties encompass all other active alters in the nominated personal network.
 \end{minipage}
 \end{table}
 
-Figure~\ref{fig:decomp} visualizes the multi-line trajectory profiles of these four relational dimensions across all eight collegiate semesters.
+Figure~\ref{fig:decomp} visualizes the multi-line trajectory profiles of Total Degree, Strong Ties, and Weak Ties across all eight collegiate semesters using \texttt{ggplot2} \citep{wickham2016ggplot2}.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{Plots/fig1_decomposed_degree_trajectories.png}
-\caption{Decomposing ego network evolution across eight collegiate waves: Total Degree, Strong/Close Ties, Daily Activated Ties, and Support-Providing Ties ($N = 457$). Support questions were first administered in Wave 2 (freshman spring) and omitted in Wave 6; hence no data point appears for support ties at Wave 1. Shaded ribbons indicate 95\% confidence intervals.}
+\includegraphics[width=\linewidth]{Plots/fig1_compound_strong_weak_trajectories.png}
+\caption{Decomposing ego network evolution across eight collegiate waves: Total Degree, Strong Ties (Especially Close + Daily/Weekly contact), and Weak Ties ($N = 457$). Shaded ribbons indicate 95\% confidence intervals.}
 \label{fig:decomp}
 \end{figure}
 
-The empirical pattern displayed in Figure~\ref{fig:decomp} provides decisive support for \textbf{Hypothesis 4} and fundamentally clarifies the nature of collegiate network contraction. Total ego network size exhibits a steady downward trajectory, falling from 14.19 alters in freshman fall (Wave 1) to 10.64 in junior spring (Wave 6) and stabilizing at 10.80 in senior spring (Wave 8), representing an overall net contraction of approximately 24\%. In sharp contrast, daily activated ties remain remarkably stable across all four years, peaking slightly in freshman spring (6.93 ties) before hovering consistently between 4.4 and 5.9 ties per wave across sophomore, junior, and senior years. Similarly, close ties and support-providing ties track closely together, averaging approximately 10.5 to 12.0 ties across college.
+The empirical pattern displayed in Figure~\ref{fig:decomp} provides decisive support for \textbf{Hypothesis 4} and fundamentally clarifies the nature of collegiate network contraction. Total ego network size exhibits a steady downward trajectory, falling from 14.19 alters in freshman fall (Wave 1) to 10.64 in junior spring (Wave 6) and stabilizing at 10.80 in senior spring (Wave 8), representing an overall net contraction of approximately 24\%. In sharp contrast, compound strong ties remain remarkably stable across all four years, beginning at 7.11 ties at matriculation and hovering consistently between 6.18 and 6.54 ties per wave from sophomore spring through senior graduation.
 
-Interpreted through Granovetter's \citeyearpar{granovetter1973strength} classic distinction between weak and strong ties, this functional decomposition reveals that the apparent downward degree trajectory widely documented in aggregate student surveys does not signify social isolation or an erosion of core supportive communities. Rather, students maintain a highly resilient, temporally stable inner core of strong ties, comprised of daily activated associates (matching Dunbar's support clique of roughly 5 alters) and close, supportive ties (matching the sympathy group of roughly 10 to 12 alters). The aggregate decline in network size is driven almost entirely by the winnowing of weak ties that were temporarily accumulated during the initial disorganization of freshman year. Once students establish enduring campus niches, they prune weak ties to conserve cognitive and temporal bandwidth, while insulating their strong ties from decay.
+Interpreted through Granovetter's \citeyearpar{granovetter1973strength} classic distinction between weak and strong ties, this functional decomposition reveals that the apparent downward degree trajectory widely documented in aggregate student surveys does not signify social isolation or an erosion of core supportive communities. Rather, students maintain a highly resilient, temporally stable inner core of strong ties. The aggregate decline in network size is driven almost entirely by the winnowing of weak ties, which collapse from 7.07 alters in freshman fall down to 4.53 alters at senior graduation (a 35.9\% contraction). Consequently, the compositional share of strong ties within personal networks rises from 52.6\% at freshman matriculation to 65.6\% by senior graduation. Once students establish enduring campus niches, they prune weak ties to conserve cognitive and temporal bandwidth, while fiercely insulating their strong ties from decay.
 
-\subsection{Partitioning Social Support: Functional Specificity and Multiplexity}
+\section{Bivariate Latent Class Trajectory Analysis}
 
-While the aggregate supportive subnetwork in Table~\ref{tab:decomp} demonstrates general stability, treating any alter who provides at least one form of assistance as an undifferentiated supportive tie conceals meaningful variation in relational depth. Interpersonal support exchanges encompass qualitatively distinct functional domains, ranging from casual companionship to deep emotional vulnerability and material resource pooling \citep{marsden1984measuring, wellman1990different}. To examine whether personal networks can be partitioned further by support type and multiplexity, Table~\ref{tab:supp_decomp} decomposes the supportive subnetwork into four specific functional categories---companionship (hanging out), advice (academic and personal guidance), emotional comfort (comfort when upset), and financial assistance---alongside a structural partition by support multiplexity (uniplex ties providing exactly one support function versus multiplex ties providing two or more distinct supports).
+\subsection{Bivariate Mixture Formulation and Model Selection}
 
-\begin{table}[htbp]
-\centering
-\small
-\setlength{\tabcolsep}{2pt}
-\caption{Longitudinal Means and Standard Errors of Specific Support Dimensions and Multiplexity Tiers Across Waves ($N = 457$)}
-\label{tab:supp_decomp}
-\begin{tabularx}{\linewidth}{l>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
-\toprule
-\textbf{Academic Wave} & \textbf{Egos} & \textbf{Hang Out} & \textbf{Advice} & \textbf{Comfort} & \textbf{Finance} & \textbf{Uniplex} & \textbf{Multi-plex} \\
-\midrule
-Wave 2 (Frosh Spr) & 313 & 11.29 (0.32) & 7.18 (0.24) & 6.42 (0.23) & 1.63 (0.08) & 4.17 (0.22) & 7.82 (0.25) \\
-Wave 3 (Soph Fall) & 376 & 11.27 (0.32) & 7.44 (0.25) & 6.63 (0.24) & 1.59 (0.07) & 3.87 (0.22) & 8.16 (0.26) \\
-Wave 4 (Soph Spr)  & 369 & 10.33 (0.31) & 6.81 (0.22) & 6.47 (0.22) & 1.77 (0.09) & 3.53 (0.21) & 7.55 (0.24) \\
-Wave 5 (Jun Fall)  & 346 & 9.85 (0.32)  & 6.67 (0.24) & 6.14 (0.23) & 1.68 (0.07) & 3.41 (0.21) & 7.23 (0.25) \\
-Wave 7 (Sen Fall)  & 250 & 9.63 (0.37)  & 6.89 (0.29) & 6.14 (0.26) & 1.80 (0.09) & 2.92 (0.21) & 7.49 (0.29) \\
-Wave 8 (Sen Spr)   & 175 & 9.48 (0.44)  & 7.05 (0.35) & 6.50 (0.33) & 1.74 (0.09) & 2.82 (0.25) & 7.63 (0.36) \\
-\bottomrule
-\end{tabularx}
-\begin{minipage}{\linewidth}
-\vspace{4pt}
-\footnotesize
-\textit{Note:} Standard errors in parentheses. Support questions were not administered in Wave 1 (freshman fall) or Wave 6 (junior spring). Hang Out = Companionship; Comfort = Emotional comfort; Finance = Financial assistance. Uniplex ties provide exactly one support function (94.7\% of which represent companionship alone); multiplex ties provide two or more distinct support functions.
-\end{minipage}
-\end{table}
+While aggregate trajectories reveal overall population trends, they mask substantial inter-individual heterogeneity in how students navigate relational winnowing across both strong and weak tie layers. Rather than fitting univariate mixtures to total degree counts, we implement Bivariate Multi-Trajectory Latent Class Growth Analysis (LCGA) using repeated-measures Poisson finite mixture models in \texttt{flexmix} \citep{grun2008flexmix} within \textsf{R} \citep{rcoreteam2024}.
 
-The disaggregated support trajectories in Table~\ref{tab:supp_decomp} illuminate sharp empirical differences across functional domains. Companionship is the most pervasive support dimension, provided by 95.4\% of all supportive ties. However, companionship ties decline steadily across college, falling from 11.29 alters in freshman spring to 9.48 alters by senior graduation, mirroring the broader contraction in discretionary social circles. In stark contrast, emotional comfort and advice support represent deeper forms of interpersonal investment that remain remarkably invariant over time. Emotional comfort---which requires mutual trust and affective vulnerability---hovers consistently between 6.14 and 6.63 alters across all surveyed waves (averaging 6.42 ties in Wave 2 and 6.50 ties in Wave 8), aligning with the classical boundary of Dunbar's core sympathy group. Advice-providing ties similarly exhibit enduring stability, hovering between 6.67 and 7.44 alters throughout college. Financial assistance, by contrast, is structurally restricted to a small, invariant core of 1.59 to 1.80 alters across all waves, primarily reflecting family members or romantic partners who provide material backing.
+To understand the intuition behind this model for non-technical audiences, consider how personal networks actually function. Traditional trajectory studies ask a single question: ``Is an individual's total network growing or shrinking?'' However, treating a personal network as a single aggregate number obscures the reality that people navigate their social worlds across two fundamentally different spheres: an intimate core of close, emotionally supportive relationships (\textit{strong ties}) and a broader perimeter of casual acquaintances, classmates, and activity partners (\textit{weak ties}). If an analyst only tracks total network size, a student whose degree drops from 15 to 8 might appear to be experiencing alarming social isolation. But in reality, that student may have preserved every single one of their closest friends while simply allowing casual, low-investment acquaintances to fade away. 
 
-Crucially, partitioning ties by the \emph{number} of support functions they provide reveals the structural mechanism underlying tie decay. Ties providing only a single support function (uniplex support ties) are overwhelmingly (94.7\%) companionship ties that involve hanging out without deeper emotional confiding or advisory exchange. In Granovetter's terminology, these uniplex connections function essentially as weak ties. Across the undergraduate career, uniplex support ties decline by 32.4\%, falling from 4.17 alters in freshman spring to 2.82 alters at senior graduation. In sharp contrast, multiplex support ties ($S_{ij} \ge 2$)---which combine companionship with advice, emotional comfort, or material aid---constitute the student's enduring strong-tie core. These multiplex ties exhibit zero net decay across the entire four-year observation window, averaging 7.82 alters in Wave 2, 8.16 in Wave 3, 7.55 in Wave 4, 7.23 in Wave 5, 7.49 in Wave 7, and 7.63 in Wave 8. Thus, relational winnowing during college operates with surgical specificity: students shed weak, uniplex activity ties while keeping their multiplex, strong supportive ties completely intact.
+The bivariate multi-trajectory model resolves this ambiguity by tracking each student along two simultaneous, parallel tracks across all eight semesters of college: one track following the count of their strong ties, and a second track following the count of their weak ties. Rather than forcing all students into a single average curve, the model groups students inductively into distinct developmental ``archetypes'' based on how these two relational tracks co-evolve over time. In plain English, the model asks: \textit{Are there distinct groups of students who manage the balance between their inner circle and their outer circle in characteristic ways across college?}
 
-\section{Latent Degree Trajectory Classes}
+Statistically, the model uses a Poisson distribution because social networks are composed of discrete counts of living human beings ($0, 1, 2, 3, \dots$ contacts, never fractions or negative numbers). Conventional regression models assume continuous bell curves that can produce nonsensical predictions like having negative two friends or fractional alters. The Poisson formulation naturally respects the non-negative integer structure of network data, modeling semester-to-semester changes as proportionate percentage shifts in relational volume.
 
-\subsection{Mixture Formulation and Model Selection}
-
-While aggregate trajectories reveal overall population trends, they mask substantial inter-individual heterogeneity in how students navigate relational winnowing. To identify distinct developmental pathways without imposing arbitrary boundary rules or Gaussian assumptions, we implement Latent Class Growth Analysis (LCGA) using repeated-measures Poisson finite mixture models \citep{grun2008flexmix}.
-
-Specifying a Poisson emission distribution with linear and quadratic time terms centered at elapsed collegiate semester ($\text{Time}_{it} \in \{1, \dots, 8\}$), the conditional expectation of degree for ego $i$ in latent class $k$ is given by:
+Formally, let $\mathbf{Y}_{it} = (Y_{\text{strong}, it}, Y_{\text{weak}, it})'$ denote the bivariate count vector of strong and weak ties for ego $i$ at wave $t \in \{1, \dots, 8\}$. Conditional on membership in latent class $k$, the joint emission distribution specifies independent Poisson likelihoods with class-specific linear and quadratic terms centered at elapsed collegiate semester:
 \begin{equation}
-\log(\mathbb{E}[D_{it} \mid C_i = k]) = \beta_{0k} + \beta_{1k} \text{Time}_{it} + \beta_{2k} \text{Time}_{it}^2
+\log(\mathbb{E}[\mathbf{Y}_{it} \mid C_i = k]) = \begin{pmatrix} \beta_{0k}^{(S)} + \beta_{1k}^{(S)} \text{Time}_{it} + \beta_{2k}^{(S)} \text{Time}_{it}^2 \\ \beta_{0k}^{(W)} + \beta_{1k}^{(W)} \text{Time}_{it} + \beta_{2k}^{(W)} \text{Time}_{it}^2 \end{pmatrix}
 \end{equation}
 Observations are clustered at the ego level ($| \text{egoid}$), allowing the Expectation-Maximization (EM) algorithm to estimate class assignment probabilities while natively handling unbalanced panel observations across waves under missing-at-random assumptions. We evaluate candidate solutions from $K = 1$ to $K = 5$ latent classes.
 
-Table~\ref{tab:lcga} reports the information-theoretic fit statistics across candidate models.
+Table~\ref{tab:biv_lcga} reports the information-theoretic fit statistics across candidate models.
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5, N = 457$)}
-\label{tab:lcga}
+\caption{Bivariate Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5, N = 457$)}
+\label{tab:biv_lcga}
 \begin{tabular}{lccccc}
 \toprule
 \textbf{Latent Classes} & \textbf{Log-Likelihood} & \textbf{Par} & \textbf{AIC} & \textbf{BIC} & $\boldsymbol{\Delta}$\textbf{BIC} \\
 \midrule
-$K = 1$ & $-9627.1$ & 3 & 19260.3 & 19277.9 & 4364.4 \\
-$K = 2$ & $-7863.6$ & 7 & 15741.2 & 15782.3 & 868.8 \\
-$K = 3$ & $-7529.6$ & 11 & 15081.1 & 15145.6 & 232.2 \\
-$K = 4$ & $-7434.6$ & 15 & 14899.1 & 14987.1 & 73.6 \\
-$K = 5$ & $-7382.0$ & 19 & 14802.0 & 14913.4 & 0.0 \\
+$K = 1$ & $-17048.0$ & 6  & 34108.0 & 34143.2 & 6417.2 \\
+$K = 2$ & $-14943.1$ & 13 & 29912.3 & 29988.5 & 2262.6 \\
+$K = 3$ & $-14321.2$ & 20 & 28682.3 & 28799.6 & 1073.6 \\
+$K = 4$ & $-13967.4$ & 27 & 27988.9 & 28147.2 & 421.2 \\
+$K = 5$ & $-13729.3$ & 34 & 27526.6 & 27725.9 & 0.0 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-As shown in Table~\ref{tab:lcga}, information criteria improve dramatically when moving from a single population trajectory ($K = 1$) to multi-class mixtures, with BIC dropping by 4,132.3 points from $K = 1$ to $K = 3$. While BIC continues to decline through $K = 5$, the marginal gains diminish substantially beyond $K = 3$. To balance mathematical parsimony with substantive interpretability, we select the three-class solution ($K = 3$) as the optimal representation of collegiate trajectory morphology.
+As shown in Table~\ref{tab:biv_lcga}, information criteria improve dramatically when moving from a single population trajectory ($K = 1$) to multi-class mixtures, with BIC dropping by 4,154.7 points from $K = 1$ to $K = 2$, and by an additional 1,188.9 points from $K = 2$ to $K = 3$. While formal BIC continues to decline through higher-order solutions, robustness checks across $K = 6$ through $K = 10$ reveal that higher-class solutions fragment the student population into minor subdivisions of baseline volume without uncovering conceptually distinct relational morphologies. To balance mathematical parsimony with theoretical interpretability, we select the three-class solution ($K = 3$) as the optimal representation of collegiate bivariate trajectory architecture.
 
-\subsection{Latent Trajectory Profiles Across Eight Waves}
+\subsection{Bivariate Latent Trajectory Profiles Across Eight Waves}
 
-Figure~\ref{fig:lcga_trajectories} displays the model-implied trajectories and observed ego sequences across all eight semesters for the optimal three-class solution.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{Plots/fig2_lcga_8wave_trajectories.png}
-\caption{Latent Class Growth Analysis (LCGA) trajectory profiles from repeated-measures Poisson mixture model across eight collegiate waves ($K = 3, N = 457$). Thin grey lines denote individual ego trajectories; bold red lines and shaded ribbons indicate class mean trajectories and 95\% confidence intervals.}
-\label{fig:lcga_trajectories}
-\end{figure}
-
-The three latent classes capture distinct developmental archetypes of personal network evolution across the undergraduate career. First, \textbf{Network Conservers} ($n = 131$, 28.7\%) represent students who matriculate with large personal networks ($\bar{D}_1 = 17.60$) and preserve an exceptionally stable network scale throughout their entire undergraduate careers ($\bar{D}_8 = 17.43$), exhibiting essentially zero net winnowing over four years. Second, \textbf{Moderate Winnowers} ($n = 182$, 39.8\%) define the modal collegiate pathway, representing students who matriculate with average-sized circles ($\bar{D}_1 = 14.46$) and experience a steady, progressive winnowing across semesters, shedding roughly five to six alters by graduation ($\bar{D}_8 = 9.03$). Third, \textbf{Accelerated Winnowers} ($n = 144$, 31.5\%) enter college with somewhat smaller networks ($\bar{D}_1 = 10.95$), undergo an aggressive contraction across freshman and sophomore years, and stabilize at an intimate core of roughly 4 to 5 alters through senior graduation ($\bar{D}_8 = 4.78$).
-
-\subsection{Functional Tie Profiling Across Latent Classes}
-
-To ascertain whether winnowing classes experience an erosion of emotional closeness and social support, Figure~\ref{fig:lcga_functional} stratifies the functional tie decomposition (Total, Close, Daily, Support) across the three latent LCGA classes across all eight waves.
+Figure~\ref{fig:biv_lcga} displays the model-implied trajectories and observed ego sequences across all eight semesters for the optimal three-class bivariate solution.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{Plots/fig3_lcga_functional_profiles.png}
-\caption{Functional tie decomposition (Total Degree, Close Ties, Daily Activated Ties, and Support-Providing Ties) stratified by latent trajectory class across all eight collegiate waves ($N = 457$). Shaded ribbons denote 95\% confidence intervals.}
-\label{fig:lcga_functional}
+\includegraphics[width=\linewidth]{Plots/fig2_bivariate_lcga_trajectories.png}
+\caption{Bivariate Multi-Trajectory Latent Class Growth Analysis profiles across eight collegiate waves ($K = 3, N = 457$). Bold lines and shaded ribbons indicate class mean trajectories and 95\% confidence intervals for Strong Ties (green) and Weak Ties (red).}
+\label{fig:biv_lcga}
 \end{figure}
 
-Figure~\ref{fig:lcga_functional} provides compelling evidence regarding the internal mechanics of relational winnowing. For Network Conservers, high Total Degree ($\approx 17$--19 alters) is mirrored by high Close Ties ($\approx 16$--17.5) and high Support-Providing Ties ($\approx 16.5$--18.4), with daily activated ties remaining steady at roughly 7 to 9 alters. For Moderate Winnowers, Total Degree winnows from 14.5 down to 9.0 alters, but Close Ties (13.3 to 8.6) and Support Ties (12.2 to 8.9) track this contraction closely, while daily interaction stabilizes at roughly 4 alters. Most strikingly, for Accelerated Winnowers, the sharp contraction from 11.0 to 4.8 alters brings Total Degree, Close Ties, and Support Ties into perfect convergence around 4.5 to 5.0 alters by sophomore year. In other words, Accelerated Winnowers prune their weak ties until their total network coincides entirely with their strong, supportive core.
+The three latent classes capture distinct developmental archetypes of personal network evolution across the undergraduate career:
 
-\section{Predicting Trajectory Group Membership}
+First, \textbf{Network Conservers} ($n = 141$, 30.9\%) represent students who matriculate with moderate strong ties ($\bar{D}_{\text{strong}, 1} = 6.75$) and expansive weak ties ($\bar{D}_{\text{weak}, 1} = 9.34$). Over four years, these students exhibit exceptional relational endurance: their strong ties remain completely stable ($\bar{D}_{\text{strong}, 8} = 6.24$), and they retain the vast majority of their weak ties ($\bar{D}_{\text{weak}, 8} = 8.01$), graduating with expansive personal networks ($\bar{D}_{\text{total}, 8} = 14.26$).
 
-Having established the three latent trajectory classes across all eight collegiate waves, we examine whether baseline sociodemographic characteristics and psychological dispositions predict which developmental trajectory an individual follows. We estimate multinomial logistic regression models using \texttt{nnet::multinom} on the complete-case cohort ($N = 433$), setting the modal category---\textbf{Moderate Winnowers}---as the reference category.
+Second, \textbf{Accelerated Winnowers} ($n = 191$, 41.8\%) define the modal collegiate pathway. These students enter college with balanced strong and weak ties ($\bar{D}_{\text{strong}, 1} = 5.90, \bar{D}_{\text{weak}, 1} = 6.08$). Across freshman and sophomore years, their strong-tie core contracts modestly before stabilizing at approximately 4 alters ($\bar{D}_{\text{strong}, 8} = 4.21$). However, their weak-tie perimeter suffers a catastrophic collapse, plunging to 1.96 alters in sophomore spring and 1.40 alters at senior graduation (a 77.0\% reduction). By graduation, their personal network consists almost exclusively of active intimates.
 
-Table~\ref{tab:mlogit_predictors} reports the multinomial logit parameter estimates, standard errors, Odds Ratios (Relative Risk Ratios), 95\% confidence intervals, and $p$-values for both Network Conservers and Accelerated Winnowers relative to Moderate Winnowers.
+Third, \textbf{High-Core Conservers} ($n = 125$, 27.4\%) represent students who enter college with an exceptionally large core of strong ties ($\bar{D}_{\text{strong}, 1} = 9.68$), which peaks at 10.38 alters in sophomore spring and remains remarkably dense at graduation ($\bar{D}_{\text{strong}, 8} = 8.92$). Rather than investing in extensive weak ties ($\bar{D}_{\text{weak}, 1} = 5.98$, pruning down to 3.51), these students channel their social bandwidth into maintaining a large, cohesive cadre of close friends.
+
+\section{Predicting Trajectory Group Membership: Endogenous Concomitant Models}
+
+Having established the three latent trajectory classes, we examine whether baseline sociodemographic background and psychological dispositions predict which developmental trajectory an individual follows. Rather than relying on a naive two-step classification, we incorporate baseline predictors directly into \texttt{flexmix} \citep{grun2008flexmix} as endogenous concomitant variables via \texttt{FLXPmultinom(~...)}. This formulation allows the multinomial logistic parameters predicting latent class probabilities to be estimated simultaneously with the trajectory likelihoods.
+
+Table~\ref{tab:concomitant_comparison} presents the model comparison hierarchy evaluating nested concomitant specifications by variable blocks on the complete-case cohort ($N = 433$ egos, 2,456 observations).
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Multinomial Logistic Regression Estimates Predicting Eight-Wave Latent Trajectory Class Membership (Reference Category: Moderate Winnowers; $N = 433$)}
+\caption{Model Fit Comparison of Endogenous Concomitant Bivariate Mixture Specifications ($K = 3, N = 433$)}
+\label{tab:concomitant_comparison}
+\begin{tabularx}{\linewidth}{l>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
+\toprule
+\textbf{Model Specification} & \textbf{LL} & \textbf{Par} & \textbf{AIC} & \textbf{BIC} & \textbf{LRT ($\boldsymbol{\chi}^2$)} & \textbf{\textit{p}-value} \\
+\midrule
+Model 0: Baseline Bivariate (No Covariates) & -13518.0 & 20 & 27076.0 & 27192.2 & --- & --- \\
+Model 1a: Family SES Only & -13514.4 & 24 & 27076.9 & 27216.2 & 7.14 & 0.129 \\
+Model 1b: Gender + Race/Ethnicity & -13506.4 & 30 & 27072.9 & 27247.0 & 23.17 & 0.010 \\
+Model 1c: All Demographics (Gender, Race, SES) & -13504.8 & 34 & 27077.6 & 27275.0 & 26.48 & 0.022 \\
+Model 2a: Generalized Trust Only & -13510.0 & 22 & 27063.9 & 27191.7 & 16.08 & $<$ .001 \\
+Model 2b: Extraversion Only & -13508.5 & 22 & 27061.0 & 27188.7 & 19.03 & $<$ .001 \\
+Model 2c: Big Five Personality Traits & -13505.8 & 30 & 27071.6 & 27245.8 & 24.44 & 0.007 \\
+Model 2d: All Dispositions (Big Five + Trust) & -13500.6 & 32 & 27065.2 & 27251.0 & 34.79 & $<$ .001 \\
+Model 3: Full Specification & -13487.5 & 46 & 27067.0 & 27334.1 & 60.98 & $<$ .001 \\
+\bottomrule
+\end{tabularx}
+\begin{minipage}{\linewidth}
+\vspace{4pt}
+\footnotesize
+\textit{Note:} Likelihood Ratio Tests (LRT) evaluated against Model 0 baseline. All models estimated on complete-case cohort ($N = 433$ egos, 2,456 observations).
+\end{minipage}
+\end{table}
+
+The model comparison hierarchy in Table~\ref{tab:concomitant_comparison} provides decisive empirical insights. Introducing **Family SES alone (Model 1a)** provides zero statistically significant improvement over the empty baseline ($\chi^2 = 7.14, df = 4, p = 0.129$). Adding SES to the Race/Gender model (Model 1b to Model 1c) yields a negligible gain of only $\Delta\chi^2 = 3.31$ ($p = 0.507$). In sharp contrast, introducing **Extraversion alone (Model 2b)** produces a dramatic increase in model fit ($\chi^2 = 19.03, df = 2, p < 0.001$) and lowers AIC to 27,061.0 (the lowest AIC of any parsimonious model). **Generalized Trust alone (Model 2a)** similarly improves fit significantly ($\chi^2 = 16.08, df = 2, p < 0.001$). The **Full Multivariable Model (Model 3)** achieves a highly significant omnibus improvement over the baseline model ($\chi^2 = 60.98, df = 26, p < 0.001$).
+
+To examine specific parameter estimates, Table~\ref{tab:mlogit_predictors} reports the multivariable multinomial logistic regression estimates, standard errors, Odds Ratios (Relative Risk Ratios), 95\% confidence intervals, and $p$-values estimated with \texttt{nnet} \citep{venables2002modern}, setting the modal category---\textbf{Accelerated Winnowers}---as the reference category.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Multinomial Logistic Regression Estimates Predicting Bivariate Trajectory Class Membership (Reference Category: Accelerated Winnowers; $N = 433$)}
 \label{tab:mlogit_predictors}
 \begin{tabularx}{\linewidth}{Xccc}
 \toprule
 \textbf{Predictor Variable} & \textbf{Estimate (SE)} & \textbf{Odds Ratio [95\% CI]} & \textbf{\textit{p}-value} \\
 \midrule
-\multicolumn{4}{l}{\textit{\textbf{Panel A: Network Conservers (vs.~Moderate Winnowers)}}} \\
-\quad Gender Identity: Woman (ref: Man) & 0.36 (0.26) & 1.43 [0.86, 2.38] & 0.172 \\
-\quad Race: Asian (ref: White) & -0.59 (0.50) & 0.55 [0.21, 1.48] & 0.238 \\
-\quad Race: Black (ref: White) & -0.57 (0.65) & 0.56 [0.16, 2.02] & 0.380 \\
-\quad Race: Hispanic/Latino (ref: White) & -0.32 (0.39) & 0.72 [0.34, 1.56] & 0.411 \\
-\quad Race: Other/International (ref: White) & -0.27 (0.69) & 0.77 [0.20, 2.94] & 0.698 \\
-\quad Parents' Income (Ordinal Scale) & 0.04 (0.07) & 1.04 [0.91, 1.18] & 0.601 \\
-\quad Mother College Degree (ref: Non-degree) & -0.07 (0.43) & 0.93 [0.40, 2.18] & 0.871 \\
-\quad Extraversion ($z$-score) & -0.20 (0.13) & 0.82 [0.63, 1.06] & 0.131 \\
-\quad Neuroticism ($z$-score) & 0.01 (0.14) & 1.01 [0.76, 1.33] & 0.969 \\
-\quad Agreeableness ($z$-score) & 0.06 (0.15) & 1.07 [0.80, 1.43] & 0.663 \\
-\quad Conscientiousness ($z$-score) & -0.06 (0.14) & 0.94 [0.72, 1.24] & 0.669 \\
-\quad Openness ($z$-score) & 0.12 (0.13) & 1.13 [0.87, 1.46] & 0.358 \\
-\quad Generalized Trust ($z$-score) & 0.27 (0.15) & 1.31 [0.98, 1.76] & 0.072 \\
+\multicolumn{4}{l}{\textit{\textbf{Panel A: Network Conservers (vs.~Accelerated Winnowers)}}} \\
+\quad Gender Identity: Woman (ref: Man) & 0.00 (0.26) & 1.00 [0.61, 1.65] & 0.996 \\
+\quad Race: Asian (ref: White) & -1.11 (0.45) & 0.33 [0.14, 0.80] & 0.014 \\
+\quad Race: Black (ref: White) & -0.68 (0.52) & 0.50 [0.18, 1.40] & 0.190 \\
+\quad Race: Hispanic/Latino (ref: White) & -0.60 (0.41) & 0.55 [0.24, 1.23] & 0.145 \\
+\quad Race: Other/International (ref: White) & -1.24 (0.58) & 0.29 [0.09, 0.90] & 0.033 \\
+\quad Parents' Income (1--8 Ordinal) & -0.04 (0.07) & 0.96 [0.85, 1.10] & 0.582 \\
+\quad Mother College Degree (ref: Non-degree) & 0.18 (0.42) & 1.19 [0.53, 2.69] & 0.669 \\
+\quad Extraversion ($z$-score) & -0.17 (0.13) & 0.84 [0.65, 1.09] & 0.185 \\
+\quad Neuroticism ($z$-score) & 0.06 (0.14) & 1.06 [0.80, 1.40] & 0.688 \\
+\quad Agreeableness ($z$-score) & -0.01 (0.14) & 0.99 [0.76, 1.31] & 0.963 \\
+\quad Conscientiousness ($z$-score) & -0.13 (0.14) & 0.88 [0.67, 1.15] & 0.346 \\
+\quad Openness ($z$-score) & -0.17 (0.13) & 0.85 [0.66, 1.09] & 0.203 \\
+\quad Generalized Trust ($z$-score) & 0.18 (0.14) & 1.20 [0.91, 1.58] & 0.205 \\
 \midrule
-\multicolumn{4}{l}{\textit{\textbf{Panel B: Accelerated Winnowers (vs.~Moderate Winnowers)}}} \\
-\quad Gender Identity: Woman (ref: Man) & 0.04 (0.26) & 1.04 [0.63, 1.72] & 0.875 \\
-\quad Race: Asian (ref: White) & 0.41 (0.41) & 1.51 [0.68, 3.35] & 0.307 \\
-\quad Race: Black (ref: White) & 0.74 (0.49) & 2.10 [0.80, 5.48] & 0.131 \\
-\quad Race: Hispanic/Latino (ref: White) & -0.36 (0.40) & 0.70 [0.32, 1.52] & 0.363 \\
-\quad Race: Other/International (ref: White) & 1.11 (0.53) & 3.02 [1.07, 8.51] & 0.037 \\
-\quad Parents' Income (Ordinal Scale) & -0.01 (0.06) & 0.99 [0.87, 1.12] & 0.887 \\
-\quad Mother College Degree (ref: Non-degree) & -0.00 (0.39) & 1.00 [0.47, 2.13] & 0.993 \\
-\quad Extraversion ($z$-score) & -0.16 (0.13) & 0.85 [0.66, 1.10] & 0.210 \\
-\quad Neuroticism ($z$-score) & -0.09 (0.14) & 0.91 [0.69, 1.20] & 0.517 \\
-\quad Agreeableness ($z$-score) & -0.12 (0.14) & 0.89 [0.68, 1.17] & 0.395 \\
-\quad Conscientiousness ($z$-score) & -0.09 (0.14) & 0.91 [0.70, 1.19] & 0.492 \\
-\quad Openness ($z$-score) & 0.19 (0.13) & 1.21 [0.93, 1.56] & 0.151 \\
-\quad Generalized Trust ($z$-score) & -0.14 (0.14) & 0.87 [0.66, 1.14] & 0.305 \\
+\multicolumn{4}{l}{\textit{\textbf{Panel B: High-Core Conservers (vs.~Accelerated Winnowers)}}} \\
+\quad Gender Identity: Woman (ref: Man) & 0.17 (0.27) & 1.19 [0.71, 2.01] & 0.514 \\
+\quad Race: Asian (ref: White) & -0.95 (0.48) & 0.39 [0.15, 0.99] & 0.048 \\
+\quad Race: Black (ref: White) & -1.03 (0.63) & 0.36 [0.10, 1.22] & 0.100 \\
+\quad Race: Hispanic/Latino (ref: White) & 0.28 (0.39) & 1.32 [0.62, 2.82] & 0.476 \\
+\quad Race: Other/International (ref: White) & -0.77 (0.59) & 0.46 [0.14, 1.48] & 0.194 \\
+\quad Parents' Income (1--8 Ordinal) & 0.08 (0.07) & 1.08 [0.95, 1.24] & 0.247 \\
+\quad Mother College Degree (ref: Non-degree) & -0.28 (0.43) & 0.76 [0.33, 1.74] & 0.510 \\
+\quad Extraversion ($z$-score) & 0.33 (0.14) & 1.39 [1.06, 1.83] & 0.017 \\
+\quad Neuroticism ($z$-score) & -0.03 (0.15) & 0.97 [0.73, 1.29] & 0.834 \\
+\quad Agreeableness ($z$-score) & -0.03 (0.15) & 0.97 [0.72, 1.30] & 0.827 \\
+\quad Conscientiousness ($z$-score) & 0.01 (0.14) & 1.01 [0.76, 1.34] & 0.935 \\
+\quad Openness ($z$-score) & -0.02 (0.14) & 0.98 [0.75, 1.28] & 0.876 \\
+\quad Generalized Trust ($z$-score) & 0.46 (0.16) & 1.58 [1.17, 2.15] & 0.003 \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -322,16 +319,20 @@ Figure~\ref{fig:mlogit_forest} visualizes the Odds Ratios and 95\% confidence in
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{Plots/fig4_mlogit_forest_plot.png}
-\caption{Forest plot of Odds Ratios (Relative Risk Ratios) from multivariable multinomial logistic regression predicting 8-wave latent trajectory class membership (Reference Category: Moderate Winnowers; $N = 433$). Error bars indicate 95\% confidence intervals.}
+\includegraphics[width=\linewidth]{Plots/fig3_bivariate_mlogit_forest_plot.png}
+\caption{Forest plot of Odds Ratios (Relative Risk Ratios) from multivariable multinomial logistic regression predicting bivariate trajectory class membership (Reference Category: Accelerated Winnowers; $N = 433$). Error bars indicate 95\% confidence intervals.}
 \label{fig:mlogit_forest}
 \end{figure}
 
-The multinomial regression results provide clear empirical evaluation of our core hypotheses. First, consistent with \textbf{Hypothesis 1}, classic indicators of family socioeconomic background---including parental income ($\text{OR} = 1.04, p = 0.601$ for Conservers; $\text{OR} = 0.99, p = 0.887$ for Winnowers) and maternal college degree ($\text{OR} = 0.93, p = 0.871$; $\text{OR} = 1.00, p = 0.993$)---exhibit zero predictive power. In contrast, psychological traits and trust display substantial substantive associations.
+The parameter estimates in Table~\ref{tab:mlogit_predictors} provide striking confirmation of our core theoretical expectations:
 
-Second, supporting \textbf{Hypothesis 2}, higher baseline Generalized Trust increases the odds of belonging to the Network Conserver class by 31\% per standard deviation ($\text{OR} = 1.31, 95\%\text{ CI: } [0.98, 1.76], p = 0.072$), while reducing the likelihood of belonging to the Accelerated Winnower class ($\text{OR} = 0.87$). Trusting students are systematically more likely to sustain large, durable networks across all four years.
+First, consistent with \textbf{Hypothesis 1}, classic indicators of family socioeconomic background---parental annual income ($\text{OR} = 0.96, p = 0.582$ in Panel A; $\text{OR} = 1.08, p = 0.247$ in Panel B) and maternal college degree ($\text{OR} = 1.19, p = 0.669$; $\text{OR} = 0.76, p = 0.510$)---exhibit zero predictive power. In contrast, psychological dispositions and institutional racial sorting display substantial, statistically credible associations.
 
-Finally, with respect to racial background and institutional context, students identifying as Other or International face significantly higher odds of belonging to the Accelerated Winnower class ($\text{OR} = 3.02, 95\%\text{ CI: } [1.07, 8.51], p = 0.037$), reflecting institutional friction and social distance on a predominantly white residential campus.
+Second, supporting \textbf{Hypothesis 2}, higher baseline Generalized Trust increases the odds of belonging to the High-Core Conserver class by 58\% per standard deviation ($\text{OR} = 1.58, 95\%\text{ CI: } [1.17, 2.15], p = 0.003$). Trusting students are systematically equipped to build and sustain an unusually large, dense core of close ties across all four years.
+
+Third, consistent with \textbf{Hypothesis 3}, Extraversion serves as a powerful engine for building and maintaining large strong-tie networks ($\text{OR} = 1.39, 95\%\text{ CI: } [1.06, 1.83], p = 0.017$). Highly extraverted students are significantly more likely to belong to the High-Core Conserver class than to allow their networks to winnow down to an intimate circle.
+
+Finally, with respect to institutional climate and race, students identifying as Asian ($\text{OR} = 0.33, p = 0.014$) and Other/International ($\text{OR} = 0.29, p = 0.033$) have significantly lower odds of belonging to the Network Conserver class relative to Accelerated Winnowers. In other words, minority and international students are disproportionately channeled into the Accelerated Winnower pathway, where their weak-tie perimeter collapses while their strong-tie core is preserved.
 
 \section{Discussion and Conclusion}
 
@@ -339,11 +340,11 @@ Finally, with respect to racial background and institutional context, students i
 
 Taken together, the empirical findings across the eight-wave panel provide a unified, comprehensive portrait of how ego network size evolves across the undergraduate life course. Rather than supporting a singular narrative of continuous growth or uniform relational decay, the results reveal an adaptive social architecture characterized by pervasive, timing-dependent tie winnowing alongside remarkable temporal stability in core supportive communities.
 
-First, evaluating functional relational layers across all eight semesters reveals that the widely observed aggregate degree contraction is an artifact of counting total nominations without differentiating tie strength. While total degree shrinks by 24\% between freshman matriculation and senior graduation (falling from 14.19 to 10.80 alters), daily activated ties (4.4 to 5.9 alters) and close, support-providing ties (10.5 to 12.0 alters) remain invariant across all four years. Students actively protect their strong ties---their intimate support clique and sympathy group---while shedding weak ties. Furthermore, disaggregating the supportive subnetwork reveals that emotional comfort (hovering at 6.1 to 6.6 alters) and multiplex support ties (holding perfectly flat at 7.5 to 8.2 alters) remain completely impervious to decay, with net contraction concentrated exclusively in uniplex companionship ties.
+First, decomposing personal networks into compound strong ties (affectively close and actively engaged) versus weak ties reveals that the widely observed aggregate degree contraction is an artifact of counting total nominations without differentiating tie strength. While total degree shrinks by roughly 24\% between freshman matriculation and senior graduation (falling from 14.19 to 10.80 alters), compound strong ties remain remarkably stable throughout college, hovering between 6.18 and 6.54 alters across sophomore, junior, and senior years. Students actively protect their strong ties while shedding weak, casual ties (which contract by 35.9\%), shifting the composition of personal networks from 52.6\% strong ties at matriculation to 65.6\% at graduation.
 
-Second, Latent Class Growth Analysis with Poisson mixtures establishes that students do not follow a uniform winnowing trajectory. Instead, undergraduate personal communities divide into three distinct developmental archetypes: a stable cadre of Network Conservers ($n = 131$, 28.7\%) who preserve large personal networks ($\approx 17.5$--19.0 alters) throughout college; a modal group of Moderate Winnowers ($n = 182$, 39.8\%) who matriculate with average-sized circles and steadily winnow down to $\approx 9$ alters; and an Accelerated Winnower class ($n = 144$, 31.5\%) that undergoes an early, rapid contraction to an intimate core of roughly 5 alters.
+Second, Bivariate Multi-Trajectory Latent Class Growth Analysis establishes that students do not follow a uniform winnowing trajectory. Instead, undergraduate personal communities divide into three distinct developmental archetypes: a modal group of Accelerated Winnowers ($n = 191$, 41.8\%) who preserve an intimate strong-tie core of roughly 4 alters while their weak-tie perimeter collapses by 77\%; a cadre of Network Conservers ($n = 141$, 30.9\%) who preserve expansive weak ties alongside stable strong ties; and a group of High-Core Conservers ($n = 125$, 27.4\%) who enter college with and sustain an exceptionally dense core of approximately 9 to 10 strong ties throughout their undergraduate careers.
 
-Third, multinomial logistic regressions confirm that trajectory group membership is governed primarily by baseline psychological dispositions and race rather than parental socioeconomic resources. Replicating the core insight of \citet{chandler2018classifying} within a unified full-panel mixture framework, parental income and parental education exhibit zero predictive capacity, whereas Generalized Trust promotes retention in the stable Conserver class, and international/minority status accelerates winnowing. Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of tie winnowing over time ($\text{IRR} = 0.994, p = 0.032$), showing that extraversion accelerates early exploratory tie accumulation rather than buffering against subsequent tie attrition.
+Third, endogenous concomitant mixture models and multivariable multinomial logistic regressions confirm that trajectory group membership is governed primarily by baseline psychological dispositions and racial context rather than parental socioeconomic resources. Replicating and extending the core insight of \citet{chandler2018classifying}, parental income and parental education exhibit zero predictive capacity, whereas Generalized Trust strongly promotes membership in the High-Core Conserver class ($\text{OR} = 1.58, p = 0.003$). Furthermore, Extraversion acts as a powerful engine for building and maintaining large strong-tie networks ($\text{OR} = 1.39, p = 0.017$), and international and racial minority students face institutional frictions that channel them into the Accelerated Winnower pathway. Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of weak-tie winnowing over time ($\text{IRR} = 0.994, p = 0.032$).
 
 \subsection{Limitations and Suggestions for Future Work}
 
