@@ -792,31 +792,39 @@ scale_fill_manual(values = COLOR_CREDIBILITY, name = "Directional Credibility")
 ### 2. Theoretical Grounding & Empirical Design
 The project investigates how personal network size (degree) changes dynamically across the complete collegiate life course, whether individuals follow distinct, predictable degree pathways, and how baseline psychological traits and sociodemographic background predict these trajectories:
 1. **Unified Eight-Wave Panel Architecture ($N = 457$)**:
-   - Spans eight full semesters from freshman matriculation in August 2015 to senior graduation in May 2019.
+   - Spans eight full semesters from freshman matriculation in August 2015 to senior graduation in May 2019 ($N = 457$ analytical cohort, $N = 433$ complete-case modeling sample).
    - Positions Chandler & Hachen (Sunbelt 2018) as the foundational preliminary study, while unifying the entire empirical investigation around principled count mixtures across all four collegiate years.
-2. **The Collegiate Network Landscape & Functional Tie Decomposition**:
-   - Decomposes total degree into **Close Ties**, **Daily Activated Ties**, and **Support-Providing Ties** across all eight waves.
-   - **Key Substantive Discovery**: Total network size winnows steadily from 14.19 to 10.80 alters (-24%), but daily activated ties (stabilizing at 4.4--5.9 alters after a 6.9 freshman spring peak) and close/supportive ties (10.5--12.0 alters) remain invariant over time. Collegiate degree contraction reflects the pruning of superficial campus acquaintances rather than the decay of core personal communities.
-3. **Latent Class Growth Analysis (LCGA) with Repeated-Measures Poisson Mixtures**:
-   - Replaces heuristic Euclidean $k$-means with formal repeated-measures Poisson finite mixture models across $K = 1 \dots 5$.
-   - Identifies three primary developmental trajectory archetypes ($K = 3$):
-     * **Network Conservers** ($n = 131$, 28.7\%): Maintain large, resilient circles ($\bar{D} \approx 17.5$--19.0 alters) throughout college.
-     * **Moderate Winnowers** ($n = 182$, 39.8\%): The modal pathway, matriculating with $\approx 14.5$ alters and steadily pruning down to $\approx 9.0$ alters by graduation.
-     * **Accelerated Winnowers** ($n = 144$, 31.5\%): Enter college with smaller networks ($\approx 11.0$ alters), undergo rapid early winnowing, and stabilize at an intimate core of $\approx 4.8$ alters.
-   - Functional tie profiling across classes demonstrates that winnowers actively protect their core support clique while pruning peripheral ties.
-4. **Predicting Trajectory Group Membership (Multinomial Logistic Regression)**:
-   - Evaluates baseline sociodemographic background (Gender identity, Race/ethnicity, Parental income, Parental education) versus psychological dispositions (Big Five traits, Generalized Trust, Birth order).
-   - Confirms the psychological primacy hypothesis: Generalized Trust promotes membership in the stable Conserver class ($\text{OR} = 1.31, p = 0.072$), whereas parental income and parental education exhibit negligible predictive capacity.
+2. **The Collegiate Network Landscape & Compound Strong vs. Weak Tie Decomposition**:
+   - Grounded in \citet{marsden1984measuring}, avoids single-dimension frequency contamination (spatial co-presence) and closeness ceiling compression by defining **Compound Strong Ties**: alters evaluated as ``Especially Close'' AND maintained through active contact (Daily or Weekly).
+   - **Weak Ties**: All other nominated contacts in the active personal network. Both dimensions are measured across 100% of all eight waves.
+   - **Key Substantive Discovery**: Total network size contracts steadily from 14.19 to 10.80 alters (-23.9%), but compound strong ties remain remarkably invariant (hovering at 6.18 to 6.54 alters from sophomore spring through graduation). Aggregate degree decay is driven almost entirely by the winnowing of weak ties (falling from 7.07 to 4.53 alters, a -35.9% collapse), shifting the strong-tie share of personal networks from 52.6% at matriculation to 65.6% at graduation.
+3. **Bivariate Multi-Trajectory Latent Class Growth Analysis (Poisson Mixtures)**:
+   - Replaces univariate counts with formal **Bivariate Multi-Trajectory Poisson finite mixture models** in `flexmix` \citep{grun2008flexmix}, simultaneously estimating the co-evolution of strong and weak ties.
+   - Robustness checks demonstrate that while formal BIC declines through higher-order solutions, $K = 3$ captures the primary structural elbow ($\Delta\text{BIC} = -4,155$ for $K = 2$, $-1,189$ for $K = 3$), cleanly distinguishing three developmental archetypes:
+     * **Network Conservers** ($n = 141$, 30.9\%): Maintain moderate strong ties ($\approx 6.3$--$6.8$ alters) and expansive weak ties ($\approx 8.0$--$9.8$ alters).
+     * **Accelerated Winnowers** ($n = 191$, 41.8\%): The modal pathway; preserves an intimate strong-tie core ($\approx 4.2$ alters) while their weak-tie perimeter collapses by 77% (from 6.08 to 1.40 alters).
+     * **High-Core Conservers** ($n = 125$, 27.4\%): Enter college with and sustain an exceptionally large, dense core of strong ties ($\approx 9.7$ to $8.9$ alters) alongside a smaller weak-tie layer ($\approx 3.5$ alters).
+4. **Predicting Trajectory Group Membership (Endogenous Concomitant Models)**:
+   - Incorporates baseline covariates directly into `flexmix` as endogenous concomitant variables via `FLXPmultinom(~ ...)`:
+     * Full Multivariable Model is highly significant vs. base ($\text{LRT } \chi^2 = 60.98, df = 26, p < 0.001$).
+     * Race & Gender block is significant ($\chi^2 = 23.17, df = 10, p = 0.010$).
+     * Extraversion alone is highly significant ($\chi^2 = 19.03, df = 2, p < 0.001$, lowering AIC to 27,061.0).
+     * Generalized Trust alone is highly significant ($\chi^2 = 16.08, df = 2, p < 0.001$).
+     * Family SES is completely null ($\chi^2 = 7.14, df = 4, p = 0.129$; adding SES to Race/Gender yields $\Delta\chi^2 = 3.31, p = 0.507$).
+   - Multivariable multinomial logit estimates (reference: Accelerated Winnowers):
+     * Generalized Trust strongly predicts High-Core Conservers ($\text{OR} = 1.58, 95\%\text{ CI: } [1.17, 2.15], p = 0.003$).
+     * Extraversion strongly predicts High-Core Conservers ($\text{OR} = 1.39, 95\%\text{ CI: } [1.06, 1.83], p = 0.017$).
+     * Asian students ($\text{OR} = 0.33, p = 0.014$) and Other/International students ($\text{OR} = 0.29, p = 0.033$) have significantly lower odds of conserving, channeled into the Accelerated Winnower pathway.
 5. **Continuous Growth Modeling as Supplementary Robustness Check (Appendix)**:
-   - Multilevel Poisson mixed-effects models (`glmer`) with random ego intercepts across all eight waves confirm that student networks contract by ~5.5% per wave ($\text{IRR} = 0.945, p < 0.001$), trust expands network volume ($\text{IRR} = 1.071, p = 0.006$), and extraverts experience significantly steeper winnowing over time ($\text{Time} \times \text{Extraversion IRR} = 0.994, p = 0.032$).
+   - Multilevel Poisson mixed-effects models (`glmer` in `lme4`) with random ego intercepts across all eight waves confirm that student networks contract by ~5.5% per wave ($\text{IRR} = 0.945, p < 0.001$), trust expands network volume ($\text{IRR} = 1.071, p = 0.006$), and extraverts experience significantly steeper winnowing over time ($\text{Time} \times \text{Extraversion IRR} = 0.994, p = 0.032$).
 
 ### 3. Directory Structure & Asset Taxonomy
 ```
 project/
 ├── AGENTS.md                                # Project-specific guidelines and asset inventory
-├── manuscript.tex                           # Canonical master LaTeX manuscript (unified 8-wave)
-├── references.bib                           # Standalone BibTeX bibliography (39 entries)
-├── manuscript.pdf                           # Compiled 29-page publication PDF
+├── manuscript.tex                           # Canonical master LaTeX manuscript (bivariate multi-trajectory)
+├── references.bib                           # Standalone BibTeX bibliography with software citations
+├── manuscript.pdf                           # Compiled publication PDF (Overleaf rendered)
 ├── draft_manuscript.md                      # Active local markdown mirror
 ├── README.md                                # Full technical and empirical documentation
 ├── data/
@@ -826,8 +834,7 @@ project/
 ├── cache/                                   # Pre-compiled APA markdown tables
 └── Scripts/                                 # Turnkey modular execution pipeline
     ├── 01_prepare_trajectory_data.R         # Ingestion, covariate cleaning, and 8-wave cohort creation
-    ├── 02_fit_8wave_lcga_models.R           # 8-Wave Poisson LCGA, decomposition, Figs 1-3, Tabs 1-2
-    ├── 03_predict_8wave_trajectories.R      # Multinomial logit predicting 8-wave LCGA classes, Fig 4, Tab 3
+    ├── 02_fit_bivariate_trajectory_models.R # Bivariate LCGA, decomposition, Figs 1-3, Tabs 1-4
     ├── 04_appendix_multilevel_growth.R      # Appendix 8-wave Multilevel Poisson GLMM, Fig A1, Tab A1
     ├── sync_manuscript.py                   # In-place OpenXML table & figure injector
     └── sync_manuscript.R                    # Master Drive sync driver (Rscript Scripts/sync_manuscript.R)
