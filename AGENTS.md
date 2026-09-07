@@ -697,6 +697,49 @@ scale_fill_manual(values = COLOR_CREDIBILITY, name = "Directional Credibility")
   - Strip technical/range metadata from row labels (e.g., `Variable Name` instead of `Variable Name (1-4)`).
   - Embed sample sizes ($N_{\text{obs}}$, $N_{\text{respondents}}$, $J_{\text{clusters}}$), priors, and model fit diagnostics ($\text{WAIC}, \Delta\text{WAIC}$) directly into bottom summary rows of the regression table.
 
+## LaTeX Table Construction Standards (Publication-Grade APA Architecture)
+
+When designing, formatting, and refining regression, model fit, and summary tables in LaTeX for sociology and network science manuscripts, all agents must adhere to these structural standards to prevent column crowding, margin overflow, and awkward text wrapping:
+
+### 1. Full-Width Elastic Tables (`tabular*` vs. `tabularx`)
+- **The Pitfall of `tabularx` with `l` + `X`**: In standard 12pt single-column manuscripts with 1.0-inch margins (printable text width = 6.5 inches / `\linewidth`), specifying `\begin{tabularx}{\linewidth}{lXXXXXX}` forces Column 1 to take the natural width of its longest unbroken text string (often 3.5 to 4.0 inches for detailed model descriptions). The remaining $6.5 - 4.0 = 2.5$ inches must then be split equally across the remaining 5 to 7 `X` columns, forcing numeric cells into narrow 0.35–0.45 inch slots where column headers (e.g. `\textbf{LRT ($\boldsymbol{\chi}^2$)}` or `\textbf{\textit{p}-value}`) break into multi-line text, overlap, or collide.
+- **The `tabular*` Solution**: Use `\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}` paired with calibrated inter-column padding `\setlength{\tabcolsep}{4.5pt}` (or 4.0pt). The `@{\extracolsep{\fill}}` directive automatically distributes elastic spacing evenly across the exact 6.5-inch page width without forcing artificial column wrapping or cell compression.
+
+### 2. Vertically Stacked Substantive Panel Hierarchy
+- **Avoid Repetitive Labels**: Do not repeat verbose parenthetical suffixes on every row (e.g., avoid repeating `Model 1a: Family SES Only (Income, Mom College)`).
+- **Spanning Panel Headers**: Group rows into substantive developmental blocks or specification tiers using full-width spanning headers:
+  ```latex
+  \multicolumn{K}{l}{\textit{\textbf{Panel Title}}} \\
+  \quad Model 1a: Family SES (Income, Mother's College) & ... \\
+  \addlinespace[3pt]
+  ```
+- **Indentation**: Indent sub-items and models with `\quad`. This provides clear visual hierarchy and keeps Column 1 concise.
+
+### 3. Concise Anti-Squish Column Headers & Parameter Reporting
+- Keep statistic column headers concise to ensure they fit cleanly on a single line:
+  - Use `\textbf{LL}` instead of `\textbf{Log-Likelihood}`
+  - Use `\textbf{Par}` or `\textbf{N. Par}` instead of `\textbf{Parameters}`
+  - Use `$\boldsymbol{\chi}^2$` or `\textbf{LRT}` instead of `\textbf{LRT ($\boldsymbol{\chi}^2$)}`
+  - Use `\textbf{\textit{p}}` instead of `\textbf{\textit{p}-value}`
+  - Use `$\Delta$\textbf{BIC}` instead of `\textbf{Delta BIC}`
+- Embed standard errors or confidence intervals in parentheses/brackets within the same cell (`Est (SE)` or `$\text{OR} [95\% \text{ CI}]$`) rather than expanding into separate columns.
+
+### 4. Minipage Table Note Boundary Synchronization
+- Never use unconstrained text paragraphs directly beneath a LaTeX table. Always wrap table notes in a minipage matched to `\linewidth`:
+  ```latex
+  \begin{minipage}{\linewidth}
+  \vspace{4pt}
+  \footnotesize
+  \textit{Note:} Likelihood Ratio Tests ($\chi^2$) evaluated against Model 0 baseline. All models estimated on complete-case cohort ($N = 433$ egos, 2,456 observations).
+  \end{minipage}
+  ```
+  This ensures notes wrap strictly to the table's 6.5-inch boundary without overflowing into the page margins.
+
+### 5. Evaluating Hypotheses via Block Fit Comparison & Marginal Probability Plots
+- Rather than overwhelming readers with dense 30-row tables of individual multinomial logit coefficients (which depend on arbitrary reference categories and log-odds metrics), evaluate hypotheses directly through:
+  1. **Block Model Fit Hierarchy Tables**: Likelihood Ratio Tests ($\chi^2, df, p$), AIC, and BIC evaluating substantive predictor blocks (e.g., SES vs. Demographics vs. Psychological Dispositions).
+  2. **Model-Implied Marginal Class Probability Plots**: Translating parameters into intuitive 0%–100% probabilities across continuous and categorical predictors with 95% simulation confidence bands.
+
 ## Global Academic Writing & Style Guidelines
 - **Quotation Marks Standard (Double Typographic Quotes vs. Single Quotes)**:
   - Strictly use **double quotation marks** (“...”) for quotations, named concepts, coined phrases, and colloquial terms (e.g., “omnivorous generation”, “cultural omnivore”, “high art”, “inclusive elitists”) rather than single quotes (‘...’ or '...').
@@ -834,7 +877,7 @@ project/
 ├── cache/                                   # Pre-compiled APA markdown tables
 └── Scripts/                                 # Turnkey modular execution pipeline
     ├── 01_prepare_trajectory_data.R         # Ingestion, covariate cleaning, and 8-wave cohort creation
-    ├── 02_fit_bivariate_trajectory_models.R # Bivariate LCGA, decomposition, Figs 1-4, Tabs 1-4
+    ├── 02_fit_bivariate_trajectory_models.R # Bivariate LCGA, decomposition, Figs 1-3, Tabs 1-3
     ├── 04_appendix_multilevel_growth.R      # Appendix 8-wave Multilevel Poisson GLMM, Fig A1, Tab A1
     ├── sync_manuscript.py                   # In-place OpenXML table & figure injector
     └── sync_manuscript.R                    # Master Drive sync driver (Rscript Scripts/sync_manuscript.R)
@@ -846,9 +889,7 @@ project/
 - **Table 2**: Bivariate Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_bivariate_model_selection.md`, LaTeX `\label{tab:biv_lcga}`)
 - **Figure 2**: Bivariate Multi-Trajectory Latent Class Growth Analysis Profiles Across Eight Collegiate Waves ($K = 3$) (`Plots/fig2_bivariate_lcga_trajectories.png`, LaTeX `\label{fig:biv_lcga}`)
 - **Table 3**: Model Fit Comparison of Endogenous Concomitant Bivariate Mixture Specifications ($K = 3, N = 433$) (`cache/table3_bivariate_concomitant_model_comparison.md`, LaTeX `\label{tab:concomitant_comparison}`)
-- **Table 4**: Endogenous Multinomial Logistic Regression Estimates Predicting Bivariate Trajectory Class Membership (`cache/table4_bivariate_mlogit_predictors.md`, LaTeX `\label{tab:mlogit_predictors}`)
-- **Figure 3**: Forest Plot of Odds Ratios for Baseline Sociodemographic and Psychological Predictors of Bivariate Trajectory Class Membership (`Plots/fig3_bivariate_mlogit_forest_plot.png`, LaTeX `\label{fig:mlogit_forest}`)
-- **Figure 4**: Model-Implied Marginal Predicted Class Probabilities from Bivariate LCGA across Generalized Trust, Extraversion, and Race/Ethnicity (`Plots/fig4_bivariate_marginal_effects.png`, LaTeX `\label{fig:biv_marginal_effects}`)
+- **Figure 3**: Model-Implied Marginal Predicted Class Probabilities from Bivariate LCGA across Generalized Trust, Extraversion, and Race/Ethnicity (`Plots/fig3_bivariate_marginal_effects.png`, LaTeX `\label{fig:biv_marginal_effects}`)
 - **Table A1**: Fixed Effects Estimates from Multilevel Poisson Growth Curve GLMM with Random Ego Intercepts Across Eight Waves (`cache/tableA1_multilevel_glmm_estimates.md`, LaTeX `\label{tab:glmm_appendix}`)
 - **Figure A1**: Predicted Ego Degree Growth Trajectories by Personality Profiles Across Eight Waves from Multilevel Poisson GLMM (`Plots/figA1_multilevel_predicted_trajectories.png`, LaTeX `\label{fig:glmm_predicted}`)
 
