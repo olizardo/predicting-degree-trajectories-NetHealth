@@ -373,6 +373,18 @@ write.csv(conc_table, "output/tables/table3_bivariate_concomitant_model_comparis
 
 tab3_rows <- conc_table %>%
   mutate(
+    Clean_Model = case_when(
+      grepl("Model 0", Model)  ~ "Model 0: Empty Baseline (No Covariates)",
+      grepl("Model 1a", Model) ~ "Model 1a: Family SES (Income, Mother's College)",
+      grepl("Model 1b", Model) ~ "Model 1b: Gender Identity + Race/Ethnicity",
+      grepl("Model 1c", Model) ~ "Model 1c: All Demographics (Gender, Race, SES)",
+      grepl("Model 2a", Model) ~ "Model 2a: Generalized Trust Only",
+      grepl("Model 2b", Model) ~ "Model 2b: Extraversion Only",
+      grepl("Model 2c", Model) ~ "Model 2c: Big Five Personality Traits",
+      grepl("Model 2d", Model) ~ "Model 2d: All Dispositions (Big Five + Trust)",
+      grepl("Model 3", Model)  ~ "Model 3: Full Multivariable Model",
+      TRUE ~ Model
+    ),
     LL = sprintf("%.1f", LogLik),
     Par = as.character(Params),
     AIC_str = sprintf("%.1f", AIC),
@@ -380,15 +392,24 @@ tab3_rows <- conc_table %>%
     LRT_str = ifelse(is.na(p_val), "---", sprintf("%.2f", LRT_stat)),
     df_str = ifelse(is.na(p_val), "---", as.character(df_diff)),
     p_str = ifelse(is.na(p_val), "---", ifelse(p_val < 0.001, "< .001", sprintf("%.3f", p_val)))
-  ) %>%
-  select(Model, LL, Par, AIC_str, BIC_str, LRT_str, df_str, p_str)
+  )
 
 md3 <- c(
-  "| Model Specification | Log-Likelihood | Par | AIC | BIC | LRT vs. Base (χ²) | df | p-value |",
-  "|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
-  apply(tab3_rows, 1, function(r) {
-    paste0("| ", r["Model"], " | ", r["LL"], " | ", r["Par"], " | ", r["AIC_str"], " | ", r["BIC_str"], " | ", r["LRT_str"], " | ", r["df_str"], " | ", r["p_str"], " |")
-  })
+  "| Model Specification | LL | Par | AIC | BIC | χ² | p-value |",
+  "|:---|:---:|:---:|:---:|:---:|:---:|:---:|",
+  "| **Baseline Specification** | | | | | | |",
+  paste0("| ", tab3_rows$Clean_Model[1], " | ", tab3_rows$LL[1], " | ", tab3_rows$Par[1], " | ", tab3_rows$AIC_str[1], " | ", tab3_rows$BIC_str[1], " | ", tab3_rows$LRT_str[1], " | ", tab3_rows$p_str[1], " |"),
+  "| **Sociodemographic Predictor Blocks** | | | | | | |",
+  paste0("| ", tab3_rows$Clean_Model[2], " | ", tab3_rows$LL[2], " | ", tab3_rows$Par[2], " | ", tab3_rows$AIC_str[2], " | ", tab3_rows$BIC_str[2], " | ", tab3_rows$LRT_str[2], " | ", tab3_rows$p_str[2], " |"),
+  paste0("| ", tab3_rows$Clean_Model[3], " | ", tab3_rows$LL[3], " | ", tab3_rows$Par[3], " | ", tab3_rows$AIC_str[3], " | ", tab3_rows$BIC_str[3], " | ", tab3_rows$LRT_str[3], " | ", tab3_rows$p_str[3], " |"),
+  paste0("| ", tab3_rows$Clean_Model[4], " | ", tab3_rows$LL[4], " | ", tab3_rows$Par[4], " | ", tab3_rows$AIC_str[4], " | ", tab3_rows$BIC_str[4], " | ", tab3_rows$LRT_str[4], " | ", tab3_rows$p_str[4], " |"),
+  "| **Psychological Disposition Blocks** | | | | | | |",
+  paste0("| ", tab3_rows$Clean_Model[5], " | ", tab3_rows$LL[5], " | ", tab3_rows$Par[5], " | ", tab3_rows$AIC_str[5], " | ", tab3_rows$BIC_str[5], " | ", tab3_rows$LRT_str[5], " | ", tab3_rows$p_str[5], " |"),
+  paste0("| ", tab3_rows$Clean_Model[6], " | ", tab3_rows$LL[6], " | ", tab3_rows$Par[6], " | ", tab3_rows$AIC_str[6], " | ", tab3_rows$BIC_str[6], " | ", tab3_rows$LRT_str[6], " | ", tab3_rows$p_str[6], " |"),
+  paste0("| ", tab3_rows$Clean_Model[7], " | ", tab3_rows$LL[7], " | ", tab3_rows$Par[7], " | ", tab3_rows$AIC_str[7], " | ", tab3_rows$BIC_str[7], " | ", tab3_rows$LRT_str[7], " | ", tab3_rows$p_str[7], " |"),
+  paste0("| ", tab3_rows$Clean_Model[8], " | ", tab3_rows$LL[8], " | ", tab3_rows$Par[8], " | ", tab3_rows$AIC_str[8], " | ", tab3_rows$BIC_str[8], " | ", tab3_rows$LRT_str[8], " | ", tab3_rows$p_str[8], " |"),
+  "| **Combined Specification** | | | | | | |",
+  paste0("| ", tab3_rows$Clean_Model[9], " | ", tab3_rows$LL[9], " | ", tab3_rows$Par[9], " | ", tab3_rows$AIC_str[9], " | ", tab3_rows$BIC_str[9], " | ", tab3_rows$LRT_str[9], " | ", tab3_rows$p_str[9], " |")
 )
 writeLines(md3, "cache/table3_bivariate_concomitant_model_comparison.md")
 

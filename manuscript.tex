@@ -245,27 +245,35 @@ Table~\ref{tab:concomitant_comparison} presents the model comparison hierarchy e
 \begin{table}[htbp]
 \centering
 \small
+\setlength{\tabcolsep}{4.5pt}
 \caption{Model Fit Comparison of Endogenous Concomitant Bivariate Mixture Specifications ($K = 3, N = 433$)}
 \label{tab:concomitant_comparison}
-\begin{tabularx}{\linewidth}{l>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}
 \toprule
-\textbf{Model Specification} & \textbf{LL} & \textbf{Par} & \textbf{AIC} & \textbf{BIC} & \textbf{LRT ($\boldsymbol{\chi}^2$)} & \textbf{\textit{p}-value} \\
+\textbf{Model Specification} & \textbf{LL} & \textbf{Par} & \textbf{AIC} & \textbf{BIC} & $\boldsymbol{\chi}^2$ & \textbf{\textit{p}} \\
 \midrule
-Model 0: Baseline Bivariate (No Covariates) & -13518.0 & 20 & 27076.0 & 27192.2 & --- & --- \\
-Model 1a: Family SES Only & -13514.4 & 24 & 27076.9 & 27216.2 & 7.14 & 0.129 \\
-Model 1b: Gender + Race/Ethnicity & -13506.4 & 30 & 27072.9 & 27247.0 & 23.17 & 0.010 \\
-Model 1c: All Demographics (Gender, Race, SES) & -13504.8 & 34 & 27077.6 & 27275.0 & 26.48 & 0.022 \\
-Model 2a: Generalized Trust Only & -13510.0 & 22 & 27063.9 & 27191.7 & 16.08 & $<$ .001 \\
-Model 2b: Extraversion Only & -13508.5 & 22 & 27061.0 & 27188.7 & 19.03 & $<$ .001 \\
-Model 2c: Big Five Personality Traits & -13505.8 & 30 & 27071.6 & 27245.8 & 24.44 & 0.007 \\
-Model 2d: All Dispositions (Big Five + Trust) & -13500.6 & 32 & 27065.2 & 27251.0 & 34.79 & $<$ .001 \\
-Model 3: Full Specification & -13487.5 & 46 & 27067.0 & 27334.1 & 60.98 & $<$ .001 \\
+\multicolumn{7}{l}{\textit{\textbf{Baseline Specification}}} \\
+\quad Model 0: Empty Baseline (No Covariates) & -13518.0 & 20 & 27076.0 & 27192.2 & --- & --- \\
+\addlinespace[3pt]
+\multicolumn{7}{l}{\textit{\textbf{Sociodemographic Predictor Blocks}}} \\
+\quad Model 1a: Family SES (Income, Mother's College) & -13514.4 & 24 & 27076.9 & 27216.2 & 7.14 & 0.129 \\
+\quad Model 1b: Gender Identity + Race/Ethnicity & -13506.4 & 30 & 27072.9 & 27247.0 & 23.17 & 0.010 \\
+\quad Model 1c: All Demographics (Gender, Race, SES) & -13504.8 & 34 & 27077.6 & 27275.0 & 26.48 & 0.022 \\
+\addlinespace[3pt]
+\multicolumn{7}{l}{\textit{\textbf{Psychological Disposition Blocks}}} \\
+\quad Model 2a: Generalized Trust Only & -13510.0 & 22 & 27063.9 & 27191.7 & 16.08 & $<$ .001 \\
+\quad Model 2b: Extraversion Only & -13508.5 & 22 & 27061.0 & 27188.7 & 19.03 & $<$ .001 \\
+\quad Model 2c: Big Five Personality Traits & -13505.8 & 30 & 27071.6 & 27245.8 & 24.44 & 0.007 \\
+\quad Model 2d: All Dispositions (Big Five + Trust) & -13500.6 & 32 & 27065.2 & 27251.0 & 34.79 & $<$ .001 \\
+\addlinespace[3pt]
+\multicolumn{7}{l}{\textit{\textbf{Combined Specification}}} \\
+\quad Model 3: Full Multivariable Model & -13487.5 & 46 & 27067.0 & 27334.1 & 60.98 & $<$ .001 \\
 \bottomrule
-\end{tabularx}
+\end{tabular*}
 \begin{minipage}{\linewidth}
 \vspace{4pt}
 \footnotesize
-\textit{Note:} Likelihood Ratio Tests (LRT) evaluated against Model 0 baseline. All models estimated on complete-case cohort ($N = 433$ egos, 2,456 observations).
+\textit{Note:} Likelihood Ratio Tests ($\chi^2$) evaluated against Model 0 baseline. All models estimated on complete-case cohort ($N = 433$ egos, 2,456 observations).
 \end{minipage}
 \end{table}
 

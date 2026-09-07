@@ -174,17 +174,21 @@ Having established the three latent trajectory classes, we examine whether basel
 
 Table 3 presents the model comparison hierarchy evaluating nested concomitant specifications by variable blocks on the complete-case cohort (N=433 egos, 2,456 observations).
 
-| Model Specification | Log-Likelihood | Par | AIC | BIC | LRT vs. Base (χ²) | df | p-value |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| Model 0: Baseline Bivariate (No Covariates) | -13518.0 | 20 | 27076.0 | 27192.2 | --- | --- | --- |
-| Model 1a: Family SES Only (Income, Mom College) | -13514.4 | 24 | 27076.9 | 27216.2 | 7.14 | 4 | 0.129 |
-| Model 1b: Gender + Race/Ethnicity | -13506.4 | 30 | 27072.9 | 27247.0 | 23.17 | 10 | 0.010 |
-| Model 1c: All Demographics (Gender, Race, SES) | -13504.8 | 34 | 27077.6 | 27275.0 | 26.48 | 14 | 0.022 |
-| Model 2a: Generalized Trust Only | -13510.0 | 22 | 27063.9 | 27191.7 | 16.08 | 2 | < .001 |
-| Model 2b: Extraversion Only | -13508.5 | 22 | 27061.0 | 27188.7 | 19.03 | 2 | < .001 |
-| Model 2c: Big Five Personality Traits | -13505.8 | 30 | 27071.6 | 27245.8 | 24.44 | 10 | 0.007 |
-| Model 2d: All Dispositions (Big Five + Trust) | -13500.6 | 32 | 27065.2 | 27251.0 | 34.79 | 12 | < .001 |
-| Model 3: Full Specification (Demographics + Dispositions) | -13487.5 | 46 | 27067.0 | 27334.1 | 60.98 | 26 | < .001 |
+| Model Specification | LL | Par | AIC | BIC | χ² | p-value |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Baseline Specification** | | | | | | |
+| Model 0: Empty Baseline (No Covariates) | -13518.0 | 20 | 27076.0 | 27192.2 | --- | --- |
+| **Sociodemographic Predictor Blocks** | | | | | | |
+| Model 1a: Family SES (Income, Mother's College) | -13514.4 | 24 | 27076.9 | 27216.2 | 7.14 | 0.129 |
+| Model 1b: Gender Identity + Race/Ethnicity | -13506.4 | 30 | 27072.9 | 27247.0 | 23.17 | 0.010 |
+| Model 1c: All Demographics (Gender, Race, SES) | -13504.8 | 34 | 27077.6 | 27275.0 | 26.48 | 0.022 |
+| **Psychological Disposition Blocks** | | | | | | |
+| Model 2a: Generalized Trust Only | -13510.0 | 22 | 27063.9 | 27191.7 | 16.08 | < .001 |
+| Model 2b: Extraversion Only | -13508.5 | 22 | 27061.0 | 27188.7 | 19.03 | < .001 |
+| Model 2c: Big Five Personality Traits | -13505.8 | 30 | 27071.6 | 27245.8 | 24.44 | 0.007 |
+| Model 2d: All Dispositions (Big Five + Trust) | -13500.6 | 32 | 27065.2 | 27251.0 | 34.79 | < .001 |
+| **Combined Specification** | | | | | | |
+| Model 3: Full Multivariable Model | -13487.5 | 46 | 27067.0 | 27334.1 | 60.98 | < .001 |
 
 *Note:* Likelihood Ratio Tests (LRT) evaluated against Model 0 baseline. All models estimated on complete-case cohort (N=433 egos, 2,456 observations).
 
