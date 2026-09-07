@@ -736,6 +736,24 @@ scale_fill_manual(values = COLOR_CREDIBILITY, name = "Directional Credibility")
 - **Vernacular English & Reduction of Latinisms**:
   - Write in natural, direct, and accessible vernacular English rather than stiff, inflated Latinate vocabulary or bureaucratic abstractions (e.g., prefer *use* over *utilize*, *show* over *demonstrate*, *help* over *facilitate*, *start/begin* over *commence/initiate*, *run/do* over *effectuate*, *before* over *prior to*, *after* over *subsequent to*, *about/roughly* over *approximately*, *part* over *component*, *since/because* over *inasmuch as*).
   - Avoid unnecessary Latin phrases and idioms in running text (e.g., avoid *inter alia*, *ex ante*, *ceteris paribus*, *qua*, *vis-à-vis*) in favor of plain English equivalents, reserving Latin strictly for standard bibliographic citations (e.g., *et al.*) or verbatim historical/philosophical maxims explicitly under discussion.
+- **Discussion Section Structural Architecture (The CUA Tripartite Standard)**:
+  All quantitative sociology manuscripts and empirical research reports should structure the concluding Discussion section into three distinct, cohesive subsections:
+  1. **`Summary of Key Results`**:
+     - *Bird's-Eye Synthesis*: Open with a high-level framing linking the core findings back to the original theoretical puzzle.
+     - *Systematic Walking of Findings*: Dedicate sequential narrative paragraphs to each major empirical result, hypothesis test, and methodological advance, walking through exact empirical estimates, model comparisons, and trajectory morphologies.
+     - *Concluding Transition*: Provide a smooth transition linking empirical patterns to methodological caveats and theoretical implications.
+  2. **`Limitations and Suggestions for Future Work`**:
+     - *Prose Standard*: Write strictly in cohesive, full academic prose paragraphs. Avoid using numbered lists or bullet points.
+     - *Methodical Domain Coverage*: Methodically cover five essential analytical dimensions in sequence:
+       1. *Operationalization & Measurement Constraints*: Evaluation of survey instruments, bounding limits (e.g., alter nomination caps), self-report subjectivity, and proposals for multimodal or passive sensing integration.
+       2. *Threats to Causal Inference & Contextual Confounding*: Evaluation of unmeasured variables, omitted variable bias, and environmental/organizational opportunity structures.
+       3. *Directionality, Selection & Feedback Loops*: Evaluation of bidirectional dynamics, reciprocal causality, and recommendations for continuous-time SEM, cross-lagged panel models, or experimental primes.
+       4. *Temporal Granularity & Panel Attrition*: Assessment of observation intervals (e.g., semester rhythms vs. micro-churn), panel attrition over long horizons, and proposals for ecological momentary assessment (EMA) or micro-surveys.
+       5. *Institutional Scope Conditions & Generalizability*: Identification of specific sample populations, organizational settings, and demographic boundaries, with concrete directions for comparative cross-national or cross-institutional extensions.
+  3. **`Implications: [Substantive Conceptual Subtitle]`**:
+     - *Theoretical Stakes*: Revisit foundational debates in the subdiscipline (e.g., structural capital vs. evolutionary cognitive constraints; cultural omnivorousness vs. domain-contingent sorting).
+     - *Resolving Zero-Sum Paradoxes*: Use the empirical findings to transcend simplistic dichotomies, showing how seemingly contradictory phenomena coexist through specialized divisions of labor, social signatures, or domain-contingent mechanisms.
+     - *Broader Sociological Synthesis*: Synthesize lasting theoretical contributions and articulate the enduring takeaways for sociology, network science, or cultural analysis.
 - **Redundant Asset Pruning**:
   - Eliminate standalone visual plots whose data is already exhaustively detailed in an accompanying APA summary table (e.g., omitting WAIC forest progression plots when the full information criterion hierarchy is already presented in a model comparison table).
 - Use clear, active, concise academic prose.
@@ -777,14 +795,14 @@ The project investigates how personal network size (degree) changes dynamically 
 2. **Expansion 1: Latent Class Growth Analysis (LCGA) with Poisson Mixtures (`flexmix`)**:
    - Replaces continuous Euclidean $k$-means with formal repeated-measures Poisson finite mixture models across $K = 1 \dots 5$.
    - Accurately respects the bounded, non-negative integer count nature of degree ($D \in \{0, \dots, 25\}$).
-   - Identifies three primary latent classes: “Network Conservers” (46.2%), “Accelerated Winnowers” (36.0%), and “Tie Accumulators” (17.8%).
+   - Identifies three primary latent classes in the parsimonious $K = 3$ solution: “Network Conservers” ($n = 132$, 29.3\%, stable at $\bar{D} \approx 17$--18 alters), “Moderate Winnowers” ($n = 187$, 41.6\%, modal contraction from $14.87 \to 8.98$ alters), and “Accelerated Winnowers” ($n = 131$, 29.1\%, sharp early pruning from $9.76 \to 4.03$ alters).
 3. **Expansion 2: Multilevel Poisson Growth Curve Models (`lme4::glmer`)**:
    - Models degree growth directly in continuous time with random ego intercepts:
      $$\log(\mathbb{E}[D_{it}]) = (\beta_0 + u_{0i}) + \beta_1 \text{Time}_t + \mathbf{X}_i \boldsymbol{\beta} + (\text{Time}_t \times \mathbf{Z}_i) \boldsymbol{\gamma}$$
-   - **Key Empirical Discovery**: Collegiate networks contract by ~7% per wave on average ($\text{IRR} = 0.931, p < 0.001$). High baseline trust maintains systematically larger networks ($\text{IRR} = 1.065, p = 0.010$). Crucially, extraverts experience significantly *steeper* winnowing slopes over time ($\text{Time} \times \text{Extraversion IRR} = 0.986, p < 0.001$), casting a wide net initially and shedding peripheral ties more rapidly than introverted peers.
+   - **Key Empirical Discovery**: Collegiate networks contract by ~6.9% per wave on average ($\text{IRR} = 0.931, p < 0.001$). High baseline trust maintains systematically larger networks ($\text{IRR} = 1.065, p = 0.010$). Crucially, extraverts experience significantly *steeper* winnowing slopes over time ($\text{Time} \times \text{Extraversion IRR} = 0.986, p < 0.001$), casting a wide net initially ($\approx 14.2$ alters) and shedding peripheral ties more rapidly than introverted peers, crossing below them by junior year ($\approx 8.9$--9.6 vs.~$9.6$--10.4 alters).
 4. **Expansion 3: Full 8-Wave collegiate Trajectory Decomposition**:
    - Decomposes total degree into **Close Ties**, **Daily Activated Ties**, and **Support-Providing Ties** across all four undergraduate years.
-   - **Substantive Resolution**: Total network size declines from 14.2 to 10.8 alters, but daily activated ties (mean $\approx 5.5$) and close/supportive ties (mean $\approx 10.5$) remain invariant over time. The observed downward trend represents the pruning of superficial campus acquaintances rather than an erosion of core personal communities.
+   - **Substantive Resolution**: Total network size declines from 14.19 to 10.80 alters, but daily activated ties (peaking at 6.9 in freshman spring and stabilizing at 4.4--5.9 across later years) and close/supportive ties (mean $\approx 10.5$--12.0) remain invariant over time. The observed downward trend represents the pruning of superficial campus acquaintances rather than an erosion of core personal communities.
 
 ### 3. Directory Structure & Asset Taxonomy
 ```
@@ -792,7 +810,7 @@ project/
 ├── AGENTS.md                                # Project-specific guidelines and asset inventory
 ├── manuscript.tex                           # Canonical master LaTeX manuscript
 ├── references.bib                           # Standalone BibTeX bibliography (38 entries)
-├── manuscript.pdf                           # Compiled 29-page publication PDF
+├── manuscript.pdf                           # Compiled 35-page publication PDF
 ├── draft_manuscript.md                      # Active local markdown mirror
 ├── README.md                                # Full technical and empirical documentation
 ├── data/
@@ -804,7 +822,7 @@ project/
     ├── 01_prepare_trajectory_data.R         # Data ingestion & baseline covariate harmonization
     ├── 02_classify_trajectories.R           # Deductive decision tree & k-means clustering
     ├── 03_replicate_multinomial_models.R    # 84 multinomial logit models & fit diagnostics
-    ├── 04_expansion_latent_class_growth.R   # LCGA Poisson mixture models
+    ├── 04_expansion_latent_class_growth.R   # LCGA Poisson mixture models (K=3)
     ├── 05_expansion_multilevel_growth.R     # Multilevel Poisson GLMMs
     ├── 06_expansion_tie_decomposition.R     # 8-Wave trajectory decomposition
     ├── generate_md_tables.R                 # Pre-compiles APA markdown tables to cache/
@@ -817,7 +835,7 @@ project/
 - **Figure 1**: Degree Trajectories Classified by A Priori Logic across Survey Waves 1–6 ($N = 450$) (`Plots/fig1_8cat_logical_trajectories.png`, LaTeX `\label{fig:fig1}`)
 - **Figure 2**: Degree Trajectories Classified by Simplified A Priori Logic ($N = 450$) (`Plots/fig2_4cat_simplified_trajectories.png`, LaTeX `\label{fig:fig2}`)
 - **Figure 3**: Within-Cluster Distance to Centroids Across $k = 1 \dots 10$ (Elbow Analysis) (`Plots/fig3_kmeans_elbow_curves.png`, LaTeX `\label{fig:fig3}`)
-- **Figure 4**: Degree Trajectories Classified by $k$-Means Clustering Zeroed on Ego Mean ($k = 4, N = 450$) (`Plots/fig4_kmeans_demeaned_k4.png`, LaTeX `\label{fig:fig4}`)
+- **Figure 4**: Degree Trajectories Classified by $k$-Means Clustering Zeroed on Ego Mean ($k = 4, N = 450$) with Intuitive Labels: Conservers ($n = 199$), Sophomore Dip & Rebound ($n = 110$), Early Winnowers ($n = 89$), Late Winnowers ($n = 52$) (`Plots/fig4_kmeans_demeaned_k4.png`, LaTeX `\label{fig:fig4}`)
 - **Table 2**: Predictor Variable Significance Rates Across 84 Multinomial Logistic Regression Models (`cache/table2_variable_significance_rates.md`, LaTeX `\label{tab:signif_rates}`)
 - **Figure 8**: Likelihood Ratio Chi-Squared $p$-Values Across Model Specification Families (`Plots/fig8_chisq_pvalues_by_type.png`, LaTeX `\label{fig:fig8}`)
 - **Figure 9**: McFadden Pseudo $R$-Squared Values Across Model Specification Families (`Plots/fig9_pseudo_r2_by_type.png`, LaTeX `\label{fig:fig9}`)
@@ -872,3 +890,11 @@ To ensure rigorous typesetting of mathematical formulations and empirical statis
    - **Shortened Abstract:** Tightened to 196 words, strictly preserving all core theoretical, methodological, and empirical takeaways within word count constraints.
    - **Sociodemographic Characteristics Section:** Completely rewritten into two cohesive, full academic prose paragraphs, eliminating all bullet lists and raw database column abbreviations (`mom_educ_num`, `dad_educ_num`).
    - **Purged Alien Fonts & Math Normalization:** All 120 equation objects in the Word/Google Doc draft have been converted from alien serif (`Cambria Math`) into native text runs, and all 399 font overrides have been purged, creating complete stylistic parity between the Google Doc (`Alegreya Sans`), Markdown mirror, and LaTeX edition.
+   - **Figure 3 & Figure 4 Ordering & Intuitive Labels:** Reordered so that the diagnostic elbow plot across $k = 1 \dots 10$ is Figure 3 (`Plots/fig3_kmeans_elbow_curves.png`), followed by the resulting 4-cluster demeaned solution as Figure 4 (`Plots/fig4_kmeans_demeaned_k4.png`). Facet labels and Table 1 are labeled with substantive names: *Conservers* ($n = 199$), *Sophomore Dip & Rebound* ($n = 110$), *Early Winnowers* ($n = 89$), and *Late Winnowers* ($n = 52$). Corrected the narrative in Section 4.3 to eliminate inaccurate claims of "accumulation" in Cluster 4.
+   - **Figure 5 LCGA Model Alignment:** Regenerated `Plots/fig5_lcga_optimal_trajectories.png` to display the parsimonious 3-class Poisson mixture model ($K = 3$) with empirical class sizes: *Network Conservers* ($n = 132, 29.3\%$), *Moderate Winnowers* ($n = 187, 41.6\%$), and *Accelerated Winnowers* ($n = 131, 29.1\%$).
+   - **Empirical Harmonization of Figures 6–10:** Corrected GLMM trajectory metrics in Figure 6 (extraverts starting at 14.0–14.4 and winnowing to 8.9–9.6, crossing below introverts), Figure 7 daily ties peak at 6.93 in freshman spring, and Figures 8–10 empirical statistics (Mixed models having highest omnibus significance at median $p = 0.041$, median pseudo-$R^2 = 0.045$).
+   - **Tripartite Discussion Architecture (CUA Beauty Survey Pattern):** Restructured the Discussion and Conclusion into three rigorous, publication-grade subsections:
+     1. `\subsection{Summary of Key Results}`: Synthesizes findings across replication and the three expansions into a cohesive narrative of collegiate relational adaptation.
+     2. `\subsection{Limitations and Suggestions for Future Work}`: Full narrative paragraphs methodically addressing operationalization & nomination bounding (25-alter cap, passive sensor integration), causal inference & organizational opportunity pools (dormitories, club foci), bidirectional sorting & feedback loops (continuous SEM / cross-lagged panel models), temporal granularity & senior-year panel attrition (EMA / monthly micro-surveys), and institutional scope conditions (residential university context vs. commuter / non-traditional / post-collegiate transitions).
+     3. `\subsection{Implications: The Adaptive Architecture of Personal Communities}`: Bridges classical social capital theory (network degree as social integration) with evolutionary cognitive constraint models (Dunbar layers), demonstrating that aggregate degree shrinkage reflects a self-regulating functional division of relational labor that protects core supportive ties while winnowing peripheral ties according to dispositional infrastructure (personality and trust).
+   - **Direct Overleaf Git Remote Integration:** Fully connected to Overleaf project `https://git.overleaf.com/6a9db1ea255f30d10b63a391` via non-interactive token authentication (`~/.netrc`), keeping Overleaf, GitHub (`origin`), and local LaTeX compilation in synchronized parity.
