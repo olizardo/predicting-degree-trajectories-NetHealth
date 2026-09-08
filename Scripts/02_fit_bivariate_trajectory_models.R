@@ -565,6 +565,42 @@ X_grid_ext_t4 <- model.matrix(form_conc_triv, data = grid_ext_t4)
 ci_ext_t4 <- predict_prob_ci_triv4(X_grid_ext_t4, beta_draws_t4) %>%
   mutate(z_extraversion = rep(grid_ext_t4$z_extraversion, 4))
 
+
+# Grid for Agreeableness (-2.5 to 2.5)
+grid_agr_t4 <- tibble(
+  z_agreeableness = seq(-2.5, 2.5, length.out = 100),
+  female = mean(df_triv_comp$female),
+  race = factor('White', levels = levels(factor(df_triv_comp$race))),
+  parents_income_num = mean(df_triv_comp$parents_income_num),
+  mom_college = mean(df_triv_comp$mom_college),
+  religion_3cat = factor('Catholic', levels = c('Catholic', 'Other', 'None')),
+  z_trust = 0,
+  z_extraversion = 0,
+  z_neuroticism = 0,
+  z_conscientiousness = 0,
+  z_openness = 0
+)
+X_grid_agr_t4 <- model.matrix(form_conc_triv, data = grid_agr_t4)
+ci_agr_t4 <- predict_prob_ci_triv4(X_grid_agr_t4, beta_draws_t4) %>%
+  mutate(z_agreeableness = rep(grid_agr_t4$z_agreeableness, 4))
+
+# Grid for Openness (-2.5 to 2.5)
+grid_open_t4 <- tibble(
+  z_openness = seq(-2.5, 2.5, length.out = 100),
+  female = mean(df_triv_comp$female),
+  race = factor('White', levels = levels(factor(df_triv_comp$race))),
+  parents_income_num = mean(df_triv_comp$parents_income_num),
+  mom_college = mean(df_triv_comp$mom_college),
+  religion_3cat = factor('Catholic', levels = c('Catholic', 'Other', 'None')),
+  z_trust = 0,
+  z_extraversion = 0,
+  z_neuroticism = 0,
+  z_agreeableness = 0,
+  z_conscientiousness = 0
+)
+X_grid_open_t4 <- model.matrix(form_conc_triv, data = grid_open_t4)
+ci_open_t4 <- predict_prob_ci_triv4(X_grid_open_t4, beta_draws_t4) %>%
+  mutate(z_openness = rep(grid_open_t4$z_openness, 4))
 # Grid for Race & Ethnicity
 grid_race_t4 <- tibble(
   race = factor(levels(factor(df_triv_comp$race)), levels = levels(factor(df_triv_comp$race))),
@@ -609,6 +645,12 @@ ci_trust_t4_w <- ci_trust_t4 %>%
   mutate(Class = factor(class_mapping_wrap[as.character(Class)], levels = class_order_wrapped))
 
 ci_ext_t4_w <- ci_ext_t4 %>%
+  mutate(Class = factor(class_mapping_wrap[as.character(Class)], levels = class_order_wrapped))
+
+ci_agr_t4_w <- ci_agr_t4 %>%
+  mutate(Class = factor(class_mapping_wrap[as.character(Class)], levels = class_order_wrapped))
+
+ci_open_t4_w <- ci_open_t4 %>%
   mutate(Class = factor(class_mapping_wrap[as.character(Class)], levels = class_order_wrapped))
 
 race_clean_names <- c(
@@ -676,6 +718,40 @@ p_ext_clean <- ggplot(ci_ext_t4_w, aes(x = z_extraversion, y = Mean, color = Cla
   ) +
   theme_facet_pub()
 
+
+# 2b. Agreeableness 4-Faceted Plot
+p_agr_clean <- ggplot(ci_agr_t4_w, aes(x = z_agreeableness, y = Mean, color = Class, fill = Class)) +
+  geom_ribbon(aes(ymin = pmax(0, Low), ymax = pmin(1, High)), alpha = 0.22, color = NA) +
+  geom_line(linewidth = 1.2) +
+  facet_wrap(~ Class, ncol = 4) +
+  scale_color_manual(values = palette_4_wrap) +
+  scale_fill_manual(values = palette_4_wrap) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0, 0.70), breaks = seq(0, 0.6, 0.2)) +
+  scale_x_continuous(breaks = seq(-2, 2, 1)) +
+  labs(
+    title = "Model-Implied Trajectory Class Probabilities across Agreeableness",
+    subtitle = "Standardized Agreeableness score (holding all other covariates at reference levels and sample means)",
+    x = "Standardized Agreeableness (z-score)",
+    y = "Predicted Class Probability"
+  ) +
+  theme_facet_pub()
+
+# 2c. Openness 4-Faceted Plot
+p_open_clean <- ggplot(ci_open_t4_w, aes(x = z_openness, y = Mean, color = Class, fill = Class)) +
+  geom_ribbon(aes(ymin = pmax(0, Low), ymax = pmin(1, High)), alpha = 0.22, color = NA) +
+  geom_line(linewidth = 1.2) +
+  facet_wrap(~ Class, ncol = 4) +
+  scale_color_manual(values = palette_4_wrap) +
+  scale_fill_manual(values = palette_4_wrap) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0, 0.70), breaks = seq(0, 0.6, 0.2)) +
+  scale_x_continuous(breaks = seq(-2, 2, 1)) +
+  labs(
+    title = "Model-Implied Trajectory Class Probabilities across Openness",
+    subtitle = "Standardized Openness score (holding all other covariates at reference levels and sample means)",
+    x = "Standardized Openness (z-score)",
+    y = "Predicted Class Probability"
+  ) +
+  theme_facet_pub()
 # 3. Race & Ethnicity 4-Faceted Plot
 p_race_clean <- ggplot(ci_race_plot_t4_w, aes(x = clean_race, y = Mean, color = Class)) +
   geom_pointrange(aes(ymin = pmax(0, Low), ymax = pmin(1, High)), size = 0.6, linewidth = 0.9) +
@@ -695,6 +771,19 @@ p_race_clean <- ggplot(ci_race_plot_t4_w, aes(x = clean_race, y = Mean, color = 
 ggsave("Plots/fig3_marginal_trust.png", p_trust_clean, width = 10, height = 3.6, dpi = 300)
 ggsave("Plots/fig4_marginal_extraversion.png", p_ext_clean, width = 10, height = 3.6, dpi = 300)
 ggsave("Plots/fig5_marginal_race.png", p_race_clean, width = 10, height = 4.0, dpi = 300)
+
+ggsave("Plots/fig_marginal_agreeableness.png", p_agr_clean, width = 10, height = 3.6, dpi = 300)
+ggsave("Plots/fig_marginal_openness.png", p_open_clean, width = 10, height = 3.6, dpi = 300)
+ggsave("output/figures/fig_marginal_agreeableness.png", p_agr_clean, width = 10, height = 3.6, dpi = 300)
+ggsave("output/figures/fig_marginal_openness.png", p_open_clean, width = 10, height = 3.6, dpi = 300)
+
+png("Plots/fig_bivariate_marginal_agreeableness_openness.png", width = 10, height = 7.2, units = "in", res = 300)
+grid::grid.newpage()
+grid::pushViewport(grid::viewport(layout = grid::grid.layout(2, 1, heights = grid::unit(c(1, 1), "null"))))
+print(p_agr_clean, vp = grid::viewport(layout.pos.row = 1, layout.pos.col = 1))
+print(p_open_clean, vp = grid::viewport(layout.pos.row = 2, layout.pos.col = 1))
+dev.off()
+file.copy("Plots/fig_bivariate_marginal_agreeableness_openness.png", "output/figures/fig_bivariate_marginal_agreeableness_openness.png", overwrite = TRUE)
 
 ggsave("output/figures/fig3_marginal_trust.png", p_trust_clean, width = 10, height = 3.6, dpi = 300)
 ggsave("output/figures/fig4_marginal_extraversion.png", p_ext_clean, width = 10, height = 3.6, dpi = 300)
