@@ -740,6 +740,49 @@ When designing, formatting, and refining regression, model fit, and summary tabl
   1. **Block Model Fit Hierarchy Tables**: Likelihood Ratio Tests ($\chi^2, df, p$), AIC, and BIC evaluating substantive predictor blocks (e.g., SES vs. Demographics vs. Psychological Dispositions).
   2. **Model-Implied Marginal Class Probability Plots**: Translating parameters into intuitive 0%–100% probabilities across continuous and categorical predictors with 95% simulation confidence bands.
 
+## Scientific Paper Structuring Standards (Mensh & Kording Ten Simple Rules)
+All manuscript drafting, section outlining, paragraph composition, and structural revisions must adhere to the principles established by Mensh & Kording (2017, *PLOS Computational Biology*):
+
+### 1. Core Principles (Rules 1–4)
+- **Rule 1: Focus on a Single Central Contribution (The "Rule of One")**:
+  - Every paper must communicate one primary conceptual message or discovery, crystallized in the title.
+  - Avoid diluting the manuscript with competing primary claims; secondary findings and methodological innovations must directly support or bridge to the central takeaway.
+- **Rule 2: Write for Naïve, Non-Specialist Readers**:
+  - Assume an intelligent reader who is unfamiliar with the project's micro-jargon, abbreviations, and specific institutional context.
+  - Define technical terms upon first use, purge unneeded acronyms, and minimize cognitive friction so readers never have to flip backward to understand terminology.
+- **Rule 3: Enforce the Context-Content-Conclusion (C-C-C) Scheme Across All Scales**:
+  - The C-C-C structure must operate fractally across the entire manuscript, each major section, each subsection, and each individual paragraph:
+    * **Context**: Ground the problem, establish common ground, or state the specific question/gap (prevents *"Why am I being told this?"*).
+    * **Content**: Deliver the substantive empirical evidence, methodological innovation, or narrative progression.
+    * **Conclusion**: Articulate the immediate takeaway, implication, or bridge to the next step (prevents *"So what?"*).
+- **Rule 4: Optimize Logical Flow: Avoid Zig-Zagging & Use Strict Parallelism**:
+  - **Zero Zig-Zagging**: Cover each sub-topic in a single, dedicated location. Only the central contribution should be revisited across sections. Never bounce back and forth between topics.
+  - **Strict Parallelism**: When comparing conditions, groups, hypotheses, or analytical blocks, keep syntactic structures, terminology, and sequential ordering identical across text, tables, and figures.
+
+### 2. Structural Section Goals (Rules 5–8)
+- **Rule 5: Tell a Complete, Standalone Story in the Abstract**:
+  - The abstract must follow the C-C-C progression within standard word limits (< 250 words):
+    1. *Context*: Broad importance of the field + specific knowledge gap.
+    2. *Content*: Core approach + executive summary of primary empirical discoveries ("Here we show...").
+    3. *Conclusion*: Theoretical significance and broader scientific takeaway.
+- **Rule 6: Funnel the Introduction from Broad Importance to the Specific Knowledge Gap**:
+  - Structure as an inverted pyramid: start with broad domain importance $\rightarrow$ narrow down to what the literature currently lacks (the specific knowledge gap) $\rightarrow$ state the paper's contribution and preview how it resolves the gap.
+- **Rule 7: Deliver Results as a Progressive Sequence of Declarative Findings**:
+  - Structure the Results section as a series of logical declarative statements supported by figures and tables.
+  - Subsection headers should be concise and informative, signaling the empirical finding rather than generic methodological operations.
+  - Figures and tables must tell the central story in an unbroken, cumulative progression.
+- **Rule 8: Structure the Discussion to Mirror the Introduction (Gap $\rightarrow$ Findings $\rightarrow$ Caveats $\rightarrow$ Broad Relevance)**:
+  - Open by stating directly how the original gap identified in the introduction was filled.
+  - Walk through key results and theoretical mechanisms.
+  - Provide an honest, thorough treatment of limitations and scope conditions.
+  - Conclude by expanding back out to the broader discipline, highlighting future directions and lasting conceptual implications.
+
+### 3. Writing Process & Workflow Heuristics (Rules 9–10)
+- **Rule 9: Allocate Effort Disproportionately to High-Leverage Assets**:
+  - Prioritize time on the elements that 95% of readers encounter first: Title, Abstract, Figures, Tables, and the structural Outline before drafting long prose.
+- **Rule 10: Ruthlessly Refactor, Cut, and Iterate ("Kill Your Darlings")**:
+  - Treat writing as an optimization problem: do not hesitate to discard or rewrite full paragraphs if logical flow or clarity can be improved.
+
 ## Global Academic Writing & Style Guidelines
 - **Concise, Informative Section Headings & Titles (MANDATORY)**:
   - When structuring and drafting academic manuscripts, reports, and documentation, strictly use **short, informative, and non-wordy titles** for all section headers (Level 1, Level 2, and Level 3).
