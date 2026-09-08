@@ -845,17 +845,18 @@ The project investigates how personal network size (degree) changes dynamically 
    - **Key Substantive Discovery**: Total network size contracts steadily from 14.19 to 10.80 alters (-23.9%), but the intimate Support Clique (4.55 $\rightarrow$ 3.43 alters, ~32-36% of network) and Sympathy Shell (3.76 $\rightarrow$ 3.72 alters) remain remarkably stable, keeping the cumulative core at 7.15 to 8.31 alters (66%--72% of personal networks). Aggregate degree decay is driven almost entirely by the winnowing of Tier 3 peripheral contacts (falling from 5.88 to 3.38 alters, a -42.5% collapse).
 3. **Trivariate Multi-Trajectory Latent Class Growth Analysis (Poisson Mixtures)**:
    - Replaces univariate counts with formal **Trivariate Multi-Trajectory Poisson finite mixture models** in `flexmix` \citep{grun2008flexmix}, simultaneously estimating the co-evolution of Support Clique, Sympathy Shell, and Periphery.
-   - Robustness checks demonstrate that while formal BIC declines through higher-order solutions, $K = 3$ captures the primary structural elbow ($\Delta\text{BIC} = -4,502$ for $K = 2$, $-1,112$ for $K = 3$), cleanly distinguishing three developmental archetypes:
-     * **Periphery Conservers** ($n = 129$, 28.2\%): Maintain moderate Support Cliques ($\approx 2.6\text{--}3.6$ alters) and Sympathy Shells ($\approx 4.6\text{--}5.3$ alters), while uniquely sustaining an expansive, invariant Periphery ($\approx 7.0\text{--}8.0$ alters).
-     * **Peripheral Winnowers** ($n = 205$, 44.9\%): The modal pathway; preserves an intimate Support Clique ($\approx 3.0$ alters) and Sympathy Shell ($\approx 1.9$ alters) while their peripheral perimeter collapses by 83% (from 4.38 to 0.76 alters).
-     * **Clique Conservers** ($n = 123$, 26.9\%): Enter college with and sustain an exceptionally large, dense Support Clique ($\approx 5.0\text{--}6.5$ alters) and Sympathy Shell ($\approx 5.2\text{--}6.4$ alters) alongside a pruned periphery ($\approx 2.7$ alters).
+   - Robustness checks demonstrate that while formal BIC declines through higher-order solutions, $K = 4$ provides the optimal balance of fit ($\Delta\text{BIC} = -814.5$ over $K = 3$) and substantive differentiation, cleanly distinguishing four remarkably balanced developmental archetypes:
+     * **Expansive Periphery Conservers** ($n = 97$, 21.2\%): Matriculate with and sustain large, invariant personal networks ($\bar{D}_{\text{total}, 1} = 17.12 \rightarrow \bar{D}_{\text{total}, 8} = 16.37$) anchored by ~8 casual contacts throughout college.
+     * **Moderate Winnowers (Shell-Oriented)** ($n = 124$, 27.1\%): Periphery winnows moderately (to ~2.5 alters); Sympathy Shell (~3.5 alters) overtakes Support Clique (~2.0 alters).
+     * **Extreme Peripheral Winnowers** ($n = 143$, 31.3\%): Outer periphery collapses by 88\% (from 3.7 down to $<0.5$ alters) while intimate Support Clique ($\approx 3.4$ alters) is preserved.
+     * **Clique Conservers** ($n = 93$, 20.4\%): Enter college with and sustain an exceptionally dense core of intimate confidants ($\approx 6.0\text{--}7.4$ alters) and active companions ($\approx 4.5\text{--}6.4$ alters).
 4. **Predicting Trajectory Group Membership (Endogenous Concomitant Models)**:
-   - Incorporates baseline covariates directly into `flexmix` as endogenous concomitant variables via `FLXPmultinom(~ ...)` on complete cases ($N = 432$ egos, 2,451 observations):
-     * Full Multivariable Model is highly significant vs. base ($\text{LRT } \chi^2 = 65.70, df = 30, p < 0.001$).
-     * Race/Ethnicity is the sole significant demographic block ($\chi^2 = 22.13, df = 8, p = 0.005$, lowering AIC to 26,996.0).
-     * Extraversion alone is highly significant ($\chi^2 = 18.61, df = 2, p < 0.001$, lowering AIC to 26,987.6).
-     * Generalized Trust alone is highly significant ($\chi^2 = 15.19, df = 2, p < 0.001$).
-     * Family SES ($\chi^2 = 6.59, df = 4, p = 0.159$), Gender ($\chi^2 = 1.00, df = 2, p = 0.605$), and Religious Affiliation on this Catholic campus ($\chi^2 = 3.11, df = 4, p = 0.539$) are completely null.
+   - Incorporates baseline covariates directly into `flexmix` as endogenous concomitant variables via `FLXPmultinom(~ ...)` on complete cases ($N = 432$ egos, 2,451 observations, $K = 4$):
+     * Full Multivariable Model is highly significant vs. base ($\text{LRT } \chi^2 = 96.71, df = 45, p < 0.001$).
+     * Race/Ethnicity is the primary structural demographic sorting dimension ($\chi^2 = 31.71, df = 12, p = 0.002$, lowering AIC to 35,916.2).
+     * Extraversion alone is the single most parsimonious sorting engine ($\chi^2 = 26.76, df = 3, p < 0.001$, achieving the absolute lowest BIC = 36,146.9 across all 11 models).
+     * Generalized Trust alone is highly significant ($\chi^2 = 20.76, df = 3, p < 0.001$).
+     * Family SES shows a modest effect ($\chi^2 = 14.25, df = 6, p = 0.027$), while Gender Identity ($\chi^2 = 0.81, df = 3, p = 0.846$) and Religious Affiliation ($\chi^2 = 9.58, df = 6, p = 0.144$) are completely null.
 5. **Continuous Growth Modeling as Supplementary Robustness Check (Appendix)**:
    - Multilevel Poisson mixed-effects models (`glmer` in `lme4`) with random ego intercepts across all eight waves confirm that student networks contract by ~5.5% per wave ($\text{IRR} = 0.945, p < 0.001$), trust expands network volume ($\text{IRR} = 1.071, p = 0.006$), and extraverts experience significantly steeper winnowing over time ($\text{Time} \times \text{Extraversion IRR} = 0.994, p = 0.032$).
 
@@ -863,7 +864,7 @@ The project investigates how personal network size (degree) changes dynamically 
 ```
 project/
 ├── AGENTS.md                                # Project-specific guidelines and asset inventory
-├── manuscript.tex                           # Canonical master LaTeX manuscript (bivariate multi-trajectory)
+├── manuscript.tex                           # Canonical master LaTeX manuscript (trivariate multi-trajectory, K = 4)
 ├── references.bib                           # Standalone BibTeX bibliography with software citations
 ├── manuscript.pdf                           # Compiled publication PDF (Overleaf rendered)
 ├── draft_manuscript.md                      # Active local markdown mirror
@@ -875,7 +876,7 @@ project/
 ├── cache/                                   # Pre-compiled APA markdown tables
 └── Scripts/                                 # Turnkey modular execution pipeline
     ├── 01_prepare_trajectory_data.R         # Ingestion, covariate cleaning, and 8-wave cohort creation
-    ├── 02_fit_bivariate_trajectory_models.R # Bivariate LCGA, decomposition, Figs 1-3, Tabs 1-3
+    ├── 02_fit_bivariate_trajectory_models.R # Trivariate LCGA (K = 4), decomposition, Figs 1-5, Tabs 1-3
     ├── 04_appendix_multilevel_growth.R      # Appendix 8-wave Multilevel Poisson GLMM, Fig A1, Tab A1
     ├── sync_manuscript.py                   # In-place OpenXML table & figure injector
     └── sync_manuscript.R                    # Master Drive sync driver (Rscript Scripts/sync_manuscript.R)
@@ -884,10 +885,11 @@ project/
 ### 4. Tables and Figures Inventory in Live Document & LaTeX (Strict Sequential Order)
 - **Table 1**: Longitudinal Means and Standard Errors of Decomposed Relational Layers Across Eight Collegiate Waves ($N = 457$) (`cache/table1_bivariate_trajectory_means.md`, LaTeX `\label{tab:decomp}`)
 - **Figure 1**: Decomposing Ego Network Evolution Across Eight Collegiate Waves: Total Degree, Strong Ties, and Weak Ties (`Plots/fig1_compound_strong_weak_trajectories.png`, LaTeX `\label{fig:decomp}`)
-- **Table 2**: Bivariate Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_bivariate_model_selection.md`, LaTeX `\label{tab:biv_lcga}`)
-- **Figure 2**: Bivariate Multi-Trajectory Latent Class Growth Analysis Profiles Across Eight Collegiate Waves ($K = 3$) (`Plots/fig2_bivariate_lcga_trajectories.png`, LaTeX `\label{fig:biv_lcga}`)
-- **Table 3**: Model Fit Comparison of Endogenous Concomitant Bivariate Mixture Specifications ($K = 3, N = 432$) (`cache/table3_bivariate_concomitant_model_comparison.md`, LaTeX `\label{tab:concomitant_comparison}`)
-- **Figure 3**: Model-Implied Marginal Predicted Class Probabilities from Bivariate LCGA across Generalized Trust, Extraversion, and Race/Ethnicity (`Plots/fig3_bivariate_marginal_effects.png`, LaTeX `\label{fig:biv_marginal_effects}`)
+- **Table 2**: Trivariate Latent Class Growth Analysis (LCGA) Model Fit Statistics Across Candidate Poisson Mixture Models on Eight-Wave Panel ($K = 1 \dots 5$) (`cache/table2_bivariate_model_selection.md`, LaTeX `\label{tab:biv_lcga}`)
+- **Figure 2**: Trivariate Multi-Trajectory Latent Class Growth Analysis Profiles Across Eight Collegiate Waves ($K = 4$) (`Plots/fig2_bivariate_lcga_trajectories.png`, LaTeX `\label{fig:biv_lcga}`)
+- **Table 3**: Model Fit Comparison of Endogenous Concomitant Trivariate Mixture Specifications ($K = 4, N = 432$) (`cache/table3_bivariate_concomitant_model_comparison.md`, LaTeX `\label{tab:concomitant_comparison}`)
+- **Figure 3**: Model-Implied Marginal Predicted Class Probabilities from Trivariate LCGA Across Continuous Dispositions: Generalized Trust and Extraversion (`Plots/fig3_bivariate_marginal_effects.png`, LaTeX `\label{fig:biv_marginal_effects}`)
+- **Figure 4**: Model-Implied Marginal Predicted Class Probabilities from Trivariate LCGA Across Race and Ethnicity (`Plots/fig5_marginal_race.png`, LaTeX `\label{fig:race_marginal_effects}`)
 - **Table A1**: Fixed Effects Estimates from Multilevel Poisson Growth Curve GLMM with Random Ego Intercepts Across Eight Waves (`cache/tableA1_multilevel_glmm_estimates.md`, LaTeX `\label{tab:glmm_appendix}`)
 - **Figure A1**: Predicted Ego Degree Growth Trajectories by Personality Profiles Across Eight Waves from Multilevel Poisson GLMM (`Plots/figA1_multilevel_predicted_trajectories.png`, LaTeX `\label{fig:glmm_predicted}`)
 
@@ -940,11 +942,12 @@ To ensure rigorous typesetting of mathematical formulations and empirical statis
    - **Trivariate Dunbar Cognitive Layer Architecture:** Grounded in Robin Dunbar's cognitive layering perspective \citep{dunbar1992neocortex, dunbar1998social, dunbar2018anatomy} and Mario Small's (2017) *Someone to Talk To* \citep{small2017someone}:
      1. *Collegiate Landscape & Dunbar Layer Decomposition:* Table 1 and Figure 1 establish the overall baseline trajectory across college, demonstrating that aggregate contraction (-24%) is confined to peripheral ties (-42.5%) while the Support Clique (4.55 $\rightarrow$ 3.43 alters, ~32-36% of personal network) and Sympathy Shell (3.76 $\rightarrow$ 3.72 alters) remain invariant, keeping the cumulative core at 66%--72% of total personal network volume.
      2. *Trivariate LCGA Mixture Modeling:* Table 2 and Figure 2 identify the three developmental trajectory archetypes across all 8 waves:
-        - **Periphery Conservers** ($n = 129, 28.2\%$): Maintain moderate Support Cliques ($\approx 2.6\text{--}3.6$) and Sympathy Shells ($\approx 4.6\text{--}5.3$), but uniquely sustain an expansive, durable Periphery ($\approx 7.0\text{--}8.0$ alters).
-        - **Peripheral Winnowers** ($n = 205, 44.9\%$): The modal pathway; preserves an intimate Support Clique ($\approx 3.0$ alters) and Sympathy Shell ($\approx 1.9$ alters) while their peripheral perimeter collapses by 83% (from 4.38 alters to 0.76 alters).
-        - **Clique Conservers** ($n = 123, 26.9\%$): Enter college with and sustain an exceptionally dense core of intimate confidants ($\approx 5.0\text{--}6.5$ alters) and active companions ($\approx 5.0\text{--}6.5$ alters).
-     3. *Predictive Model Fit Hierarchy (Table 3):* Model fit comparison evaluating 11 endogenous concomitant specifications ($K = 3, N = 432$), showing that Generalized Trust ($\chi^2 = 15.19, p < 0.001$) and Extraversion ($\chi^2 = 18.61, p < 0.001$) drive trajectory sorting, Race/Ethnicity is the sole significant demographic block ($\chi^2 = 22.13, p = 0.005$), while Family SES ($\chi^2 = 6.59, p = 0.159$), Gender Identity ($\chi^2 = 1.00, p = 0.605$), and Religious Affiliation ($\chi^2 = 3.11, p = 0.539$) are completely null.
-     4. *Marginal Predicted Probabilities (Figure 3):* Displays model-implied class probabilities across Generalized Trust (quadrupling Clique Conservers), Extraversion (shifting introverts into Periphery Conserving and extraverts into Peripheral Winnowing), and Race/Ethnicity (showing minority sorting into Peripheral Winnowing).
+        - **Expansive Periphery Conservers** ($n = 97, 21.2\%$): Sustain large, invariant personal networks ($\bar{D}_{\text{total}, 1} = 17.12 \rightarrow \bar{D}_{\text{total}, 8} = 16.37$) anchored by ~8 casual contacts.
+        - **Moderate Winnowers (Shell-Oriented)** ($n = 124, 27.1\%$): Periphery winnows moderately (to ~2.5 alters); Sympathy Shell (~3.5 alters) overtakes Support Clique (~2.0 alters).
+        - **Extreme Peripheral Winnowers** ($n = 143, 31.3\%$): The largest pathway; outer periphery collapses by 88% (from 3.70 to 0.54 alters) while Support Clique ($\approx 3.4$ alters) is preserved.
+        - **Clique Conservers** ($n = 93, 20.4\%$): Enter college with and sustain an exceptionally dense core of intimate confidants ($\approx 6.0\text{--}7.4$ alters) and active companions ($\approx 4.5\text{--}6.4$ alters).
+     3. *Predictive Model Fit Hierarchy (Table 3):* Model fit comparison evaluating 11 endogenous concomitant specifications ($K = 4, N = 432$), showing that Generalized Trust ($\chi^2 = 20.76, p < 0.001$) and Extraversion ($\chi^2 = 26.76, p < 0.001$, lowest BIC = 36,146.9) drive trajectory sorting, Race/Ethnicity is the primary structural demographic sorting dimension ($\chi^2 = 31.71, p = 0.002$), Family SES has modest explanatory power ($\chi^2 = 14.25, p = 0.027$), while Gender Identity ($\chi^2 = 0.81, p = 0.846$) and Religious Affiliation ($\chi^2 = 9.58, p = 0.144$) are completely null.
+     4. *Marginal Predicted Probabilities (Figures 3 and 4):* Displays model-implied class probabilities across Generalized Trust (quadrupling Clique Conservers), Extraversion (shifting introverts into Conserving/Moderate pathways and extraverts into Extreme Winnowing and Clique Conserving), and Race/Ethnicity (showing minority sorting into Extreme Winnowing and Hispanic sorting into Clique Conserving).
      5. *Continuous GLMM Growth Modeling (Appendix):* Table A1 and Figure A1 provide continuous mixed-effects robustness checks confirming that extraverts winnow significantly faster over time ($\text{IRR} = 0.994, p = 0.032$).
    - **Tripartite Discussion Architecture (CUA Beauty Survey Standard):** Restructured the Discussion into three rigorous, publication-grade subsections: `\subsection{Summary of Key Results}`, `\subsection{Limitations and Suggestions for Future Work}` (addressing nomination bounding, multivariate mixture extensions $M \ge 3$, causal inference, feedback loops, granularity, and scope conditions in full paragraphs), and `\subsection{Implications: The Adaptive Architecture of Personal Communities}`.
    - **Direct Overleaf Git Remote Integration:** Fully synchronized with Overleaf project `https://git.overleaf.com/6a9db1ea255f30d10b63a391` via non-interactive token authentication (`~/.netrc`), maintaining identical parity across Overleaf and GitHub (`origin`).
