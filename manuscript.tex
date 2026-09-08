@@ -54,9 +54,9 @@ This study investigates the empirical implications of these competing perspectiv
 
 To answer these questions, we advance an analytical framework implemented in \textsf{R} \citep{rcoreteam2024} using \texttt{flexmix} \citep{grun2008flexmix}, \texttt{nnet} \citep{venables2002modern}, and \texttt{ggplot2} \citep{wickham2016ggplot2}. First, drawing on Robin Dunbar's cognitive layering perspective \citep{dunbar1992neocortex, dunbar2018anatomy} and \citet{marsden1984measuring} on strong tie measurement, we decompose personal networks into three concentric layers: the intimate \textit{Support Clique} (daily intimates), the active \textit{Sympathy Layer} (weekly companions), and the outer \textit{Peripheral Perimeter} (casual contacts), showing that while total degree contracts by roughly 24\% over the college career, the intimate core remains remarkably invariant while peripheral ties collapse by over 42\%. Second, rather than relying on univariate total degree counts, we estimate Trivariate Multi-Trajectory Latent Class Growth Analysis (LCGA) with repeated-measures Poisson finite mixture models across all eight semesters, discovering four distinct, well-balanced developmental network evolution classes: \textit{Expansive Periphery Conservers}, \textit{Moderate Winnowers}, \textit{Extreme Peripheral Winnowers}, and \textit{Clique Conservers}. Third, we estimate endogenous concomitant mixture models and multivariable multinomial logistic regressions to evaluate whether baseline sociodemographic background or psychological dispositions predict individual assignment to trajectory classes. Finally, in an Appendix, we demonstrate that continuous multilevel Poisson growth curve models using \texttt{lme4} \citep{bates2015fitting} corroborate our main findings, confirming that extraverts experience significantly steeper tie winnowing over time while generalized trust preserves overall network scale.
 
-\section{Theoretical Background and Hypotheses}
+\section{Theoretical Framework}
 
-\subsection{Dunbar Layers and Personal Network Dynamics}
+\subsection{Dunbar's Cognitive Layers}
 
 The structural scale of human sociality has long been theorized as bounded by biological and cognitive constraints. Dunbar's \citeyearpar{dunbar1992neocortex, dunbar1998social} social brain hypothesis posits that primate neocortical volume constrains the maximum number of stable interpersonal relationships an individual can monitor simultaneously, yielding a theoretical upper limit of roughly 150 personal relationships for humans. Within this outer boundary, egocentric networks exhibit a nested hierarchy of emotional closeness and contact frequency, typically organized into layers of approximately 5 support-clique intimates, 15 sympathy-group associates, 50 affinity-group contacts, and 150 total active acquaintances \citep{dunbar2018anatomy, hill2003social, zhou2005discrete}.
 
@@ -64,7 +64,7 @@ In an extension of Dunbar's framework, \citet{saramaki2014persistence} showed th
 
 However, while social signature research focuses primarily on the shape of the relative tie-weight distribution, the absolute number of alters nominated in survey-based egocentric networks frequently displays substantial temporal fluctuation \citep{bidart2018personal, small2015how}. During periods of major institutional relocation, individuals enter new relational foci that supply novel alters while simultaneously weakening geographic proximity to prior contacts \citep{feld1982social, hachen2022generators-7f6, lomi2014social-e4f}. This tension between cognitive-relational capacity and shifting institutional opportunities suggests that while some individuals may preserve a constant network size over time, others may undergo rapid expansion followed by subsequent contraction as weak ties are winnowed away.
 
-\subsection{Psychological Dispositions vs.~Sociodemographic Stratification}
+\subsection{Dispositions and Social Background}
 
 When individuals navigate open social contexts, such as a residential university campus, what factors govern whether their personal networks expand, contract, or remain stable? Prior research points to two distinct classes of determinants: psychological pre-dispositions and sociodemographic background, the latter of which provides individuals with the relevant economic, relational, and cultural resources to facilitate network formation \citep{dimaggio2011how-2b9}.
 
@@ -97,7 +97,7 @@ In contrast, the evolutionary cognitive constraint perspective implies a dynamic
 \textbf{Hypothesis 3:} \emph{Extraverted individuals will cast a wider initial exploratory net upon entering college, but will experience significantly steeper rates of subsequent tie winnowing over time compared to introverted peers.}
 \end{quote}
 
-\subsection{Tie Closeness, Functional Support, and the Weak-Tie Hypothesis}
+\subsection{Tie Strength and Relational Pruning}
 
 A fundamental limitation of examining degree trajectories as an undifferentiated aggregate count is that it conceals the internal division of relational labor within personal communities. In his foundational formulation of network structure, \citet{granovetter1973strength} distinguished between \emph{strong ties}---characterized by a combination of emotional intensity, intimacy, mutual confiding, and reciprocal services---and \emph{weak ties}, which involve superficial acquaintance, lower emotional investment, and infrequent or context-dependent interaction. As \citet{marsden1984measuring} demonstrated in their classic empirical assessment of tie strength, emotional closeness serves as the single best indicator of tie strength, whereas contact frequency is heavily conditioned by organizational foci and physical co-presence \citep{feld1982social}. Dormmates or classmates may interact daily simply due to spatial proximity rather than affective depth, whereas close friends or family may interact less frequently yet provide indispensable support \citep{lizardo2024multiframe, smith2021social}.
 
@@ -107,17 +107,17 @@ Furthermore, social support exchanges are highly specialized across distinct rel
 \textbf{Hypothesis 4:} \emph{The longitudinal decline in collegiate network size will be concentrated primarily among weak ties, while strong ties (affectively close, daily activated, and support-providing ties) will remain invariant the college career.}
 \end{quote}
 
-\section{Data and Analytical Sample}
+\section{Data and Methods}
 
-\subsection{The NetHealth Project}
+\subsection{Study Context and NetHealth Data}
 
 Data for this study come from the \emph{NetHealth} study (\url{https://sites.nd.edu/nethealth/}), a longitudinal study tracking an entire undergraduate cohort at the University of Notre Dame from matriculation in August 2015 through senior graduation in May 2019 \citep{liu2018network, sepulvado2020predicting, wang2020neither}. The \emph{NetHealth} study was designed to investigate the reciprocal co-evolution of social network structures, health behaviors (physical activity, sleep patterns, stress), and academic performance. Participants were recruited prior to entering college and were surveyed repeatedly across their undergraduate careers, completing comprehensive baseline surveys alongside semester-by-semester egocentric network batteries.
 
-\subsection{Longitudinal Analytical Cohort}
+\subsection{Analytic Sample}
 
 Our analytical cohort is defined across all eight waves of the study (Wave 1 in Fall 2015 to Wave 8 in Spring 2019). The longitudinal cohort consists of $N = 457$ undergraduate students who completed at least three full egocentric network survey waves over the four-year undergraduate timeline, completed the initial baseline attributes survey, and remained actively engaged. For fully adjusted multinomial predictive models, complete baseline covariate data are available for $N = 432$ participants.
 
-\subsection{Variables}
+\subsection{Measures}
 
 \subsubsection{Ego Network Degree and Relational Layers}
 
@@ -145,7 +145,7 @@ All independent predictor variables were measured at baseline prior to or during
 
 We include a comprehensive battery of sociodemographic covariates measured at baseline to account for structural sorting and social background across the undergraduate cohort. Gender identity is coded as a binary indicator: women (1) and men (0). Racial and ethnic background is categorized as White, Asian, Black, Hispanic/Latino, and Other or International. Family socioeconomic status is captured through three distinct indicators: parental annual household income, measured on an eight-point ordinal scale ranging from less than \$25,000 to \$250,000 or more, alongside maternal and paternal educational attainment, each measured on five-point ordinal scales ranging from less than high school to graduate or professional degrees. In addition, reflecting the institutional setting of a historically faith-based private residential university, religious affiliation is categorized into Catholic (modal reference group, 74\%), Other Religion, and No Religion.
 
-\section{The Collegiate Network Landscape: Decomposing Dunbar Cognitive Layers}
+\section{Network Layer Decomposition}
 
 To resolve the substantive meaning of personal network evolution across college, we first examine the empirical trajectory of ego network size across all eight collegiate waves, extending from matriculation in August 2015 through senior graduation in May 2019 ($N = 457$). Table~\ref{tab:decomp} displays the empirical means and standard errors for Total Degree, Layer 1 (Support Clique), Layer 2 (Sympathy Layer), the Combined Core (Layers 1 + 2), Layer 3 (Peripheral Perimeter), and the core percentage share across all eight semesters.
 
@@ -189,9 +189,9 @@ The empirical pattern displayed in Figure~\ref{fig:decomp} provides clear suppor
 
 Taken together, the cumulative core (Layers 1 + 2) begins at 8.31 alters (58.6\% of the network) and stabilizes between 7.15 and 8.22 alters from sophomore year through senior graduation (expanding to 66\%--72\% of total network volume). The aggregate decline in collegiate network degree is driven almost entirely by the selective winnowing of Layer 3 (the peripheral perimeter), which collapses from 5.88 alters in freshman fall down to 3.38 alters at senior graduation (a 42.5\% contraction). Once students establish enduring campus niches, they prune low-investment peripheral ties to conserve cognitive and temporal bandwidth, while fiercely insulating their Support Clique and Sympathy Layer from decay.
 
-\section{Trivariate Latent Class Trajectory Analysis across Dunbar Circles}
+\section{Trajectory Mixture Analysis}
 
-\subsection{Trivariate Mixture Formulation and Model Selection}
+\subsection{Model Selection}
 
 While aggregate trajectories reveal population averages, they mask substantial inter-individual heterogeneity in how students navigate relational winnowing across nested Dunbar circles. Rather than fitting univariate mixtures to total degree or collapsing ties into a crude binary partition, we implement Trivariate Multi-Trajectory Latent Class Growth Analysis (LCGA) using repeated-measures Poisson finite mixture models in \texttt{flexmix} \citep{grun2008flexmix} within \textsf{R} \citep{rcoreteam2024}.
 
@@ -229,7 +229,7 @@ $K = 5$ & $-18760.3$ & 49 & 37618.6 & 37906.0 & 0.0 \\
 
 As shown in Table~\ref{tab:biv_lcga}, information criteria improve substantially when moving from a single population trajectory ($K = 1$) to multi-class mixtures, with BIC dropping by 4,502.3 points from $K = 1$ to $K = 2$, by 1,112.5 points from $K = 2$ to $K = 3$, and by an additional 814.5 points from $K = 3$ to $K = 4$. While formal BIC continues to decline through higher-order solutions ($K = 5$), the four-class solution ($K = 4$) captures the optimal balance between mathematical fit, parsimony, and sociological substance. Crucially, rather than generating tiny, uninterpretable residual clusters, the four-class solution produces an remarkably balanced distribution across the student body (ranging between 20.4\% and 31.3\% per class). Substantively, moving from three to four classes unpacks the winnowing process: it differentiates students who undergo complete peripheral collapse from moderate winnowers who reorient toward weekly companions, while isolating an expansive cohort of high-volume socializers whose networks remain stable across all four years. We therefore select the four-class solution ($K = 4$) as the canonical representation of collegiate degree trajectories.
 
-\subsection{Trivariate Latent Trajectory Profiles Across Eight Waves}
+\subsection{Latent Trajectory Profiles}
 
 Figure~\ref{fig:biv_lcga} displays the model-implied trajectories and observed ego sequences across all eight semesters for the optimal four-class trivariate solution.
 
@@ -250,7 +250,7 @@ Third, \textbf{Extreme Peripheral Winnowers} ($n = 143$, 31.3\%) constitute the 
 
 Fourth, \textbf{Clique Conservers} ($n = 93$, 20.4\%) represent students who prioritize high-density emotional and active engagement. Entering college with an exceptionally large Support Clique ($\bar{D}_{1} = 6.43$), they sustain this intimate cadre across all eight waves, peaking at $\bar{D}_{3} = 7.37$ alters and finishing at $\bar{D}_{8} = 5.78$ alters. Alongside their confidants, they maintain a large, vibrant Sympathy Layer ($\bar{D}_{1} = 4.16$, peaking at 6.43, ending at 4.59 alters), keeping their cumulative core exceptionally dense ($\bar{D}_{\text{core}, 8} = 10.37$). While their Periphery undergoes moderate winnowing from 5.81 to 2.32 alters, Clique Conservers channel their social bandwidth into sustaining an unusually large circle of close personal friends.
 
-\section{Predicting Trajectory Group Membership}
+\section{Predicting Trajectory Membership}
 
 Having established the four latent trajectory classes, we examine whether baseline sociodemographic background and psychological dispositions predict which developmental trajectory an individual follows. Rather than relying on a naive two-step classification, we incorporate baseline predictors directly into \texttt{flexmix} \citep{grun2008flexmix} as endogenous concomitant variables. This formulation allows the multinomial logistic parameters predicting latent class probabilities to be estimated simultaneously with the trajectory likelihoods.
 
@@ -301,7 +301,7 @@ Second, supporting \textbf{Hypothesis 2}, baseline Generalized Trust alone (Mode
 
 Third, consistent with \textbf{Hypothesis 3}, introducing Extraversion alone (Model 2b) produces the single most parsimonious fit improvement of any covariate addition ($\chi^2 = 26.76, df = 3, p < 0.001$), achieving the lowest AIC of any single-predictor model ($\text{AIC} = 35,903.2$) and the absolute lowest BIC across all eleven specifications ($\text{BIC} = 36,146.9, \Delta\text{BIC} = 0.0$). Extraversion serves as a primary behavioral engine regulating how students navigate collegiate opportunity structures and allocate social bandwidth. All psychological dispositions considered together (Model 2d) account for substantial explanatory power ($\chi^2 = 55.97, df = 18, p < 0.001$). Finally, the full multivariable model incorporating demographics, religion, and dispositions (Model 3) achieves an omnibus fit improvement of $\chi^2 = 96.71$ ($df = 45, p < 0.001$) over the unconditional mixture baseline.
 
-\subsection{Model-Implied Marginal Class Probabilities}
+\subsection{Marginal Class Probabilities}
 
 To evaluate the substantive direction and magnitude of these effects without relying on arbitrary reference categories or difficult-to-interpret log-odds ratios, we translate the full multivariable model parameters into model-implied marginal predicted class probabilities, holding other covariates at sample means and reference levels. To avoid overplotting and prevent overlapping confidence bands from obscuring class contrasts, Figure~\ref{fig:biv_marginal_effects} splits the continuous dispositions into separate four-faceted horizontal strips for Generalized Trust and Extraversion. Figure~\ref{fig:biv_marginal_effects_agree_open} further decomposes these dynamics by presenting the corresponding predicted probabilities across Agreeableness and Openness, while Figure~\ref{fig:race_marginal_effects} displays predicted probabilities across racial and ethnic groups in a dedicated four-faceted strip.
 
@@ -336,9 +336,9 @@ Figure~\ref{fig:biv_marginal_effects_agree_open} further decomposes the disposit
 
 Finally, Figure~\ref{fig:race_marginal_effects} highlights significant ethnoracial disparities in collegiate trajectory sorting. White students display the highest probability of belonging to \textit{Expansive Periphery Conservers} (28.3\%) alongside a 28.8\% probability of \textit{Extreme Peripheral Winnowing} and 20.0\% \textit{Clique Conserving}. In contrast, Asian students face an elevated probability of \textit{Extreme Peripheral Winnowing} (50.7\%), with only 10.1\% entering \textit{Clique Conservers} and 11.5\% \textit{Expansive Conservers}. Black students similarly show an elevated probability of \textit{Extreme Peripheral Winnowing} (36.4\%) and \textit{Moderate Winnowing} (31.8\%), with lower representation in \textit{Expansive Conserving} (11.9\%). Hispanic students exhibit a distinct profile, with the highest probability of \textit{Clique Conserving} (38.8\%) and moderate rates of winnowing (26.4\%). In a predominantly White residential campus, minority students encounter distinct institutional opportunity structures that channel them away from broad peripheral expansion and toward more focused, protective core groupings.
 
-\section{Discussion and Conclusion}
+\section{Discussion}
 
-\subsection{Summary of Key Results}
+\subsection{Key Findings}
 
 Taken together, the empirical findings across the eight-wave panel provide a unified, comprehensive portrait of how ego network size evolves across the undergraduate life course. Rather than supporting a singular narrative of continuous growth or uniform relational decay, the results reveal an adaptive social architecture characterized by pervasive, timing-dependent tie winnowing alongside remarkable temporal stability in core supportive communities.
 
@@ -348,7 +348,7 @@ Second, Trivariate Multi-Trajectory Latent Class Growth Analysis establishes tha
 
 Third, endogenous concomitant mixture models confirm that trajectory group membership is governed primarily by baseline psychological dispositions and racial context rather than parental socioeconomic status or religious affiliation. Replicating and extending the core insight of \citet{chandler2018classifying}, gender identity shows complete parity ($\chi^2 = 0.81, p = 0.846$), religious affiliation is non-significant on this Catholic campus ($\chi^2 = 9.58, p = 0.144$), and family socioeconomic background exhibits only modest explanatory power ($\chi^2 = 14.25, p = 0.027$). In contrast, Generalized Trust significantly predicts high-density core preservation ($\chi^2 = 20.76, p < 0.001$), Extraversion serves as the single most parsimonious sorting engine regulating whether students maintain diffuse perimeters or prune peripheral ties ($\chi^2 = 26.76, p < 0.001$), and Race/Ethnicity represents the primary structural sorting dimension on campus ($\chi^2 = 31.71, p = 0.002$). Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of peripheral tie winnowing over time ($\text{IRR} = 0.994, p = 0.032$).
 
-\subsection{Limitations and Suggestions for Future Work}
+\subsection{Limitations and Future Directions}
 
 A central methodological challenge in longitudinal personal network research is operationalizing ego network boundaries and tie strength across repeated panel waves. In the NetHealth study, network degree was measured via free-recall name generators bounded at a maximum of 25 alters, followed by name interpreter batteries assessing contact frequency, emotional closeness, and supportive exchanges. While bounding nominations at 25 alters captures the active sympathy group and minimizes respondent fatigue, it imposes an artificial ceiling that may truncate the personal networks of exceptionally expansive egos, potentially muting initial baseline differences in early college. Future investigations can address this constraint by using unbounded roster-based nomination instruments or hybrid designs that integrate self-reported ego networks with objective behavioral trace data, such as continuous Bluetooth proximity sensing, smartphone call and text logs, and campus Wi-Fi co-location metrics \citep{centellegher2017personality, sepulvado2020predicting}. Relatedly, while our empirical specification successfully implemented a trivariate decomposition across Dunbar's cognitive circles (Support Clique, Sympathy Layer, and Periphery), the finite mixture formulation implemented in \texttt{flexmix} natively generalizes to higher-order multivariate count vectors ($M \ge 4$). A promising avenue for future research is extending multi-trajectory mixture modeling to simultaneously estimate the joint co-evolution of specialized functional support types (e.g., companionship, advice, emotional comfort, and financial assistance) to uncover multidimensional support signatures across major life transitions. In addition, while the four-class solution proved empirically optimal in balancing parsimony, fit, and substantive interpretability, researchers with larger multi-institutional panels may explore higher-order solutions ($K \ge 5$) to detect rarer micro-trajectories.
 
@@ -360,7 +360,7 @@ Fourth, several measurement granularity constraints of the survey design should 
 
 Finally, the empirical scope of this investigation is situated within a single, highly residential private university in the Midwestern United States characterized by a predominantly traditional-age, full-time undergraduate student body. The collegiate life course in this residential setting represents a unique institutional transition characterized by intense initial co-presence, communal living, and abrupt spatial reorganization upon graduation \citep{hurtado1998enhancing}. Consequently, these findings cannot be assumed to generalize straightforwardly to commuter campuses, non-traditional student populations, working-class youth entering the labor market directly, or older adults navigating career changes or retirement. Future comparative research should extend this longitudinal trajectory framework to diverse institutional environments, working-adult cohorts, and cross-national contexts where personal community turnover is shaped by different organizational arrangements and life-course pacing \citep{bidart2018personal, fischer1982dwell}.
 
-\subsection{Implications: The Adaptive Architecture of Personal Communities}
+\subsection{Theoretical Implications}
 
 Personal network analysis has long been animated by a foundational tension between structuralist social capital theories and evolutionary cognitive constraint models. In the classical social capital tradition \citep{granovetter1973strength, lin2001social, borgatti2009network}, larger network degree is conceptualized as an unalloyed asset, providing access to diverse informational channels, instrumental sponsorship, and social support. From this perspective, the steady contraction of personal network size across college observed in empirical surveys might easily be interpreted as a problematic erosion of social integration or a deficit of relational connectivity. In contrast, the evolutionary cognitive constraint perspective pioneered by \citet{dunbar1992neocortex, dunbar1998social, dunbar2018anatomy} posits that human sociality is biologically bounded by neocortical processing limits and finite temporal budgets, requiring individuals to distribute emotional and cognitive energy across nested hierarchical layers.
 
@@ -374,7 +374,7 @@ Ultimately, these dynamics suggest that longitudinal degree trajectories reflect
 
 \clearpage
 \appendix
-\section*{Appendix: Continuous Multilevel Poisson Growth Curve Models (Robustness Check)}
+\section*{Appendix: Multilevel Growth Models}
 \renewcommand{\thetable}{A\arabic{table}}
 \renewcommand{\thefigure}{A\arabic{figure}}
 \setcounter{table}{0}
