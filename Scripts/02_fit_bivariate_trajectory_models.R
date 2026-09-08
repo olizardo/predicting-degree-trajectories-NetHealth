@@ -19,9 +19,20 @@ cat("==> [1/6] Loading data and constructing compound strong/weak ties...\n")
 net_raw <- read_csv("data/raw/network_survey.csv", show_col_types = FALSE)
 analytical_w18 <- readRDS("data/processed/degree_analytical_w18.rds")
 base_df <- readRDS("data/processed/degree_analytical_w18_classified.rds") %>%
-  select(egoid, female, race, parents_income_num, mom_college,
+  select(egoid, female, race, parents_income_num, mom_college, religion,
          z_extraversion, z_neuroticism, z_agreeableness,
-         z_conscientiousness, z_openness, z_trust)
+         z_conscientiousness, z_openness, z_trust) %>%
+  mutate(
+    religion_3cat = factor(
+      case_when(
+        religion == "Catholic" ~ "Catholic",
+        religion == "None" ~ "None",
+        !is.na(religion) ~ "Other",
+        TRUE ~ NA_character_
+      ),
+      levels = c("Catholic", "Other", "None") # Catholic as modal reference
+    )
+  )
 
 # Define Compound Strong Tie: Especially Close AND (Daily or Weekly) contact
 biv_data_all <- net_raw %>%
@@ -322,6 +333,7 @@ df_biv_complete <- biv_data_all %>%
   inner_join(base_df, by = "egoid") %>%
   filter(
     !is.na(female), !is.na(race), !is.na(parents_income_num), !is.na(mom_college),
+    !is.na(religion_3cat),
     !is.na(z_extraversion), !is.na(z_neuroticism), !is.na(z_agreeableness),
     !is.na(z_conscientiousness), !is.na(z_openness), !is.na(z_trust)
   )
@@ -356,19 +368,25 @@ fit_conc <- function(form, name) {
   )
 }
 
-m0_fit  <- fit_conc(NULL, "Model 0: Baseline Bivariate (No Covariates)")
-m1a_fit <- fit_conc(~ parents_income_num + mom_college, "Model 1a: Family SES Only (Income, Mom College)")
-m1b_fit <- fit_conc(~ female + race, "Model 1b: Gender + Race/Ethnicity")
-m1c_fit <- fit_conc(~ female + race + parents_income_num + mom_college, "Model 1c: All Demographics (Gender, Race, SES)")
+m0_fit  <- fit_conc(NULL, "Model 0: Empty Baseline (No Covariates)")
+m1a_fit <- fit_conc(~ parents_income_num + mom_college, "Model 1a: Family SES (Income, Mother's College)")
+m1b_fit <- fit_conc(~ female, "Model 1b: Gender Identity Only")
+m1c_fit <- fit_conc(~ religion_3cat, "Model 1c: Religious Affiliation (Catholic, Other, None)")
+m1d_fit <- fit_conc(~ race, "Model 1d: Race/Ethnicity Only")
+m1e_fit <- fit_conc(~ female + race + parents_income_num + mom_college + religion_3cat, 
+                    "Model 1e: All Sociodemographics (Gender, Race, SES, Religion)")
 m2a_fit <- fit_conc(~ z_trust, "Model 2a: Generalized Trust Only")
 m2b_fit <- fit_conc(~ z_extraversion, "Model 2b: Extraversion Only")
-m2c_fit <- fit_conc(~ z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness, "Model 2c: Big Five Personality Traits")
-m2d_fit <- fit_conc(~ z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness + z_trust, "Model 2d: All Dispositions (Big Five + Trust)")
-m3_fit  <- fit_conc(~ female + race + parents_income_num + mom_college +
+m2c_fit <- fit_conc(~ z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness, 
+                    "Model 2c: Big Five Personality Traits")
+m2d_fit <- fit_conc(~ z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness + z_trust, 
+                    "Model 2d: All Dispositions (Big Five + Trust)")
+m3_fit  <- fit_conc(~ female + race + parents_income_num + mom_college + religion_3cat +
                       z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness + z_trust, 
-                    "Model 3: Full Specification (Demographics + Dispositions)")
+                    "Model 3: Full Multivariable Model")
 
-conc_table <- bind_rows(m0_fit, m1a_fit, m1b_fit, m1c_fit, m2a_fit, m2b_fit, m2c_fit, m2d_fit, m3_fit) %>%
+conc_table <- bind_rows(m0_fit, m1a_fit, m1b_fit, m1c_fit, m1d_fit, m1e_fit, 
+                        m2a_fit, m2b_fit, m2c_fit, m2d_fit, m3_fit) %>%
   mutate(
     delta_BIC = BIC - min(BIC),
     LRT_stat = 2 * (LogLik - m0_fit$LogLik),
@@ -380,18 +398,7 @@ write.csv(conc_table, "output/tables/table3_bivariate_concomitant_model_comparis
 
 tab3_rows <- conc_table %>%
   mutate(
-    Clean_Model = case_when(
-      grepl("Model 0", Model)  ~ "Model 0: Empty Baseline (No Covariates)",
-      grepl("Model 1a", Model) ~ "Model 1a: Family SES (Income, Mother's College)",
-      grepl("Model 1b", Model) ~ "Model 1b: Gender Identity + Race/Ethnicity",
-      grepl("Model 1c", Model) ~ "Model 1c: All Demographics (Gender, Race, SES)",
-      grepl("Model 2a", Model) ~ "Model 2a: Generalized Trust Only",
-      grepl("Model 2b", Model) ~ "Model 2b: Extraversion Only",
-      grepl("Model 2c", Model) ~ "Model 2c: Big Five Personality Traits",
-      grepl("Model 2d", Model) ~ "Model 2d: All Dispositions (Big Five + Trust)",
-      grepl("Model 3", Model)  ~ "Model 3: Full Multivariable Model",
-      TRUE ~ Model
-    ),
+    Clean_Model = Model,
     LL = sprintf("%.1f", LogLik),
     Par = as.character(Params),
     AIC_str = sprintf("%.1f", AIC),
@@ -410,14 +417,17 @@ md3 <- c(
   paste0("| ", tab3_rows$Clean_Model[2], " | ", tab3_rows$LL[2], " | ", tab3_rows$Par[2], " | ", tab3_rows$AIC_str[2], " | ", tab3_rows$BIC_str[2], " | ", tab3_rows$LRT_str[2], " | ", tab3_rows$p_str[2], " |"),
   paste0("| ", tab3_rows$Clean_Model[3], " | ", tab3_rows$LL[3], " | ", tab3_rows$Par[3], " | ", tab3_rows$AIC_str[3], " | ", tab3_rows$BIC_str[3], " | ", tab3_rows$LRT_str[3], " | ", tab3_rows$p_str[3], " |"),
   paste0("| ", tab3_rows$Clean_Model[4], " | ", tab3_rows$LL[4], " | ", tab3_rows$Par[4], " | ", tab3_rows$AIC_str[4], " | ", tab3_rows$BIC_str[4], " | ", tab3_rows$LRT_str[4], " | ", tab3_rows$p_str[4], " |"),
-  "| **Psychological Disposition Blocks** | | | | | | |",
   paste0("| ", tab3_rows$Clean_Model[5], " | ", tab3_rows$LL[5], " | ", tab3_rows$Par[5], " | ", tab3_rows$AIC_str[5], " | ", tab3_rows$BIC_str[5], " | ", tab3_rows$LRT_str[5], " | ", tab3_rows$p_str[5], " |"),
   paste0("| ", tab3_rows$Clean_Model[6], " | ", tab3_rows$LL[6], " | ", tab3_rows$Par[6], " | ", tab3_rows$AIC_str[6], " | ", tab3_rows$BIC_str[6], " | ", tab3_rows$LRT_str[6], " | ", tab3_rows$p_str[6], " |"),
+  "| **Psychological Disposition Blocks** | | | | | | |",
   paste0("| ", tab3_rows$Clean_Model[7], " | ", tab3_rows$LL[7], " | ", tab3_rows$Par[7], " | ", tab3_rows$AIC_str[7], " | ", tab3_rows$BIC_str[7], " | ", tab3_rows$LRT_str[7], " | ", tab3_rows$p_str[7], " |"),
   paste0("| ", tab3_rows$Clean_Model[8], " | ", tab3_rows$LL[8], " | ", tab3_rows$Par[8], " | ", tab3_rows$AIC_str[8], " | ", tab3_rows$BIC_str[8], " | ", tab3_rows$LRT_str[8], " | ", tab3_rows$p_str[8], " |"),
+  paste0("| ", tab3_rows$Clean_Model[9], " | ", tab3_rows$LL[9], " | ", tab3_rows$Par[9], " | ", tab3_rows$AIC_str[9], " | ", tab3_rows$BIC_str[9], " | ", tab3_rows$LRT_str[9], " | ", tab3_rows$p_str[9], " |"),
+  paste0("| ", tab3_rows$Clean_Model[10], " | ", tab3_rows$LL[10], " | ", tab3_rows$Par[10], " | ", tab3_rows$AIC_str[10], " | ", tab3_rows$BIC_str[10], " | ", tab3_rows$LRT_str[10], " | ", tab3_rows$p_str[10], " |"),
   "| **Combined Specification** | | | | | | |",
-  paste0("| ", tab3_rows$Clean_Model[9], " | ", tab3_rows$LL[9], " | ", tab3_rows$Par[9], " | ", tab3_rows$AIC_str[9], " | ", tab3_rows$BIC_str[9], " | ", tab3_rows$LRT_str[9], " | ", tab3_rows$p_str[9], " |")
+  paste0("| ", tab3_rows$Clean_Model[11], " | ", tab3_rows$LL[11], " | ", tab3_rows$Par[11], " | ", tab3_rows$AIC_str[11], " | ", tab3_rows$BIC_str[11], " | ", tab3_rows$LRT_str[11], " | ", tab3_rows$p_str[11], " |")
 )
+writeLines(md3, "cache/table3_bivariate_concomitant_model_comparison.md")
 writeLines(md3, "cache/table3_bivariate_concomitant_model_comparison.md")
 
 # -------------------------------------------------------------------
@@ -430,7 +440,7 @@ set.seed(2026)
 m3_full_obj <- flexmix(
   cbind(strong_degree, weak_degree) ~ wave_num + I(wave_num^2) | egoid,
   data = df_biv_complete, k = 3, model = biv_specs,
-  concomitant = FLXPmultinom(~ female + race + parents_income_num + mom_college +
+  concomitant = FLXPmultinom(~ female + race + parents_income_num + mom_college + religion_3cat +
     z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness + z_trust),
   control = list(iter.max = 300, minprior = 0.02)
 )
@@ -441,8 +451,10 @@ concom_idx <- grep("^concomitant_", names(vc_full$coef))
 concom_coef <- vc_full$coef[concom_idx]
 concom_vcov <- vc_full$vcov[concom_idx, concom_idx]
 
-form_conc <- ~ female + race + parents_income_num + mom_college +
+form_conc <- ~ female + race + parents_income_num + mom_college + religion_3cat +
   z_extraversion + z_neuroticism + z_agreeableness + z_conscientiousness + z_openness + z_trust
+
+n_params_per_comp <- length(concom_coef) / 2
 
 # Function to simulate predicted class probabilities and 95% CIs
 predict_prob_ci <- function(X_mat, beta_draws) {
@@ -451,8 +463,8 @@ predict_prob_ci <- function(X_mat, beta_draws) {
   prob_draws <- array(0, dim = c(n_grid, 3, n_draws))
   
   for (d in 1:n_draws) {
-    b_c2_d <- beta_draws[d, 1:14]
-    b_c3_d <- beta_draws[d, 15:28]
+    b_c2_d <- beta_draws[d, 1:n_params_per_comp]
+    b_c3_d <- beta_draws[d, (n_params_per_comp + 1):(2 * n_params_per_comp)]
     eta1 <- rep(0, n_grid)
     eta2 <- as.vector(X_mat %*% b_c2_d)
     eta3 <- as.vector(X_mat %*% b_c3_d)
@@ -490,6 +502,7 @@ grid_trust <- tibble(
   race = factor("White", levels = levels(factor(df_biv_complete$race))),
   parents_income_num = mean(df_biv_complete$parents_income_num),
   mom_college = mean(df_biv_complete$mom_college),
+  religion_3cat = factor("Catholic", levels = c("Catholic", "Other", "None")),
   z_extraversion = 0,
   z_neuroticism = 0,
   z_agreeableness = 0,
@@ -507,6 +520,7 @@ grid_ext <- tibble(
   race = factor("White", levels = levels(factor(df_biv_complete$race))),
   parents_income_num = mean(df_biv_complete$parents_income_num),
   mom_college = mean(df_biv_complete$mom_college),
+  religion_3cat = factor("Catholic", levels = c("Catholic", "Other", "None")),
   z_trust = 0,
   z_neuroticism = 0,
   z_agreeableness = 0,
@@ -561,6 +575,7 @@ grid_race <- tibble(
   female = mean(df_biv_complete$female),
   parents_income_num = mean(df_biv_complete$parents_income_num),
   mom_college = mean(df_biv_complete$mom_college),
+  religion_3cat = factor("Catholic", levels = c("Catholic", "Other", "None")),
   z_trust = 0,
   z_extraversion = 0,
   z_neuroticism = 0,

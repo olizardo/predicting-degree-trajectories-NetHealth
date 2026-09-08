@@ -175,35 +175,35 @@ Third, **High-Core Conservers** (n=125, 27.4%) represent students who enter coll
 
 Having established the three latent trajectory classes, we examine whether baseline sociodemographic background and psychological dispositions predict which developmental trajectory an individual follows. Rather than relying on a naive two-step classification, we incorporate baseline predictors directly into `flexmix` (Grün & Leisch, 2008) as endogenous concomitant variables. This formulation allows the multinomial logistic parameters predicting latent class probabilities to be estimated simultaneously with the trajectory likelihoods.
 
-Table 3 presents the model comparison hierarchy evaluating nested concomitant specifications by variable blocks on the complete-case cohort (N=433 egos, 2,456 observations).
+Table 3 presents the model comparison hierarchy evaluating nested concomitant specifications by variable blocks on the complete-case cohort (N=432 egos, 2,451 observations).
 
 | Model Specification | LL | Par | AIC | BIC | χ² | p-value |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Baseline Specification** | | | | | | |
-| Model 0: Empty Baseline (No Covariates) | -13518.0 | 20 | 27076.0 | 27192.2 | --- | --- |
+| Model 0: Empty Baseline (No Covariates) | -13481.1 | 20 | 27002.2 | 27118.2 | --- | --- |
 | **Sociodemographic Predictor Blocks** | | | | | | |
-| Model 1a: Family SES (Income, Mother's College) | -13514.4 | 24 | 27076.9 | 27216.2 | 7.14 | 0.129 |
-| Model 1b: Gender Identity + Race/Ethnicity | -13506.4 | 30 | 27072.9 | 27247.0 | 23.17 | 0.010 |
-| Model 1c: All Demographics (Gender, Race, SES) | -13504.8 | 34 | 27077.6 | 27275.0 | 26.48 | 0.022 |
+| Model 1a: Family SES (Income, Mother's College) | -13477.8 | 24 | 27003.6 | 27142.9 | 6.59 | 0.159 |
+| Model 1b: Gender Identity Only | -13480.6 | 22 | 27005.2 | 27132.8 | 1.00 | 0.605 |
+| Model 1c: Religious Affiliation (Catholic, Other, None) | -13479.5 | 24 | 27007.1 | 27146.3 | 3.11 | 0.539 |
+| Model 1d: Race/Ethnicity Only | -13470.0 | 28 | 26996.0 | 27158.5 | 22.13 | 0.005 |
+| Model 1e: All Sociodemographics (Gender, Race, SES, Religion) | -13466.9 | 38 | 27009.7 | 27230.3 | 28.42 | 0.056 |
 | **Psychological Disposition Blocks** | | | | | | |
-| Model 2a: Generalized Trust Only | -13510.0 | 22 | 27063.9 | 27191.7 | 16.08 | < .001 |
-| Model 2b: Extraversion Only | -13508.5 | 22 | 27061.0 | 27188.7 | 19.03 | < .001 |
-| Model 2c: Big Five Personality Traits | -13505.8 | 30 | 27071.6 | 27245.8 | 24.44 | 0.007 |
-| Model 2d: All Dispositions (Big Five + Trust) | -13500.6 | 32 | 27065.2 | 27251.0 | 34.79 | < .001 |
+| Model 2a: Generalized Trust Only | -13473.5 | 22 | 26991.0 | 27118.7 | 15.19 | < .001 |
+| Model 2b: Extraversion Only | -13471.8 | 22 | 26987.6 | 27115.2 | 18.61 | < .001 |
+| Model 2c: Big Five Personality Traits | -13468.9 | 30 | 26997.8 | 27171.9 | 24.38 | 0.007 |
+| Model 2d: All Dispositions (Big Five + Trust) | -13464.0 | 32 | 26992.0 | 27177.7 | 34.21 | < .001 |
 | **Combined Specification** | | | | | | |
-| Model 3: Full Multivariable Model | -13487.5 | 46 | 27067.0 | 27334.1 | 60.98 | < .001 |
+| Model 3: Full Multivariable Model | -13448.2 | 50 | 26996.5 | 27286.6 | 65.70 | < .001 |
 
-*Note:* Likelihood Ratio Tests (χ²) evaluated against Model 0 baseline. All models estimated on complete-case cohort (N=433 egos, 2,456 observations).
+*Note:* Likelihood Ratio Tests (χ²) evaluated against Model 0 baseline. All models estimated on complete-case cohort (N=432 egos, 2,451 observations).
 
 The model comparison hierarchy in Table 3 provides clear empirical evidence directly evaluating our core theoretical expectations.
 
-First, consistent with **Hypothesis 1**, classic indicators of family socioeconomic background exhibit zero predictive capacity regarding collegiate degree trajectories. Introducing *Family SES* alone (Model 1a) yields only a modest and statistically non-significant improvement over the empty baseline (χ²=7.14, df=4, p=0.129). Furthermore, adding parental income and maternal college education to the Gender/Race model (Model 1b to Model 1c) yields a negligible gain of only Δχ²=3.31 (df=4, p=0.507). In sharp contrast, psychological dispositions display substantial, highly significant explanatory power: entering all baseline dispositions simultaneously (Model 2d) produces an omnibus fit improvement of χ²=34.79 (df=12, p<0.001). In a residential collegiate environment with shared living spaces and equalized organizational infrastructure, inherited parental capital does not dictate how student networks evolve; rather, developmental trajectories are governed primarily by individual psychological dispositions and institutional racial context.
+First, consistent with **Hypothesis 1**, classic indicators of family socioeconomic background exhibit very little predictive power regarding collegiate degree trajectories. Introducing *Family SES* alone (Model 1a) yields only a modest and statistically non-significant improvement over the empty baseline (χ²=6.59, df=4, p=0.159). Similarly, introducing *Gender Identity* alone (Model 1b) reveals complete statistical parity between men and women (χ²=1.00, df=2, p=0.605). Given the historically faith-based institutional context of the University of Notre Dame, where roughly 74% of the undergraduate cohort identifies as Catholic, an important sociological question is whether religious affiliation structures collegiate integration and tie retention. However, introducing *Religious Affiliation* alone (Model 1c: Catholic, Other Religion, No Religion) produces zero statistically significant improvement in model fit (χ²=3.11, df=4, p=0.539). In contrast, *Race/Ethnicity* alone (Model 1d) produces a highly significant improvement (χ²=22.13, df=8, p=0.005) and represents the sole demographic block that lowers AIC below the baseline (to 26,996.0). Adding SES, Gender, and Religion to the Race model yields a negligible gain (Δχ²=6.29, df=10, p=0.790). Among background sociodemographics, race/ethnicity serves as the singular structural sorting dimension on campus.
 
-Second, supporting **Hypothesis 2**, baseline Generalized Trust alone (Model 2a) produces a statistically credible improvement in model fit (χ²=16.08, df=2, p<0.001) and lowers AIC from 27,076.0 to 27,063.9. Generalized trust equips students with the interpersonal confidence to invest in durable, high-density social ties without fearing exploitation or vulnerability.
+Second, supporting **Hypothesis 2**, baseline Generalized Trust alone (Model 2a) produces a statistically credible improvement in model fit (χ²=15.19, df=2, p<0.001) and lowers AIC from 27,002.2 to 26,991.0. Generalized trust equips students with the interpersonal confidence to invest in durable, high-density social ties without fearing exploitation or vulnerability.
 
-Third, consistent with **Hypothesis 3**, introducing Extraversion alone (Model 2b) produces the single largest log-likelihood improvement of any two-parameter covariate addition (χ²=19.03, df=2, p<0.001) and achieves the lowest AIC of any parsimonious model (AIC=27,061.0). Extraversion serves as a primary behavioral engine regulating how students navigate collegiate opportunity structures and allocate social bandwidth.
-
-Finally, sociodemographic characteristics related to campus diversity (Gender and Race/Ethnicity, Model 1b) also account for significant trajectory sorting (χ²=23.17, df=10, p=0.010). The full multivariable model incorporating both demographics and dispositions (Model 3) achieves an omnibus fit improvement of χ²=60.98 (df=26, p<0.001) over the unconditional mixture baseline.
+Third, consistent with **Hypothesis 3**, introducing Extraversion alone (Model 2b) produces the single largest log-likelihood improvement of any two-parameter covariate addition (χ²=18.61, df=2, p<0.001) and achieves the lowest AIC of any parsimonious model (AIC=26,987.6). Extraversion serves as a primary behavioral engine regulating how students navigate collegiate opportunity structures and allocate social bandwidth. All psychological dispositions considered together (Model 2d) account for substantial explanatory power (χ²=34.21, df=12, p<0.001). Finally, the full multivariable model incorporating demographics, religion, and dispositions (Model 3) achieves an omnibus fit improvement of χ²=65.70 (df=30, p<0.001) over the unconditional mixture baseline.
 
 ## Model-Implied Marginal Class Probabilities
 
@@ -229,7 +229,7 @@ First, decomposing personal networks into compound strong ties (affectively clos
 
 Second, Bivariate Multi-Trajectory Latent Class Growth Analysis establishes that students do not follow a uniform winnowing trajectory. Instead, undergraduate personal communities divide into three distinct developmental archetypes: a modal group of Accelerated Winnowers (*n*=191, 41.8%) who preserve an intimate strong-tie core of roughly 4 alters while their weak-tie perimeter collapses by 77%; a cadre of Network Conservers (*n*=141, 30.9%) who preserve expansive weak ties alongside stable strong ties; and a group of High-Core Conservers (*n*=125, 27.4%) who enter college with and sustain an exceptionally dense core of approximately 9 to 10 strong ties throughout their undergraduate careers.
 
-Third, endogenous concomitant mixture models confirm that trajectory group membership is governed primarily by baseline psychological dispositions and racial context rather than parental socioeconomic resources. Replicating and extending the core insight of Chandler and Hachen (2018), parental income and parental education exhibit zero predictive capacity, whereas Generalized Trust substantially increases the likelihood of entering the High-Core Conserver class (χ²=16.08, p<0.001, shifting predicted membership from 11.5% to 41.5%). Furthermore, Extraversion accounts for significant trajectory sorting (χ²=19.03, p<0.001), with extraverts channeling social bandwidth into large strong-tie cores while introverts preserve weak-tie perimeters. In addition, international and racial minority students face institutional frictions that channel them into the Accelerated Winnower pathway. Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of weak-tie winnowing over time (IRR=0.994, p=0.032).
+Third, endogenous concomitant mixture models confirm that trajectory group membership is governed primarily by baseline psychological dispositions and racial context rather than parental socioeconomic resources. Replicating and extending the core insight of Chandler and Hachen (2018), parental income and parental education exhibit zero predictive capacity, whereas Generalized Trust substantially increases the likelihood of entering the High-Core Conserver class (χ²=15.19, p<0.001, shifting predicted membership from 11.5% to 41.5%). Furthermore, Extraversion accounts for significant trajectory sorting (χ²=18.61, p<0.001), with extraverts channeling social bandwidth into large strong-tie cores while introverts preserve weak-tie perimeters. In addition, international and racial minority students face institutional frictions that channel them into the Accelerated Winnower pathway. Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of weak-tie winnowing over time (IRR=0.994, p=0.032).
 
 ## Limitations and Suggestions for Future Work
 
