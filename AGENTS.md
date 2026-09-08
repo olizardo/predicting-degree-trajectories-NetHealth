@@ -837,35 +837,27 @@ The project investigates how personal network size (degree) changes dynamically 
 1. **Unified Eight-Wave Panel Architecture ($N = 457$)**:
    - Spans eight full semesters from freshman matriculation in August 2015 to senior graduation in May 2019 ($N = 457$ analytical cohort, $N = 432$ complete-case modeling sample).
    - Positions Chandler & Hachen (Sunbelt 2018) as the foundational preliminary study, while unifying the entire empirical investigation around principled count mixtures across all four collegiate years.
-2. **The Collegiate Network Landscape & Compound Strong vs. Weak Tie Decomposition**:
-   - Grounded in \citet{marsden1984measuring}, avoids single-dimension frequency contamination (spatial co-presence) and closeness ceiling compression by defining **Compound Strong Ties**: alters evaluated as ``Especially Close'' AND maintained through active contact (Daily or Weekly).
-   - **Weak Ties**: All other nominated contacts in the active personal network. Both dimensions are measured across 100% of all eight waves.
-   - **Key Substantive Discovery**: Total network size contracts steadily from 14.19 to 10.80 alters (-23.9%), but compound strong ties remain remarkably invariant (hovering at 6.18 to 6.54 alters from sophomore spring through graduation). Aggregate degree decay is driven almost entirely by the winnowing of weak ties (falling from 7.07 to 4.53 alters, a -35.9% collapse), shifting the strong-tie share of personal networks from 52.6% at matriculation to 65.6% at graduation.
-3. **Bivariate Multi-Trajectory Latent Class Growth Analysis (Poisson Mixtures)**:
-   - Replaces univariate counts with formal **Bivariate Multi-Trajectory Poisson finite mixture models** in `flexmix` \citep{grun2008flexmix}, simultaneously estimating the co-evolution of strong and weak ties.
-   - Robustness checks demonstrate that while formal BIC declines through higher-order solutions, $K = 3$ captures the primary structural elbow ($\Delta\text{BIC} = -4,155$ for $K = 2$, $-1,189$ for $K = 3$), cleanly distinguishing three developmental archetypes:
-     * **Network Conservers** ($n = 141$, 30.9\%): Maintain moderate strong ties ($\approx 6.3$--$6.8$ alters) and expansive weak ties ($\approx 8.0$--$9.8$ alters).
-     * **Accelerated Winnowers** ($n = 191$, 41.8\%): The modal pathway; preserves an intimate strong-tie core ($\approx 4.2$ alters) while their weak-tie perimeter collapses by 77% (from 6.08 to 1.40 alters).
-     * **High-Core Conservers** ($n = 125$, 27.4\%): Enter college with and sustain an exceptionally large, dense core of strong ties ($\approx 9.7$ to $8.9$ alters) alongside a smaller weak-tie layer ($\approx 3.5$ alters).
+2. **The Collegiate Network Landscape & Dunbar Cognitive Layer Decomposition**:
+   - Grounded in Robin Dunbar's cognitive layering perspective \citep{dunbar1992neocortex, dunbar1998social, dunbar2018anatomy} alongside \citet{marsden1984measuring}, avoids single-dimension frequency contamination (spatial co-presence) and closeness ceiling compression by defining three concentric tiers:
+     * **Tier 1 (Support Clique)**: Alters evaluated as ``Especially Close'' AND maintained through Daily contact (~4-5 alters).
+     * **Tier 2 (Sympathy Shell)**: Active close ties maintained through Weekly contact (Especially Close weekly or Merely Close daily, ~4-5 alters).
+     * **Tier 3 (Peripheral Perimeter)**: All other nominated alters in the ego network (casual, dormant, or monthly contacts).
+   - **Key Substantive Discovery**: Total network size contracts steadily from 14.19 to 10.80 alters (-23.9%), but the intimate Support Clique (4.55 $\rightarrow$ 3.43 alters, ~32-36% of network) and Sympathy Shell (3.76 $\rightarrow$ 3.72 alters) remain remarkably stable, keeping the cumulative core at 7.15 to 8.31 alters (66%--72% of personal networks). Aggregate degree decay is driven almost entirely by the winnowing of Tier 3 peripheral contacts (falling from 5.88 to 3.38 alters, a -42.5% collapse).
+3. **Trivariate Multi-Trajectory Latent Class Growth Analysis (Poisson Mixtures)**:
+   - Replaces univariate counts with formal **Trivariate Multi-Trajectory Poisson finite mixture models** in `flexmix` \citep{grun2008flexmix}, simultaneously estimating the co-evolution of Support Clique, Sympathy Shell, and Periphery.
+   - Robustness checks demonstrate that while formal BIC declines through higher-order solutions, $K = 3$ captures the primary structural elbow ($\Delta\text{BIC} = -4,502$ for $K = 2$, $-1,112$ for $K = 3$), cleanly distinguishing three developmental archetypes:
+     * **Periphery Conservers** ($n = 129$, 28.2\%): Maintain moderate Support Cliques ($\approx 2.6\text{--}3.6$ alters) and Sympathy Shells ($\approx 4.6\text{--}5.3$ alters), while uniquely sustaining an expansive, invariant Periphery ($\approx 7.0\text{--}8.0$ alters).
+     * **Peripheral Winnowers** ($n = 205$, 44.9\%): The modal pathway; preserves an intimate Support Clique ($\approx 3.0$ alters) and Sympathy Shell ($\approx 1.9$ alters) while their peripheral perimeter collapses by 83% (from 4.38 to 0.76 alters).
+     * **Clique Conservers** ($n = 123$, 26.9\%): Enter college with and sustain an exceptionally large, dense Support Clique ($\approx 5.0\text{--}6.5$ alters) and Sympathy Shell ($\approx 5.2\text{--}6.4$ alters) alongside a pruned periphery ($\approx 2.7$ alters).
 4. **Predicting Trajectory Group Membership (Endogenous Concomitant Models)**:
-   - Incorporates baseline covariates directly into `flexmix` as endogenous concomitant variables via `FLXPmultinom(~ ...)`:
-     * Full Multivariable Model is highly significant vs. base ($\text{LRT } \chi^2 = 60.98, df = 26, p < 0.001$).
-     * Race & Gender block is significant ($\chi^2 = 23.17, df = 10, p = 0.010$).
-     * Extraversion alone is highly significant ($\chi^2 = 19.03, df = 2, p < 0.001$, lowering AIC to 27,061.0).
-     * Generalized Trust alone is highly significant ($\chi^2 = 16.08, df = 2, p < 0.001$).
-     * Family SES is completely null ($\chi^2 = 7.14, df = 4, p = 0.129$; adding SES to Race/Gender yields $\Delta\chi^2 = 3.31, p = 0.507$).
-   - Multivariable multinomial logit estimates (reference: Accelerated Winnowers):
-     * Generalized Trust strongly predicts High-Core Conservers ($\text{OR} = 1.55, 95\%\text{ CI: } [1.11, 2.16], p = 0.009$).
-     * Extraversion strongly predicts High-Core Conservers ($\text{OR} = 1.37, 95\%\text{ CI: } [1.02, 1.84], p = 0.034$).
-     * Asian students ($\text{OR} = 0.33, p = 0.016$) and Other/International students ($\text{OR} = 0.30, p = 0.042$) have significantly lower odds of conserving, channeled into the Accelerated Winnower pathway.
+   - Incorporates baseline covariates directly into `flexmix` as endogenous concomitant variables via `FLXPmultinom(~ ...)` on complete cases ($N = 432$ egos, 2,451 observations):
+     * Full Multivariable Model is highly significant vs. base ($\text{LRT } \chi^2 = 65.70, df = 30, p < 0.001$).
+     * Race/Ethnicity is the sole significant demographic block ($\chi^2 = 22.13, df = 8, p = 0.005$, lowering AIC to 26,996.0).
+     * Extraversion alone is highly significant ($\chi^2 = 18.61, df = 2, p < 0.001$, lowering AIC to 26,987.6).
+     * Generalized Trust alone is highly significant ($\chi^2 = 15.19, df = 2, p < 0.001$).
+     * Family SES ($\chi^2 = 6.59, df = 4, p = 0.159$), Gender ($\chi^2 = 1.00, df = 2, p = 0.605$), and Religious Affiliation on this Catholic campus ($\chi^2 = 3.11, df = 4, p = 0.539$) are completely null.
 5. **Continuous Growth Modeling as Supplementary Robustness Check (Appendix)**:
    - Multilevel Poisson mixed-effects models (`glmer` in `lme4`) with random ego intercepts across all eight waves confirm that student networks contract by ~5.5% per wave ($\text{IRR} = 0.945, p < 0.001$), trust expands network volume ($\text{IRR} = 1.071, p = 0.006$), and extraverts experience significantly steeper winnowing over time ($\text{Time} \times \text{Extraversion IRR} = 0.994, p = 0.032$).
-6. **Near-Future Methodological Extensions (Higher-Order Multivariate Mixtures, $M \ge 3$)**:
-   - `flexmix` natively handles any arbitrary number of count processes ($M \ge 3$) via `cbind(y1, y2, y3, ...) ~ wave | egoid` and `model = list(FLXMRglm(...), ...)`:
-     * *Extension A (Three-Tier Tie Strength):* $Y_1$ (Support Clique: Especially Close + Daily), $Y_2$ (Sympathy Group: Close + Weekly), $Y_3$ (Peripheral Perimeter: Casual/Dormant).
-     * *Extension B (Four-Dimensional Functional Support):* $Y_1$ (Companionship), $Y_2$ (Advice), $Y_3$ (Comfort), $Y_4$ (Financial aid).
-     * *Extension C (Role-Relationship Layers):* $Y_1$ (Friends), $Y_2$ (Family), $Y_3$ (Campus Peers/Acquaintances).
-     * *Extension D (Multiplexity Tiers):* $Y_1$ (Uniplex), $Y_2$ (Duplex), $Y_3$ (Multiplex 3+).
 
 ### 3. Directory Structure & Asset Taxonomy
 ```
