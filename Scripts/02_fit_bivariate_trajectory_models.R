@@ -37,7 +37,7 @@ base_df <- readRDS("data/processed/degree_analytical_w18_classified.rds") %>%
 # Define 3-Layer Dunbar Cognitive Layers:
 # Layer 1 (Support Clique): Especially Close AND Daily contact (~4-5 alters)
 # Layer 2 (Sympathy Layer): (Especially Close AND Weekly) OR (Merely Close AND Daily) (~4-5 alters)
-# Layer 3 (Peripheral Perimeter): All other nominated alters (casual/dormant/monthly)
+# Layer 3 (Affinity Layer): All other nominated alters (casual/dormant/monthly)
 triv_data_all <- net_raw %>%
   filter(!is.na(egoid), !is.na(wave)) %>%
   mutate(wave_num = as.integer(gsub("\\D", "", wave))) %>%
@@ -114,7 +114,7 @@ tab1_md <- tab1_summary %>%
   dplyr::select(Wave_Label, n_egos, Total_str, T1_str, T2_str, Core_str, T3_str, Core_pct_str)
 
 md1 <- c(
-  "| Academic Wave | Egos (N) | Total Degree (SE) | Support Clique (SE) | Sympathy Layer (SE) | Combined Core (SE) | Periphery (SE) | Core Share (%) |",
+  "| Academic Wave | Egos (N) | Total Degree (SE) | Support Clique (SE) | Sympathy Layer (SE) | Combined Core (SE) | Affinity Layer (SE) | Core Share (%) |",
   "|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|",
   apply(tab1_md, 1, function(r) {
     paste0("| ", r["Wave_Label"], " | ", r["n_egos"], " | ", r["Total_str"], " | ", r["T1_str"], " | ", r["T2_str"], " | ", r["Core_str"], " | ", r["T3_str"], " | ", r["Core_pct_str"], " |")
@@ -127,14 +127,14 @@ fig1_lines <- bind_rows(
   tab1_summary %>% dplyr::select(wave_num, Mean = Total_Mean, SE = Total_SE) %>% mutate(Layer = "Total Network Degree"),
   tab1_summary %>% dplyr::select(wave_num, Mean = T1_Mean, SE = T1_SE) %>% mutate(Layer = "Layer 1: Support Clique (Daily & Close)"),
   tab1_summary %>% dplyr::select(wave_num, Mean = T2_Mean, SE = T2_SE) %>% mutate(Layer = "Layer 2: Sympathy Layer (Weekly / Active)"),
-  tab1_summary %>% dplyr::select(wave_num, Mean = T3_Mean, SE = T3_SE) %>% mutate(Layer = "Layer 3: Periphery (Casual / Dormant)")
+  tab1_summary %>% dplyr::select(wave_num, Mean = T3_Mean, SE = T3_SE) %>% mutate(Layer = "Layer 3: Affinity Layer (Casual / Extended)")
 ) %>%
   mutate(
     Layer = factor(Layer, levels = c(
       "Total Network Degree",
       "Layer 1: Support Clique (Daily & Close)",
       "Layer 2: Sympathy Layer (Weekly / Active)",
-      "Layer 3: Periphery (Casual / Dormant)"
+      "Layer 3: Affinity Layer (Casual / Extended)"
     ))
   )
 
@@ -152,19 +152,19 @@ p_fig1 <- ggplot(fig1_lines, aes(x = wave_num, y = Mean, color = Layer, shape = 
     "Total Network Degree"                     = "#222222",
     "Layer 1: Support Clique (Daily & Close)"    = "#2ca02c",
     "Layer 2: Sympathy Layer (Weekly / Active)"  = "#1f77b4",
-    "Layer 3: Periphery (Casual / Dormant)"      = "#d62728"
+    "Layer 3: Affinity Layer (Casual / Extended)"      = "#d62728"
   )) +
   scale_fill_manual(values = c(
     "Total Network Degree"                     = "#222222",
     "Layer 1: Support Clique (Daily & Close)"    = "#2ca02c",
     "Layer 2: Sympathy Layer (Weekly / Active)"  = "#1f77b4",
-    "Layer 3: Periphery (Casual / Dormant)"      = "#d62728"
+    "Layer 3: Affinity Layer (Casual / Extended)"      = "#d62728"
   )) +
   scale_shape_manual(values = c(18, 17, 16, 15)) +
   scale_linetype_manual(values = c("dashed", "solid", "longdash", "dotted")) +
   labs(
     title = "Decomposing Ego Network Evolution across Eight Collegiate Waves",
-    subtitle = "Dunbar Cognitive Layers: Support Clique (green), Sympathy Layer (blue), and Periphery (red) (N = 457)",
+    subtitle = "Dunbar Cognitive Layers: Support Clique (green), Sympathy Layer (blue), and Affinity Layer (red) (N = 457)",
     x = "College Academic Wave (Fall 2015 to Spring 2019)",
     y = "Average Alter Nominations",
     color = "Relational Layer",
@@ -258,24 +258,24 @@ ego_assignments_triv4 <- tibble(
   summarize(raw_class = as.character(names(which.max(table(clust)))), .groups = "drop")
 
 # Class mapping based on empirical morphology:
-# Raw 4 = Expansive Periphery Conservers (n = 97, 21.2%)
-# Raw 3 = Moderate Winnowers / Layer-Oriented (n = 124, 27.1%)
-# Raw 1 = Extreme Peripheral Winnowers (n = 143, 31.3%)
+# Raw 4 = Expansive Affinity Conservers (n = 97, 21.2%)
+# Raw 3 = Moderate Winnowers / Sympathy-Oriented (n = 124, 27.1%)
+# Raw 1 = Extreme Affinity Winnowers (n = 143, 31.3%)
 # Raw 2 = Clique Conservers (n = 93, 20.4%)
 
 ego_classified_triv4 <- ego_assignments_triv4 %>%
   mutate(
     class_label = factor(
       case_when(
-        raw_class == "4" ~ "Expansive Periphery Conservers\n(n = 97, 21.2%)",
-        raw_class == "3" ~ "Moderate Winnowers / Layer-Oriented\n(n = 124, 27.1%)",
-        raw_class == "1" ~ "Extreme Peripheral Winnowers\n(n = 143, 31.3%)",
+        raw_class == "4" ~ "Expansive Affinity Conservers\n(n = 97, 21.2%)",
+        raw_class == "3" ~ "Moderate Winnowers / Sympathy-Oriented\n(n = 124, 27.1%)",
+        raw_class == "1" ~ "Extreme Affinity Winnowers\n(n = 143, 31.3%)",
         raw_class == "2" ~ "Clique Conservers\n(n = 93, 20.4%)"
       ),
       levels = c(
-        "Expansive Periphery Conservers\n(n = 97, 21.2%)",
-        "Moderate Winnowers / Layer-Oriented\n(n = 124, 27.1%)",
-        "Extreme Peripheral Winnowers\n(n = 143, 31.3%)",
+        "Expansive Affinity Conservers\n(n = 97, 21.2%)",
+        "Moderate Winnowers / Sympathy-Oriented\n(n = 124, 27.1%)",
+        "Extreme Affinity Winnowers\n(n = 143, 31.3%)",
         "Clique Conservers\n(n = 93, 20.4%)"
       )
     )
@@ -296,13 +296,13 @@ triv_means_plot4 <- triv_long_plot4 %>%
 triv_lines4 <- bind_rows(
   triv_means_plot4 %>% dplyr::select(class_label, wave_num, Mean = T1_Mean, SE = T1_SE) %>% mutate(Layer = "Layer 1: Support Clique (Daily & Close)"),
   triv_means_plot4 %>% dplyr::select(class_label, wave_num, Mean = T2_Mean, SE = T2_SE) %>% mutate(Layer = "Layer 2: Sympathy Layer (Weekly / Active)"),
-  triv_means_plot4 %>% dplyr::select(class_label, wave_num, Mean = T3_Mean, SE = T3_SE) %>% mutate(Layer = "Layer 3: Periphery (Casual / Dormant)")
+  triv_means_plot4 %>% dplyr::select(class_label, wave_num, Mean = T3_Mean, SE = T3_SE) %>% mutate(Layer = "Layer 3: Affinity Layer (Casual / Extended)")
 ) %>%
   mutate(
     Layer = factor(Layer, levels = c(
       "Layer 1: Support Clique (Daily & Close)",
       "Layer 2: Sympathy Layer (Weekly / Active)",
-      "Layer 3: Periphery (Casual / Dormant)"
+      "Layer 3: Affinity Layer (Casual / Extended)"
     ))
   )
 
@@ -320,18 +320,18 @@ p_fig2 <- ggplot(triv_lines4, aes(x = wave_num, y = Mean, color = Layer, shape =
   scale_color_manual(values = c(
     "Layer 1: Support Clique (Daily & Close)"    = "#2ca02c",
     "Layer 2: Sympathy Layer (Weekly / Active)"  = "#1f77b4",
-    "Layer 3: Periphery (Casual / Dormant)"      = "#d62728"
+    "Layer 3: Affinity Layer (Casual / Extended)"      = "#d62728"
   )) +
   scale_fill_manual(values = c(
     "Layer 1: Support Clique (Daily & Close)"    = "#2ca02c",
     "Layer 2: Sympathy Layer (Weekly / Active)"  = "#1f77b4",
-    "Layer 3: Periphery (Casual / Dormant)"      = "#d62728"
+    "Layer 3: Affinity Layer (Casual / Extended)"      = "#d62728"
   )) +
   scale_shape_manual(values = c(17, 16, 15)) +
   scale_linetype_manual(values = c("solid", "longdash", "dotted")) +
   labs(
     title = "Trivariate Multi-Trajectory Latent Classes Across Eight Waves (Dunbar Cognitive Layers, K = 4)",
-    subtitle = "Simultaneous co-evolution of Support Clique (green), Sympathy Layer (blue), and Periphery (red) (N = 457 Egos, 2,598 Obs)",
+    subtitle = "Simultaneous co-evolution of Support Clique (green), Sympathy Layer (blue), and Affinity Layer (red) (N = 457 Egos, 2,598 Obs)",
     x = "College Academic Wave (Fall 2015 to Spring 2019)",
     y = "Average Alter Nominations in Layer",
     color = "Relational Layer",
@@ -507,10 +507,10 @@ predict_prob_ci_triv4 <- function(X_mat, beta_draws) {
   }
   
   class_names <- c(
-    "Moderate Winnowers / Layer-Oriented",
+    "Moderate Winnowers / Sympathy-Oriented",
     "Clique Conservers",
-    "Extreme Peripheral Winnowers",
-    "Expansive Periphery Conservers"
+    "Extreme Affinity Winnowers",
+    "Expansive Affinity Conservers"
   )
   
   res <- list()
@@ -621,23 +621,23 @@ ci_race_t4 <- predict_prob_ci_triv4(X_grid_race_t4, beta_draws_t4) %>%
 
 # Formatting for 4-Faceted Plots
 class_order_wrapped <- c(
-  "Expansive Periphery\nConservers",
-  "Moderate Winnowers\n(Layer-Oriented)",
-  "Extreme Peripheral\nWinnowers",
+  "Expansive Affinity\nConservers",
+  "Moderate Winnowers\n(Sympathy-Oriented)",
+  "Extreme Affinity\nWinnowers",
   "Clique\nConservers"
 )
 
 class_mapping_wrap <- c(
-  "Expansive Periphery Conservers"       = "Expansive Periphery\nConservers",
-  "Moderate Winnowers / Layer-Oriented" = "Moderate Winnowers\n(Layer-Oriented)",
-  "Extreme Peripheral Winnowers"        = "Extreme Peripheral\nWinnowers",
+  "Expansive Affinity Conservers"       = "Expansive Affinity\nConservers",
+  "Moderate Winnowers / Sympathy-Oriented" = "Moderate Winnowers\n(Sympathy-Oriented)",
+  "Extreme Affinity Winnowers"        = "Extreme Affinity\nWinnowers",
   "Clique Conservers"                   = "Clique\nConservers"
 )
 
 palette_4_wrap <- c(
-  "Expansive Periphery\nConservers"       = "#9467bd",
-  "Moderate Winnowers\n(Layer-Oriented)" = "#ff7f0e",
-  "Extreme Peripheral\nWinnowers"        = "#d62728",
+  "Expansive Affinity\nConservers"       = "#9467bd",
+  "Moderate Winnowers\n(Sympathy-Oriented)" = "#ff7f0e",
+  "Extreme Affinity\nWinnowers"        = "#d62728",
   "Clique\nConservers"                   = "#2ca02c"
 )
 
