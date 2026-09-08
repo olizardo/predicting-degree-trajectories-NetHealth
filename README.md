@@ -145,6 +145,52 @@ Across 84 multinomial logistic models predicting the 6 trajectory classification
 
 ---
 
+## Near-Future Methodological & Empirical Extensions (Higher-Order Multivariate Mixtures)
+
+While the present analytical framework focuses on a bivariate decomposition (compound strong versus weak ties), the finite mixture formulation in `flexmix` natively generalizes to higher-order multivariate count vectors ($M \ge 3$) in longitudinal multi-trajectory modeling. 
+
+### 1. Statistical Architecture in `flexmix`
+Conditional on latent class $k$, the $M$ count processes are assumed to be conditionally independent:
+$$f(\mathbf{y}_{it} \mid C_i = k) = \prod_{m=1}^M f_m(y_{mit} \mid C_i = k)$$
+The latent class $C_i$ serves as the common mixing variable linking the co-evolution of all $M$ processes over time, with repeated measures clustered via `| egoid` and baseline predictors incorporated endogenously via `concomitant = FLXPmultinom(~ ...)`:
+```r
+specs_m <- list(
+  FLXMRglm(y1 ~ wave_num + I(wave_num^2), family = "poisson"),
+  FLXMRglm(y2 ~ wave_num + I(wave_num^2), family = "poisson"),
+  FLXMRglm(y3 ~ wave_num + I(wave_num^2), family = "poisson"),
+  FLXMRglm(y4 ~ wave_num + I(wave_num^2), family = "poisson")
+)
+mod_mvariate <- flexmix(
+  cbind(y1, y2, y3, y4) ~ wave_num + I(wave_num^2) | egoid,
+  data = df_long, k = 3, model = specs_m,
+  concomitant = FLXPmultinom(~ female + race + z_trust + z_extraversion),
+  control = list(iter.max = 300, minprior = 0.02)
+)
+```
+
+### 2. Four Promising Substantive Extensions for NetHealth
+1. **Three-Tier Tie Strength Architecture ($M = 3$)**:
+   - $Y_1$: **Support Clique** (alters designated "Especially Close" with Daily contact)
+   - $Y_2$: **Sympathy Group** (alters designated "Close" with Weekly contact)
+   - $Y_3$: **Peripheral Perimeter** (casual peers, dormant ties, or monthly-or-less contacts)
+2. **Four-Dimensional Functional Support Co-Evolution ($M = 4$)**:
+   Using the dedicated social support batteries administered across repeated NetHealth waves:
+   - $Y_1$: **Companionship alters** (socializing outside formal academic obligations)
+   - $Y_2$: **Advice alters** (guidance on life and academic problems)
+   - $Y_3$: **Comfort alters** (sympathetic listening and reassurance during emotional distress)
+   - $Y_4$: **Financial aid alters** (emergency money, loans, or material assistance)
+3. **Role-Relationship Multi-Trajectories ($M = 3$)**:
+   Simultaneously tracking the trajectory of:
+   - $Y_1$: **Friend alters**
+   - $Y_2$: **Family alters**
+   - $Y_3$: **Campus peers / Acquaintances**
+4. **Support Multiplexity Layers ($M = 3$)**:
+   - $Y_1$: **Uniplex ties** (providing exactly 1 support type)
+   - $Y_2$: **Duplex ties** (providing 2 support types)
+   - $Y_3$: **Multiplex ties** (providing 3 or 4 support types simultaneously)
+
+---
+
 ## References
 
 - Chandler, M. J., & Hachen, D. (2018). *Classifying and Predicting Degree Trajectories in Longitudinal Ego Networks*. Sunbelt XXXVIII, International Network for Social Network Analysis (INSNA), Utrecht, Netherlands.

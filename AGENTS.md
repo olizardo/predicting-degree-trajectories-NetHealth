@@ -855,11 +855,17 @@ The project investigates how personal network size (degree) changes dynamically 
      * Generalized Trust alone is highly significant ($\chi^2 = 16.08, df = 2, p < 0.001$).
      * Family SES is completely null ($\chi^2 = 7.14, df = 4, p = 0.129$; adding SES to Race/Gender yields $\Delta\chi^2 = 3.31, p = 0.507$).
    - Multivariable multinomial logit estimates (reference: Accelerated Winnowers):
-     * Generalized Trust strongly predicts High-Core Conservers ($\text{OR} = 1.58, 95\%\text{ CI: } [1.17, 2.15], p = 0.003$).
-     * Extraversion strongly predicts High-Core Conservers ($\text{OR} = 1.39, 95\%\text{ CI: } [1.06, 1.83], p = 0.017$).
-     * Asian students ($\text{OR} = 0.33, p = 0.014$) and Other/International students ($\text{OR} = 0.29, p = 0.033$) have significantly lower odds of conserving, channeled into the Accelerated Winnower pathway.
+     * Generalized Trust strongly predicts High-Core Conservers ($\text{OR} = 1.55, 95\%\text{ CI: } [1.11, 2.16], p = 0.009$).
+     * Extraversion strongly predicts High-Core Conservers ($\text{OR} = 1.37, 95\%\text{ CI: } [1.02, 1.84], p = 0.034$).
+     * Asian students ($\text{OR} = 0.33, p = 0.016$) and Other/International students ($\text{OR} = 0.30, p = 0.042$) have significantly lower odds of conserving, channeled into the Accelerated Winnower pathway.
 5. **Continuous Growth Modeling as Supplementary Robustness Check (Appendix)**:
    - Multilevel Poisson mixed-effects models (`glmer` in `lme4`) with random ego intercepts across all eight waves confirm that student networks contract by ~5.5% per wave ($\text{IRR} = 0.945, p < 0.001$), trust expands network volume ($\text{IRR} = 1.071, p = 0.006$), and extraverts experience significantly steeper winnowing over time ($\text{Time} \times \text{Extraversion IRR} = 0.994, p = 0.032$).
+6. **Near-Future Methodological Extensions (Higher-Order Multivariate Mixtures, $M \ge 3$)**:
+   - `flexmix` natively handles any arbitrary number of count processes ($M \ge 3$) via `cbind(y1, y2, y3, ...) ~ wave | egoid` and `model = list(FLXMRglm(...), ...)`:
+     * *Extension A (Three-Tier Tie Strength):* $Y_1$ (Support Clique: Especially Close + Daily), $Y_2$ (Sympathy Group: Close + Weekly), $Y_3$ (Peripheral Perimeter: Casual/Dormant).
+     * *Extension B (Four-Dimensional Functional Support):* $Y_1$ (Companionship), $Y_2$ (Advice), $Y_3$ (Comfort), $Y_4$ (Financial aid).
+     * *Extension C (Role-Relationship Layers):* $Y_1$ (Friends), $Y_2$ (Family), $Y_3$ (Campus Peers/Acquaintances).
+     * *Extension D (Multiplexity Tiers):* $Y_1$ (Uniplex), $Y_2$ (Duplex), $Y_3$ (Multiplex 3+).
 
 ### 3. Directory Structure & Asset Taxonomy
 ```
