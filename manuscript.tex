@@ -52,7 +52,7 @@ Despite wide consensus that personal networks evolve dynamically, empirical inqu
 
 This study investigates the empirical implications of these competing perspectives by providing a full-panel investigation of degree trajectories across the entire undergraduate life course. Tracking an undergraduate cohort across all eight collegiate semesters from freshman matriculation in August 2015 through senior graduation in May 2019 ($N = 457$), we formulate our analysis around three core questions. First, what is the overall empirical trajectory of personal network size across the complete collegiate life course, and does the widely observed contraction in total degree reflect an erosion of core supportive communities or an adaptive pruning of weak ties? Second, when modeled using principled count-data mixture likelihoods, what distinct latent trajectory classes emerge inductively across the undergraduate career? Third, what baseline sociodemographic characteristics and psychological dispositions predict which trajectory group a student will follow?
 
-To answer these questions, we advance an analytical framework implemented in \textsf{R} \citep{rcoreteam2024} using \texttt{flexmix} \citep{grun2008flexmix}, \texttt{nnet} \citep{venables2002modern}, and \texttt{ggplot2} \citep{wickham2016ggplot2}. First, drawing on Robin Dunbar's cognitive layering perspective \citep{dunbar1992neocortex, dunbar2018anatomy} and \citet{marsden1984measuring} on strong tie measurement, we decompose personal networks into three concentric layers: the intimate \textit{Support Clique} (daily intimates), the active \textit{Sympathy Layer} (weekly companions), and the outer \textit{Peripheral Perimeter} (casual contacts), showing that while total degree contracts by roughly 24\% over the college career, the intimate core remains remarkably invariant while peripheral ties collapse by over 42\%. Second, rather than relying on univariate total degree counts, we estimate Trivariate Multi-Trajectory Latent Class Growth Analysis (LCGA) with repeated-measures Poisson finite mixture models across all eight semesters, discovering four distinct, well-balanced developmental network evolution classes: \textit{Expansive Periphery Conservers}, \textit{Moderate Winnowers}, \textit{Extreme Peripheral Winnowers}, and \textit{Clique Conservers}. Third, we estimate endogenous concomitant mixture models and multivariable multinomial logistic regressions to evaluate whether baseline sociodemographic background or psychological dispositions predict individual assignment to trajectory classes. Finally, in an Appendix, we demonstrate that continuous multilevel Poisson growth curve models using \texttt{lme4} \citep{bates2015fitting} corroborate our main findings, confirming that extraverts experience significantly steeper tie winnowing over time while generalized trust preserves overall network scale.
+To answer these questions, we advance an analytical framework implemented in \textsf{R} \citep{rcoreteam2024} using \texttt{flexmix} \citep{grun2008flexmix}, \texttt{nnet} \citep{venables2002modern}, and \texttt{ggplot2} \citep{wickham2016ggplot2}. First, drawing on Robin Dunbar's cognitive layering perspective \citep{dunbar1992neocortex, dunbar2018anatomy} and \citet{marsden1984measuring} on strong tie measurement, we decompose personal networks into three concentric layers: the intimate \textit{Support Clique} (daily intimates), the active \textit{Sympathy Layer} (weekly companions), and the outer \textit{Peripheral Perimeter} (casual contacts), showing that while total degree contracts by roughly 24\% over the college career, the intimate core remains remarkably invariant while peripheral ties collapse by over 42\%. Second, rather than relying on univariate total degree counts, we estimate Trivariate Multi-Trajectory Latent Class Growth Analysis (LCGA) with repeated-measures Poisson finite mixture models across all eight semesters, discovering four distinct, well-balanced developmental network evolution classes: \textit{Expansive Periphery Conservers}, \textit{Moderate Winnowers}, \textit{Extreme Peripheral Winnowers}, and \textit{Clique Conservers}. Third, we estimate endogenous concomitant mixture models and multivariable multinomial logistic regressions to evaluate whether baseline sociodemographic background or psychological dispositions predict individual assignment to trajectory classes. Finally, in the Online Appendix, we demonstrate that continuous multilevel Poisson growth curve models using \texttt{lme4} \citep{bates2015fitting} corroborate our main findings, confirming that extraverts experience significantly steeper tie winnowing over time while generalized trust preserves overall network scale.
 
 \section{Theoretical Framework}
 
@@ -346,7 +346,7 @@ First, decomposing personal networks into Robin Dunbar's concentric cognitive la
 
 Second, Trivariate Multi-Trajectory Latent Class Growth Analysis establishes that students do not follow a uniform developmental trajectory across Dunbar circles. Instead, undergraduate personal communities divide into four distinct, remarkably balanced developmental archetypes: a group of \textbf{Extreme Peripheral Winnowers} ($n = 143$, 31.3\%) whose outer periphery collapses by 88\% (from 3.7 down to $<0.5$ alters) while their intimate Support Clique ($\approx 3.4$ alters) is preserved; an intermediate cohort of \textbf{Moderate Winnowers (Layer-Oriented)} ($n = 124$, 27.1\%) who rebalance their social bandwidth by allowing their active Sympathy Layer ($\approx 3.5$ alters) to surpass their Support Clique ($\approx 2.0$ alters) while moderately pruning casual contacts to roughly 2.5 alters; an expansive cohort of \textbf{Expansive Periphery Conservers} ($n = 97$, 21.2\%) who sustain broad, invariant personal networks ($\approx 16\text{--}18$ total alters) anchored by roughly 8 casual contacts throughout all four years; and a dedicated group of \textbf{Clique Conservers} ($n = 93$, 20.4\%) who enter college with and sustain an exceptionally dense core of intimate confidants ($\approx 6.0\text{--}7.4$ alters) and active companions ($\approx 4.5\text{--}6.4$ alters).
 
-Third, endogenous concomitant mixture models confirm that trajectory group membership is governed primarily by baseline psychological dispositions and racial context rather than parental socioeconomic status or religious affiliation. Replicating and extending the core insight of \citet{chandler2018classifying}, gender identity shows complete parity ($\chi^2 = 0.81, p = 0.846$), religious affiliation is non-significant on this Catholic campus ($\chi^2 = 9.58, p = 0.144$), and family socioeconomic background exhibits only modest explanatory power ($\chi^2 = 14.25, p = 0.027$). In contrast, Generalized Trust significantly predicts high-density core preservation ($\chi^2 = 20.76, p < 0.001$), Extraversion serves as the single most parsimonious sorting engine regulating whether students maintain diffuse perimeters or prune peripheral ties ($\chi^2 = 26.76, p < 0.001$), and Race/Ethnicity represents the primary structural sorting dimension on campus ($\chi^2 = 31.71, p = 0.002$). Finally, continuous growth modeling in the Appendix confirms that extraverts experience significantly faster rates of peripheral tie winnowing over time ($\text{IRR} = 0.994, p = 0.032$).
+Third, endogenous concomitant mixture models confirm that trajectory group membership is governed primarily by baseline psychological dispositions and racial context rather than parental socioeconomic status or religious affiliation. Replicating and extending the core insight of \citet{chandler2018classifying}, gender identity shows complete parity ($\chi^2 = 0.81, p = 0.846$), religious affiliation is non-significant on this Catholic campus ($\chi^2 = 9.58, p = 0.144$), and family socioeconomic background exhibits only modest explanatory power ($\chi^2 = 14.25, p = 0.027$). In contrast, Generalized Trust significantly predicts high-density core preservation ($\chi^2 = 20.76, p < 0.001$), Extraversion serves as the single most parsimonious sorting engine regulating whether students maintain diffuse perimeters or prune peripheral ties ($\chi^2 = 26.76, p < 0.001$), and Race/Ethnicity represents the primary structural sorting dimension on campus ($\chi^2 = 31.71, p = 0.002$). Finally, continuous growth modeling in the Online Appendix confirms that extraverts experience significantly faster rates of peripheral tie winnowing over time ($\text{IRR} = 0.994, p = 0.032$).
 
 \subsection{Limitations and Future Directions}
 
@@ -371,63 +371,6 @@ This functional insulation is clearly demonstrated by our eight-wave tie decompo
 Furthermore, our findings demonstrate that this winnowing process is fundamentally moderated by individual psychological dispositions. Personality traits serve as the underlying dispositional basis that regulates how egos allocate relational labor and navigate institutional transition shocks. Extraverted students, driven by heightened social reward sensitivity and exploratory tendencies, experience the most aggressive network winnowing, transitioning from an expansive initial circle to a lean, selective collegiate network. Generalized trust, by contrast, lowers perceived transaction costs and interpersonal friction, enabling trusting individuals to sustain larger overall networks across time without sacrificing core supportive stability \citep{yamagishi2011trust}.
 
 Ultimately, these dynamics suggest that longitudinal degree trajectories reflect the structural stabilization of personal communities into persistent social signatures \citep{saramaki2014persistence, heydari2018multichannel}. Rather than passive recipients of structural churn, individuals act as purposeful architects of their social worlds, using dispositional tendencies to explore available opportunity structures and winnowing weak ties to preserve an enduring core of strong ties. By bridging formal latent growth mixtures, functional tie decomposition, and continuous multilevel modeling, this study provides a unified empirical foundation for understanding how personal networks adapt across major life transitions, opening new avenues for investigating the co-evolution of personality, social structure, and well-being across the adult life course.
-
-\clearpage
-\appendix
-\section*{Appendix: Multilevel Growth Models}
-\renewcommand{\thetable}{A\arabic{table}}
-\renewcommand{\thefigure}{A\arabic{figure}}
-\setcounter{table}{0}
-\setcounter{figure}{0}
-
-To verify that the discrete trajectory classes identified by LCGA reflect underlying continuous growth dynamics, we estimate multilevel Generalized Linear Mixed Models (GLMMs) with a Poisson response across all eight waves:
-\begin{equation}
-\label{eq:glmm_full}
-\log(\mathbb{E}[D_{it}]) = (\beta_0 + u_{0i}) + \beta_1 \text{Time}_{it} + \mathbf{X}_i \boldsymbol{\beta} + (\text{Time}_{it} \times \mathbf{Z}_i) \boldsymbol{\gamma}
-\end{equation}
-where $u_{0i} \sim \mathcal{N}(0, \sigma_u^2)$ represents random ego intercepts capturing unobserved between-person heterogeneity, $\text{Time}_{it} \in \{0, 1, \dots, 7\}$ denotes elapsed semester centered at Wave 1 baseline, $\mathbf{X}_i$ is a vector of baseline sociodemographic and personality main effects, and $\mathbf{Z}_i$ captures cross-level interactions between focal personality traits (Extraversion and Neuroticism) and elapsed time.
-
-Table~\ref{tab:glmm_appendix} presents the model comparison fit hierarchy (Models 1--4) and the fully specified fixed effects estimates (Model 4).
-
-\begin{table}[htbp]
-\centering
-\small
-\caption{Fixed Effects Estimates from Multilevel Poisson Growth Curve GLMM with Random Ego Intercepts Across Eight Waves (Model 4; $N = 433$ egos, 2,456 observations)}
-\label{tab:glmm_appendix}
-\begin{tabularx}{\linewidth}{Xcccc}
-\toprule
-\textbf{Predictor Variable} & \textbf{Estimate} & \textbf{Std. Error} & \textbf{IRR [95\% CI]} & \textbf{\textit{p}-value} \\
-\midrule
-Intercept (Baseline Degree) & 2.53 & 0.07 & 12.55 [10.90, 14.44] & $<$ .001 \\
-Time (Elapsed Waves 0--7) & -0.06 & 0.00 & 0.95 [0.94, 0.95] & $<$ .001 \\
-Extraversion ($z$-score) & 0.02 & 0.02 & 1.02 [0.97, 1.07] & 0.501 \\
-Neuroticism ($z$-score) & 0.01 & 0.03 & 1.01 [0.96, 1.07] & 0.609 \\
-Gender Identity: Woman (ref: Man) & 0.01 & 0.04 & 1.01 [0.92, 1.10] & 0.836 \\
-Race: Asian (ref: White) & -0.28 & 0.08 & 0.76 [0.65, 0.88] & $<$ .001 \\
-Race: Black (ref: White) & -0.25 & 0.09 & 0.78 [0.65, 0.94] & 0.008 \\
-Race: Hispanic/Latino (ref: White) & 0.02 & 0.07 & 1.02 [0.89, 1.16] & 0.773 \\
-Race: Other/International (ref: White) & -0.24 & 0.09 & 0.79 [0.66, 0.95] & 0.011 \\
-Parents' Income (Ordinal Scale) & 0.01 & 0.01 & 1.01 [0.99, 1.03] & 0.325 \\
-Agreeableness ($z$-score) & 0.04 & 0.02 & 1.04 [0.99, 1.09] & 0.140 \\
-Conscientiousness ($z$-score) & 0.00 & 0.02 & 1.00 [0.96, 1.05] & 0.965 \\
-Openness ($z$-score) & -0.02 & 0.02 & 0.98 [0.94, 1.03] & 0.442 \\
-Generalized Trust ($z$-score) & 0.07 & 0.02 & 1.07 [1.02, 1.12] & 0.006 \\
-Time $\times$ Extraversion & -0.01 & 0.00 & 0.99 [0.99, 1.00] & 0.032 \\
-Time $\times$ Neuroticism & 0.00 & 0.00 & 1.01 [1.00, 1.01] & 0.101 \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-Figure~\ref{fig:glmm_predicted} visualizes the predicted degree trajectories across combinations of high versus low Extraversion ($\pm 1$~SD) and high versus low Neuroticism ($\pm 1$~SD).
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.85\linewidth]{Plots/figA1_multilevel_predicted_trajectories.png}
-\caption{Predicted ego degree growth trajectories across eight collegiate waves by Extraversion ($\pm 1$~SD) and Neuroticism ($\pm 1$~SD) profiles estimated from Multilevel Poisson GLMM (Model 4; $N = 433$).}
-\label{fig:glmm_predicted}
-\end{figure}
-
-The continuous growth estimates directly corroborate our primary mixture findings. On average, student ego networks contract by 5.5\% per elapsed collegiate wave ($\text{IRR} = 0.945, p < 0.001$). Baseline Generalized Trust exerts a significant positive main effect on network scale ($\text{IRR} = 1.071, p = 0.006$), confirming that trusting students sustain larger personal communities throughout college. Furthermore, the interaction between Time and Extraversion is statistically significant and negative ($\text{IRR} = 0.994, p = 0.032$). As shown in Figure~\ref{fig:glmm_predicted}, extraverted students enter college with larger initial networks ($\approx 13.4$--13.8 alters at Wave 1 vs.~$\approx 12.9$--13.3 for introverts) but undergo a faster rate of winnowing, crossing below their introverted peers by senior year ($\approx 8.3$--9.2 alters vs.~$\approx 8.8$--9.7 alters).
 
 \clearpage
 \bibliographystyle{apalike}

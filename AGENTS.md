@@ -741,6 +741,10 @@ When designing, formatting, and refining regression, model fit, and summary tabl
   2. **Model-Implied Marginal Class Probability Plots**: Translating parameters into intuitive 0%–100% probabilities across continuous and categorical predictors with 95% simulation confidence bands.
 
 ## Global Academic Writing & Style Guidelines
+- **Concise, Informative Section Headings & Titles (MANDATORY)**:
+  - When structuring and drafting academic manuscripts, reports, and documentation, strictly use **short, informative, and non-wordy titles** for all section headers (Level 1, Level 2, and Level 3).
+  - Avoid overly complex, verbose, or pedantic phrasing (e.g., prefer *“Network Layers”* or *“Layer Decomposition”* over *“The Collegiate Network Landscape: Decomposing Dunbar Cognitive Layers”*; prefer *“Trajectory Mixture Analysis”* over *“Trivariate Latent Class Trajectory Analysis across Dunbar Circles”*; prefer *“Discussion”* over *“Discussion and Conclusion”*).
+  - Strive for clean, direct 2-to-4 word phrases that clearly orient the reader without cluttering tables of contents, document outlines, or running headers.
 - **Quotation Marks Standard (Double Typographic Quotes vs. Single Quotes)**:
   - Strictly use **double quotation marks** (“...”) for quotations, named concepts, coined phrases, and colloquial terms (e.g., “omnivorous generation”, “cultural omnivore”, “high art”, “inclusive elitists”) rather than single quotes (‘...’ or '...').
   - Reserve single quotation marks (‘...’) strictly for quotations or terms nested inside other quotations.

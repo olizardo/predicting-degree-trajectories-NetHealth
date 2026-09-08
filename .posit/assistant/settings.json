@@ -1,0 +1,21 @@
+{
+  "permission": {
+    "executeCode": {
+      "*": "allow"
+    },
+    "bash": {
+      "git check-ignore *": "allow",
+      "git add *": "allow",
+      "git push *": "allow",
+      "Rscript *": "allow"
+    },
+    "external_directory": {
+      "/home/omarlizardo/.config/agents/*": "allow"
+    },
+    "edit": {
+      "*.R": "allow",
+      "*.tex": "allow",
+      "*.md": "allow"
+    }
+  }
+}
